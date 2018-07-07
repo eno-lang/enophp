@@ -2,44 +2,44 @@
 
 // TODO: Make extraction of comments an optional flagged feature, by default its off to gain speed!
 
-// function tokenize_error_context($context, $index, $line) {
-//   $first_instruction = null;
-//
-//   while(true) {
-//     $endOfLine_index = $context['input'].indexOf("\n", index);
-//
-//     if(endOfLine_index === -1) {
-//       $instruction = [
-//         index: index,
-//         length: $context['input'].length - $index,
-//         line: line
-//       ];
-//
-//       context['instructions'].push(instruction);
-//
-//       if(!first_instruction) {
-//         first_instruction = instruction;
-//       }
-//
-//       return first_instruction;
-//     } else {
-//       $instruction = [
-//         index: index,
-//         length: endOfLine_index - $index,
-//         line: line
-//       ];
-//
-//       context['instructions'].push(instruction);
-//
-//       if(!first_instruction) {
-//         first_instruction = instruction;
-//       }
-//
-//       index = endOfLine_index + 1;
-//       line++;
-//     }
-//   }
-// ];
+function tokenize_error_context(&$context, $index, $line) {
+  $first_instruction = null;
+
+  while(true) {
+    $end_of_line_column = strpos($context['input'], "\n", $index);
+
+    if($end_of_line_column === false) {
+      $instruction = [
+        'index' => $index,
+        'length' => strlen($context['input']) - $index,
+        'line' => $line
+      ];
+
+      $context['instructions'][] = $instruction;
+
+      if($first_instruction === null) {
+        $first_instruction = $instruction;
+      }
+
+      return first_instruction;
+    } else {
+      $instruction = [
+        'index' => $index,
+        'length' => $end_of_line_column - $index,
+        'line' => $line
+      ];
+
+      $context['instructions'][] = $instruction;
+
+      if($first_instruction === null) {
+        $first_instruction = $instruction;
+      }
+
+      $index = $end_of_line_column + 1;
+      $line++;
+    }
+  }
+}
 
 function tokenize(&$context)
 {
@@ -75,33 +75,30 @@ function tokenize(&$context)
 
     } else if(isset($match[$NAME_OPERATOR_INDEX][0])) {
 
-      $unescaped_name = $match[$NAME_UNESCAPED_INDEX][0];
-      $name_operator_index = null;
+      $name_operator_column = $match[$NAME_OPERATOR_INDEX][1] - $index;
 
-      if($unescaped_name) {
-        $instruction['name'] = $unescaped_name;
+      if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[$NAME_UNESCAPED_INDEX][0];
+        $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
 
-        $name_index = $match[$NAME_UNESCAPED_INDEX][1];
-        $name_operator_index = $match[$NAME_OPERATOR_INDEX][1];
-
+        $instruction['name'] = $name;
         $instruction['ranges'] = [
-          'name_operator' => [$name_operator_index - $index, $name_operator_index - $index + 1],
-          'name' => [$name_index - $index, $name_index - $index + strlen($instruction['name'])]
+          'name_operator' => [$name_operator_column, $name_operator_column + 1],
+          'name' => [$name_column, $name_column + strlen($name)]
         ];
       } else {
-        $instruction['name'] = $match[$NAME_ESCAPED_INDEX][0];
-
+        $name = $match[$NAME_ESCAPED_INDEX][0];
         $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
-        $escape_begin_operator_ndex = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1];
-        $name_index = $match[$NAME_ESCAPED_INDEX][1];
-        $escape_end_operator_index = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1];
-        $name_operator_index = $match[$NAME_OPERATOR_INDEX][1];
+        $escape_begin_operator_column = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
+        $instruction['name'] = $name;
         $instruction['ranges'] = [
-          'escape_begin_operator' => [$escape_begin_operator_ndex - $index, $escape_begin_operator_ndex - $index + strlen($escape_operator)],
-          'escape_end_operator' => [$escape_end_operator_index - $index, $escape_end_operator_index - $index + strlen($escape_operator)],
-          'name_operator' => [$name_operator_index - $index, $name_operator_index - $index + 1],
-          'name' => [$name_index - $index, $name_index - $index + strlen($instruction['name'])]
+          'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
+          'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
+          'name_operator' => [$name_operator_column, $name_operator_column + 1],
+          'name' => [$name_column, $name_column + strlen($name)]
         ];
       }
 
@@ -116,270 +113,265 @@ function tokenize(&$context)
         $instruction['type'] = 'NAME';
       }
 
-
     } else if(isset($match[$LIST_ITEM_OPERATOR_INDEX][0])) {
 
+      $operator_column = $match[$LIST_ITEM_OPERATOR_INDEX][1] - $index;
 
+      $instruction['ranges'] = [ 'item_operator' => [$operator_column, $operator_column + 1] ];
       $instruction['type'] = 'LIST_ITEM';
       $instruction['value'] = $match[$LIST_ITEM_VALUE_INDEX][0];
-
-      $operator_column = $match[$LIST_ITEM_OPERATOR_INDEX][1] - $index;
-      $instruction['ranges'] = [ 'item_operator' => [$operator_column, $operator_column + 1] ];
 
       if($instruction['value']) {
         $value_column = $match[$LIST_ITEM_VALUE_INDEX][1] - $index;
         $instruction['ranges']['value'] = [$value_column, $value_column + strlen($instruction['value'])];
       }
 
+    } else if(isset($match[$DICTIONARY_ENTRY_OPERATOR_INDEX][0])) {
 
-    // } else if($match[$DICTIONARY_ENTRY_OPERATOR_INDEX]) {
-    //
-    //
-    //   $unescaped_name = $match[$NAME_UNESCAPED_INDEX];
-    //   let entry_operator_index;
-    //
-    //   if(unescaped_name) {
-    //     $instruction['name'] = unescaped_name;
-    //
-    //     $name_index = $context['input'].indexOf(instruction['name'], index);
-    //     entry_operator_index = $context['input'].indexOf('=', name_index + strlen($instruction['name']));
-    //
-    //     $instruction['ranges'] = [
-    //       'entry_operator' => [entry_operator_index - $index, entry_operator_index - $index + 1],
-    //       name: [name_index - $index, name_index - $index + strlen($instruction['name'])]
-    //     ];
-    //   } else {
-    //     $instruction['name'] = $match[$NAME_ESCAPED_INDEX];
-    //
-    //     $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX];
-    //     $escape_begin_operator_ndex = $context['input'].indexOf(escape_operator, index);
-    //     $name_index = $context['input'].indexOf(instruction['name'], escape_begin_operator_ndex + escape_operator.length);
-    //     $escape_end_operator_index = $context['input'].indexOf(escape_operator, name_index + strlen($instruction['name']));
-    //     entry_operator_index = $context['input'].indexOf('=', escape_end_operator_index + escape_operator.length);
-    //
-    //     $instruction['ranges'] = [
-    //       'escape_begin_operator' => [escape_begin_operator_ndex - $index, escape_begin_operator_ndex - $index + escape_operator.length],
-    //       'escape_end_operator' => [escape_end_operator_index - $index, escape_end_operator_index - $index + escape_operator.length],
-    //       'entry_operator' => [entry_operator_index - $index, entry_operator_index - $index + 1],
-    //       name: [name_index - $index, name_index - $index + strlen($instruction['name'])]
-    //     ];
-    //   }
-    //
-    //   $instruction['type'] = 'DICTIONARY_ENTRY';
-    //   $instruction['value'] = $match[$DICTIONARY_ENTRY_VALUE_INDEX] || null;
-    //
-    //   if($instruction['value']) {
-    //     $value_index = $context['input'].indexOf($instruction['value'], entry_operator_index + 1);
-    //     $instruction['ranges']['value'] = [value_index - $index, value_index - $index + strlen($instruction['value'])];
-    //   }
-    //
-    //
+      $entry_operator_column = $match[$DICTIONARY_ENTRY_OPERATOR_INDEX][1] - $index;
+
+      if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[$NAME_UNESCAPED_INDEX][0];
+        $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
+
+        $instruction['name'] = $name;
+        $instruction['ranges'] = [
+          'entry_operator' => [$entry_operator_column, $entry_operator_column + 1],
+          'name' => [$name_column, $name_column + strlen($name)]
+        ];
+      } else {
+        $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $name = $match[$NAME_ESCAPED_INDEX][0];
+        $escape_begin_operator_column = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+
+        $instruction['name'] = $name;
+        $instruction['ranges'] = [
+          'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
+          '$escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
+          'entry_operator' => [$entry_operator_column, $entry_operator_column + 1],
+          'name' => [$name_column, $name_column + strlen($name)]
+        ];
+      }
+
+      $instruction['type'] = 'DICTIONARY_ENTRY';
+
+      if(isset($match[$DICTIONARY_ENTRY_VALUE_INDEX][0])) {
+        $value = $match[$DICTIONARY_ENTRY_VALUE_INDEX][0];
+        $value_column = $match[$DICTIONARY_ENTRY_VALUE_INDEX][1] - $index;
+        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+      }
+
     } else if(isset($match[$LINE_CONTINUATION_OPERATOR_INDEX][0])) {
 
+      $operator_column = $match[$LINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
+
+      $instruction['ranges'] = [ 'line_continuation_operator' => [$operator_column, $operator_column + 1] ];
       $instruction['separator'] = ' ';
       $instruction['type'] = 'CONTINUATION';
-      $instruction['value'] = $match[$LINE_CONTINUATION_VALUE_INDEX][0];
 
-      $operator_column = $match[$LINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
-      $instruction['ranges'] = [ 'line_continuation_operator' => [$operator_column, $operator_column + 1] ];
-
-      if($instruction['value']) {
+      if(isset($match[$LINE_CONTINUATION_VALUE_INDEX][0])) {
+        $value = $match[$LINE_CONTINUATION_VALUE_INDEX][0];
         $value_column = $match[$LINE_CONTINUATION_VALUE_INDEX][1] - $index;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($instruction['value'])];
+
+        $instruction['value'] = $value;
+        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+      } else {
+        $instruction['value'] = null;
       }
 
     } else if(isset($match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][0])) {
 
+      $operator_column = $match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
+
+      $instruction['ranges'] = [ 'newline_continuation_operator' => [$operator_column, $operator_column + 1] ];
       $instruction['separator'] = "\n";
       $instruction['type'] = 'CONTINUATION';
-      $instruction['value'] = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][0];
 
-      $operator_column = $match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
-      $instruction['ranges'] = [ 'newline_continuation_operator' => [$operator_column, $operator_column + 1] ];
-
-      if($instruction['value']) {
+      if(isset($match[$NEWLINE_CONTINUATION_VALUE_INDEX][0])) {
+        $value = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][0];
         $value_column = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][1] - $index;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($instruction['value'])];
+
+        $instruction['value'] = $value;
+        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+      } else {
+        $instruction['value'] = null;
       }
 
-    // } else if($match[$SECTION_HASHES_INDEX]) {
-    //
-    //
-    //   $section_operator = $match[$SECTION_HASHES_INDEX];
-    //
-    //   instruction.depth = section_operator.length;
-    //   $instruction['type'] = 'SECTION';
-    //
-    //   $section_operator_index = $context['input'].indexOf(section_operator, index);
-    //   $unescaped_name = $match[$SECTION_NAME_UNESCAPED_INDEX];
-    //   let nameEnd_index;
-    //
-    //   if(unescaped_name) {
-    //     $instruction['name'] = unescaped_name;
-    //
-    //     $name_index = $context['input'].indexOf(instruction['name'], section_operator_index + section_operator.length);
-    //     nameEnd_index = name_index + unescaped_name.length;
-    //
-    //     $instruction['ranges'] = [
-    //       name: [name_index - $index, name_index - $index + unescaped_name.length],
-    //       'section_operator' => [section_operator_index - $index, section_operator_index - $index + section_operator.length]
-    //     ];
-    //   } else {
-    //     $instruction['name'] = $match[$SECTION_NAME_ESCAPED_INDEX];
-    //
-    //     $escape_operator = $match[$SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX];
-    //     $escape_begin_operator_ndex = $context['input'].indexOf(escape_operator, section_operator_index + section_operator.length);
-    //     $name_index = $context['input'].indexOf(instruction['name'], escape_begin_operator_ndex + escape_operator.length);
-    //     $escape_end_operator_index = $context['input'].indexOf(escape_operator, name_index + strlen($instruction['name']));
-    //     nameEnd_index = escape_end_operator_index + escape_operator.length;
-    //
-    //     $instruction['ranges'] = [
-    //       'escape_begin_operator' => [escape_begin_operator_ndex - $index, escape_begin_operator_ndex - $index + escape_operator.length],
-    //       'escape_end_operator' => [escape_end_operator_index - $index, escape_end_operator_index - $index + escape_operator.length],
-    //       name: [name_index - $index, name_index - $index + strlen($instruction['name'])],
-    //       'section_operator' => [section_operator_index - $index, section_operator_index - $index + section_operator.length]
-    //     ];
-    //   }
-    //
-    //   $template = $match[$SECTION_TEMPLATE_INDEX];
-    //   if(template) {
-    //     instruction.template = template;
-    //
-    //     $copy_operator = $match[$SECTION_COPY_OPERATOR_INDEX];
-    //     $copy_operator_index = $context['input'].indexOf(copy_operator, nameEnd_index);
-    //     $template_index = $context['input'].indexOf(template, copy_operator_index + copy_operator.length);
-    //
-    //     if(copy_operator === '<') {
-    //       instruction.deepCopy = false;
-    //       $instruction['ranges'].copy_operator = [copy_operator_index - $index, copy_operator_index - $index + copy_operator.length];
-    //     } else { // copy_operator === '<<'
-    //       instruction.deepCopy = true;
-    //       $instruction['ranges'].deepCopy_operator = [copy_operator_index - $index, copy_operator_index - $index + copy_operator.length];
-    //     }
-    //
-    //     $instruction['ranges'].template = [template_index - $index, template_index - $index + template.length];
-    //   }
-    //
-    //
-    // } else if($match[$BLOCK_DASHES_INDEX]) {
-    //
-    //
-    //   $blockDashes = $match[$BLOCK_DASHES_INDEX];
-    //   $instruction['name'] = $match[$BLOCK_NAME_INDEX];
-    //   $instruction['type'] = 'BLOCK';
-    //
-    //   let operator_index = $context['input'].indexOf(blockDashes, index);
-    //   let name_index = $context['input'].indexOf(instruction['name'], operator_index + blockDashes.length);
-    //   instruction.length = matcherRegex.last_index - $index;
-    //   $instruction['ranges'] = [
-    //     'block_operator' => [operator_index - $index, operator_index - $index + blockDashes.length],
-    //     name: [name_index - $index, name_index - $index + strlen($instruction['name'])]
-    //   ];
-    //
-    //   index = matcherRegex.last_index + 1;
-    //
-    //   context['instructions'].push(instruction);
-    //
-    //   $startOfBlock_index = index;
-    //
-    //   $nameEscaped = instruction['name'].replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-    //   $terminatorMatcher = new RegExp(`[^\\S\\n]*(${blockDashes})[^\\S\\n]*(${nameEscaped})[^\\S\\n]*(?=\\n|$)`, 'y');
-    //
-    //   while(true) {
-    //     terminatorMatcher.last_index = index;
-    //     let terminatorMatch = terminatorMatcher.exec(context.input);
-    //
-    //     if(terminatorMatch) {
-    //       if(line > instruction.line + 1) {
-    //         instruction.contentRange = [startOfBlock_index, index - 2];
-    //       }
-    //
-    //       operator_index = $context['input'].indexOf(blockDashes, index);
-    //       name_index = $context['input'].indexOf(instruction['name'], operator_index + blockDashes.length);
-    //
-    //       instruction = [
-    //         index: index,
-    //         'line' => $line,
-    //         ranges: {
-    //           'block_operator' => [operator_index - $index, operator_index - $index + blockDashes.length],
-    //           name: [name_index - $index, name_index - $index + strlen($instruction['name'])]
-    //         },
-    //         type: 'BLOCK_TERMINATOR'
-    //       ];
-    //
-    //       line++;
-    //       matcherRegex.last_index = terminatorMatcher.last_index;
-    //
-    //       break;
-    //     } else {
-    //       $endofLine_index = $context['input'].indexOf("\n", index);
-    //
-    //       if(endofLine_index === -1) {
-    //         context['instructions'].push({
-    //           index: index,
-    //           length: $context['input'].length - $index,
-    //           line: line
-    //         });
-    //
-    //         throw errors.unterminatedBlock(context, instruction);
-    //       } else {
-    //         context['instructions'].push({
-    //           index: index,
-    //           length: endofLine_index - $index,
-    //           'line' => $line,
-    //           ranges: { content: [0, endofLine_index - $index] },
-    //           type: 'BLOCK_CONTENT'
-    //         });
-    //
-    //         index = endofLine_index + 1;
-    //         line++;
-    //       }
-    //     }
-    //   }
-    //
-    //
-    // } else if($match[$TEMPLATE_INDEX]) {
-    //
-    //
-    //   // TODO: Support for noop regular deep copy operator << probably not yet there ?
-    //
-    //   $template = $match[$TEMPLATE_INDEX];
-    //   $unescaped_name = $match[$NAME_UNESCAPED_INDEX];
-    //   let copy_operator_index;
-    //
-    //   if(unescaped_name) {
-    //     $instruction['name'] = unescaped_name;
-    //
-    //     $name_index = $context['input'].indexOf(instruction['name'], index);
-    //     copy_operator_index = $context['input'].indexOf('<', name_index + strlen($instruction['name']));
-    //
-    //     $instruction['ranges'] = [
-    //       'copy_operator' => [copy_operator_index - $index, copy_operator_index - $index + 1],
-    //       name: [name_index - $index, name_index - $index + strlen($instruction['name'])]
-    //     ];
-    //   } else {
-    //     $instruction['name'] = $match[$NAME_ESCAPED_INDEX];
-    //
-    //     $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX];
-    //     $escape_begin_operator_ndex = $context['input'].indexOf(escape_operator, index);
-    //     $name_index = $context['input'].indexOf(instruction['name'], escape_begin_operator_ndex + escape_operator.length);
-    //     $escape_end_operator_index = $context['input'].indexOf(escape_operator, name_index + strlen($instruction['name']));
-    //     copy_operator_index = $context['input'].indexOf('<', escape_end_operator_index + escape_operator.length);
-    //
-    //     $instruction['ranges'] = [
-    //       'copy_operator' => [copy_operator_index - $index, copy_operator_index - $index + 1],
-    //       'escape_begin_operator' => [escape_begin_operator_ndex - $index, escape_begin_operator_ndex - $index + escape_operator.length],
-    //       'escape_end_operator' => [escape_end_operator_index - $index, escape_end_operator_index - $index + escape_operator.length],
-    //       name: [name_index - $index, name_index - $index + strlen($instruction['name'])]
-    //     ];
-    //   }
-    //
-    //   instruction.template = template;
-    //   $instruction['type'] = 'NAME';
-    //
-    //   $template_index = $context['input'].indexOf(template, copy_operator_index + 1);
-    //   $instruction['ranges'].template = [template_index - $index, template_index - $index + template.length];
+    } else if(isset($match[$SECTION_HASHES_INDEX][0])) {
 
+      $section_operator = $match[$SECTION_HASHES_INDEX][0];
+
+      $instruction['depth'] = strlen($section_operator);
+      $instruction['type'] = 'SECTION';
+
+      $section_operator_column = $match[$SECTION_HASHES_INDEX][1] - $index;
+      $name_end_column = null;
+
+      if(isset($match[$SECTION_NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[$SECTION_NAME_UNESCAPED_INDEX][0];
+
+        $name_column = $match[$SECTION_NAME_UNESCAPED_INDEX][1] - $index;
+        $name_end_column = $name_column + strlen($name);
+
+        $instruction['name'] = $name;
+        $instruction['ranges'] = [
+          'name' => [$name_column, $name_column + strlen($name)],
+          'section_operator' => [$section_operator_column, $section_operator_column + strlen($section_operator)]
+        ];
+      } else {
+        $name = $match[$SECTION_NAME_ESCAPED_INDEX][0];
+
+        $escape_operator = $match[$SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $name = $match[$SECTION_NAME_ESCAPED_INDEX][0];
+        $escape_begin_operator_column = $match[$SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[$SECTION_NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[$SECTION_NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+
+        $instruction['name'] = $name;
+        $instruction['ranges'] = [
+          'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
+          'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
+          'name' => [$name_column, $name_column + strlen($name)],
+          'section_operator' => [$section_operator_column, $section_operator_column + strlen($section_operator)]
+        ];
+      }
+
+      if(isset($match[$SECTION_TEMPLATE_INDEX][0])) {
+        $template = $match[$SECTION_TEMPLATE_INDEX][0];
+        $instruction['template'] = $template;
+
+        $copy_operator = $match[$SECTION_COPY_OPERATOR_INDEX][0];
+        $copy_operator_column = $match[$SECTION_COPY_OPERATOR_INDEX][1] - $index;
+        $template_column = $match[$SECTION_TEMPLATE_INDEX][1] - $index;
+
+        if($copy_operator == '<') {
+          $instruction['deep_copy'] = false;
+          $instruction['ranges']['copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
+        } else { // copy_operator === '<<'
+          $instruction['deep_copy'] = true;
+          $instruction['ranges']['deep_copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
+        }
+
+        $instruction['ranges']['template'] = [$template_column, $template_column + strlen($template)];
+      }
+
+    } else if(isset($match[$BLOCK_OPERATOR_INDEX][0])) {
+
+      $operator = $match[$BLOCK_OPERATOR_INDEX][0];
+      $name = $match[$BLOCK_NAME_INDEX][0];
+      $instruction['name'] = $name;
+      $instruction['type'] = 'BLOCK';
+
+      $operator_column = $match[$BLOCK_OPERATOR_INDEX][1] - $index;
+      $name_column = $match[$BLOCK_NAME_INDEX][1] - $index;
+      $instruction['length'] = strlen($match[0][0]);
+      $instruction['ranges'] = [
+        'block_operator' => [$operator_column, $operator_column + strlen($operator)],
+        'name' => [$name_column, $name_column + strlen($name)]
+      ];
+
+      $index = $index + $instruction['length'] + 1;
+
+      $context['instructions'][] = $instruction;
+
+      $start_of_block_column = $index;
+
+      $name_escaped = preg_quote($instruction['name']);
+      $terminator_regex = "/[^\\S\\n]*(${operator})[^\\S\\n]*(${name_escaped})[^\\S\\n]*(?=\\n|$)/";
+
+      while(true) {
+        $matched = preg_match($terminator_regex, $context['input'], $terminator_match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
+
+        if($matched == 1) { // TODO: Also need to check if it matches at $index
+          if($line > $instruction['line'] + 1) {
+            $instruction['content_range'] = [$start_of_block_column, $index - 2];
+          }
+
+          $operator_column = $terminator_match[1][1] - $index;
+          $name_column = $terminator_match[2][1] - $index;
+
+          $instruction = [
+            'index' => $index,
+            'line' => $line,
+            'ranges' => [
+              'block_operator' => [$operator_column, $operator_column + strlen($operator)],
+              'name' => [$name_column, $name_column + strlen($name)]
+            ],
+            'type' => 'BLOCK_TERMINATOR'
+          ];
+
+          $line++;
+          // TODO: ??? matcherRegex.last_column = terminator_regex.last_column;
+
+          break;
+        } else {
+          $end_of_line_column = strpos($context['input'], "\n", $index);
+
+          if($end_of_line_column === false) {
+            $context['instructions'][] = [
+              'index' => $index,
+              'length' => strlen($context['input']) - $index,
+              'line' => $line
+            ];
+
+            // TODO: Error implementation
+            throw errors.unterminatedBlock(context, instruction);
+          } else {
+            $context['instructions'][] = [
+              'index' => $index,
+              'length' => $end_of_line_column - $index,
+              'line' => $line,
+              'ranges' => [ 'content' => [0, $end_of_line_column - $index] ],
+              'type' => 'BLOCK_CONTENT'
+            ];
+
+            $index = $end_of_line_column + 1;
+            $line++;
+          }
+        }
+      }
+
+    } else if(isset($match[$TEMPLATE_INDEX][0])) {
+
+      // TODO: Support for noop regular deep copy operator << probably not yet there ?
+
+      $template = $match[$TEMPLATE_INDEX][0];
+      $copy_operator_column = $match[$COPY_OPERATOR_INDEX][1] - $index;
+
+      if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[$NAME_UNESCAPED_INDEX][0];
+
+        $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
+
+        $instruction['name'] = $name;
+        $instruction['ranges'] = [
+          'copy_operator' => [$copy_operator_column, $copy_operator_column + 1],
+          'name' => [$name_column, $name_column + strlen($instruction['name'])]
+        ];
+      } else {
+        $name = $match[$NAME_ESCAPED_INDEX][0];
+
+        $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $escape_begin_operator_column = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+
+        $instruction['name'] = $name;
+        $instruction['ranges'] = [
+          'copy_operator' => [$copy_operator_column, $copy_operator_column + 1],
+          'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
+          'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
+          'name' => [$name_column, $name_column + strlen($name)]
+        ];
+      }
+
+      $instruction['template'] = $template;
+      $instruction['type'] = 'NAME';
+
+      $template_column = $match[$TEMPLATE_INDEX][1] - $index;
+      $instruction['ranges']['template'] = [$template_column, $template_column + strlen($template)];
 
     } else if(isset($match[$COMMENT_OPERATOR_INDEX][0])) {
 

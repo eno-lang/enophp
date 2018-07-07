@@ -1,16 +1,18 @@
 <?php
 
-$input = <<<DOC
-> Comment
+// $input = <<<DOC
+// > Comment
+//
+// language:
+// language: eno
+//
+// entry = value
+// - list item
+// | continue
+// \ continue
+// DOC;
 
-language:
-language: eno
-
-entry = value
-- list item
-| continue
-\ continue
-DOC;
+$input = file_get_contents('./sample.eno');
 
 require_once('tokenizer.php');
 

@@ -32,7 +32,7 @@
 
   // -- Block name
   $BLOCK = "(-{2,})[^\\S\\n]*${REQUIRED}";
-  $BLOCK_DASHES_INDEX = 10;
+  $BLOCK_OPERATOR_INDEX = 10;
   $BLOCK_NAME_INDEX = 11;
 
   // #
