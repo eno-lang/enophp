@@ -1,7 +1,13 @@
 <?php
-  require_once('grammar.php');
+  require_once('tokenizer.php');
 
-  preg_match($REGEX, 'language: eno', $matches, PREG_UNMATCHED_AS_NULL);
+  $context = [
+    'indexing' => 1,
+    'input' => 'language: eno',
+    'locale' => 'en'
+  ];
 
-  echo($matches[0]);
+  tokenize($context);
+
+  print_r($context);
 ?>
