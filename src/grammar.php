@@ -1,97 +1,97 @@
 <?php
-  // Note: Study this file from the bottom up
 
-  $OPTIONAL = '([^\\n]+?)?';
-  $REQUIRED = '(\\S[^\\n]*?)';
+// Note: Study this file from the bottom up
 
-  //
-  $EMPTY = '()';
-  $EMPTY_LINE_INDEX = 1;
+$OPTIONAL = '([^\\n]+?)?';
+$REQUIRED = '(\\S[^\\n]*?)';
 
-  // | Newline continuation
-  $NEWLINE_CONTINUATION = "(\\|)[^\\S\\n]*${OPTIONAL}";
-  $NEWLINE_CONTINUATION_OPERATOR_INDEX = 2;
-  $NEWLINE_CONTINUATION_VALUE_INDEX = 3;
+//
+$EMPTY = '()';
+$EMPTY_LINE_INDEX = 1;
 
-  // \ Line continuation
-  $LINE_CONTINUATION = "(\\\\)[^\\S\\n]*${OPTIONAL}";
-  $LINE_CONTINUATION_OPERATOR_INDEX = 4;
-  $LINE_CONTINUATION_VALUE_INDEX = 5;
+// | Newline continuation
+$NEWLINE_CONTINUATION = "(\\|)[^\\S\\n]*${OPTIONAL}";
+$NEWLINE_CONTINUATION_OPERATOR_INDEX = 2;
+$NEWLINE_CONTINUATION_VALUE_INDEX = 3;
 
-  $CONTINUATION = "${NEWLINE_CONTINUATION}|${LINE_CONTINUATION}";
+// \ Line continuation
+$LINE_CONTINUATION = "(\\\\)[^\\S\\n]*${OPTIONAL}";
+$LINE_CONTINUATION_OPERATOR_INDEX = 4;
+$LINE_CONTINUATION_VALUE_INDEX = 5;
 
-  // > Comment
-  $COMMENT = "(>)[^\\S\\n]*${OPTIONAL}";
-  $COMMENT_OPERATOR_INDEX = 6;
-  $COMMENT_TEXT_INDEX = 7;
+$CONTINUATION = "${NEWLINE_CONTINUATION}|${LINE_CONTINUATION}";
 
-  // - List item value
-  $LIST_ITEM = "(-)(?!-)[^\\S\\n]*${OPTIONAL}";
-  $LIST_ITEM_OPERATOR_INDEX = 8;
-  $LIST_ITEM_VALUE_INDEX = 9;
+// > Comment
+$COMMENT = "(>)[^\\S\\n]*${OPTIONAL}";
+$COMMENT_OPERATOR_INDEX = 6;
+$COMMENT_TEXT_INDEX = 7;
 
-  // -- Block name
-  $BLOCK = "(-{2,})[^\\S\\n]*${REQUIRED}";
-  $BLOCK_OPERATOR_INDEX = 10;
-  $BLOCK_NAME_INDEX = 11;
+// - List item value
+$LIST_ITEM = "(-)(?!-)[^\\S\\n]*${OPTIONAL}";
+$LIST_ITEM_OPERATOR_INDEX = 8;
+$LIST_ITEM_VALUE_INDEX = 9;
 
-  // #
-  $SECTION_HASHES = '(#+)(?!#)';
-  $SECTION_HASHES_INDEX = 12;
+// -- Block name
+$BLOCK = "(-{2,})[^\\S\\n]*${REQUIRED}";
+$BLOCK_OPERATOR_INDEX = 10;
+$BLOCK_NAME_INDEX = 11;
 
-  // # Section name
-  $SECTION_NAME_UNESCAPED = '(?!`)([^\\s<][^<\\n]*?)';
-  $SECTION_NAME_UNESCAPED_INDEX = 13;
+// #
+$SECTION_HASHES = '(#+)(?!#)';
+$SECTION_HASHES_INDEX = 12;
 
-  // # `Escaped section name`
-  $SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX = 14;
-  $SECTION_NAME_ESCAPED = "(`+)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\${SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX})"; // TODO: Should this exclude the backreference inside the quotes? (as in ((?:(?!\1).)+) ) here and elsewhere (probably not because it's not greedy.?!
-  $SECTION_NAME_ESCAPED_INDEX = 15;
-  $SECTION_NAME_ESCAPE_END_OPERATOR_INDEX = 16;
+// # Section name
+$SECTION_NAME_UNESCAPED = '(?!`)([^\\s<][^<\\n]*?)';
+$SECTION_NAME_UNESCAPED_INDEX = 13;
 
-  // # Section name < Template name
-  // # `Escaped section name` < Template name
-  $SECTION_NAME = "(?:${SECTION_NAME_UNESCAPED}|${SECTION_NAME_ESCAPED})";
-  $SECTION_TEMPLATE = "(?:(<(?!<)|<<)[^\\S\\n]*${REQUIRED})?";
-  $SECTION = "${SECTION_HASHES}\\s*${SECTION_NAME}[^\\S\\n]*${SECTION_TEMPLATE}";
-  $SECTION_COPY_OPERATOR_INDEX = 17;
-  $SECTION_TEMPLATE_INDEX = 18;
+// # `Escaped section name`
+$SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX = 14;
+$SECTION_NAME_ESCAPED = "(`+)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\${SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX})"; // TODO: Should this exclude the backreference inside the quotes? (as in ((?:(?!\1).)+) ) here and elsewhere (probably not because it's not greedy.?!
+$SECTION_NAME_ESCAPED_INDEX = 15;
+$SECTION_NAME_ESCAPE_END_OPERATOR_INDEX = 16;
 
-  $EARLY_DETERMINED = "${CONTINUATION}|${COMMENT}|${LIST_ITEM}|${BLOCK}|${SECTION}";
+// # Section name < Template name
+// # `Escaped section name` < Template name
+$SECTION_NAME = "(?:${SECTION_NAME_UNESCAPED}|${SECTION_NAME_ESCAPED})";
+$SECTION_TEMPLATE = "(?:(<(?!<)|<<)[^\\S\\n]*${REQUIRED})?";
+$SECTION = "${SECTION_HASHES}\\s*${SECTION_NAME}[^\\S\\n]*${SECTION_TEMPLATE}";
+$SECTION_COPY_OPERATOR_INDEX = 17;
+$SECTION_TEMPLATE_INDEX = 18;
 
-  // Name:
-  // Name: Value
-  $NAME_UNESCAPED = '(?![>#\\-`\\\\|])([^\\s:=<][^:=<]*?)';
-  $NAME_UNESCAPED_INDEX = 19;
+$EARLY_DETERMINED = "${CONTINUATION}|${COMMENT}|${LIST_ITEM}|${BLOCK}|${SECTION}";
 
-  // Name:
-  // `Name`: Value
-  $NAME_ESCAPE_BEGIN_OPERATOR_INDEX = 20;
-  $NAME_ESCAPED = "(`+)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\${NAME_ESCAPE_BEGIN_OPERATOR_INDEX})";
-  $NAME_ESCAPED_INDEX = 21;
-  $NAME_ESCAPE_END_OPERATOR_INDEX = 22;
+// Name:
+// Name: Value
+$NAME_UNESCAPED = '(?![>#\\-`\\\\|])([^\\s:=<][^:=<]*?)';
+$NAME_UNESCAPED_INDEX = 19;
 
-  $NAME = "(?:${NAME_UNESCAPED}|${NAME_ESCAPED})";
+// Name:
+// `Name`: Value
+$NAME_ESCAPE_BEGIN_OPERATOR_INDEX = 20;
+$NAME_ESCAPED = "(`+)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\${NAME_ESCAPE_BEGIN_OPERATOR_INDEX})";
+$NAME_ESCAPED_INDEX = 21;
+$NAME_ESCAPE_END_OPERATOR_INDEX = 22;
 
-  $FIELD_OR_NAME = "(:)[^\\S\\n]*${OPTIONAL}";
-  $NAME_OPERATOR_INDEX = 23;
-  $FIELD_VALUE_INDEX = 24;
+$NAME = "(?:${NAME_UNESCAPED}|${NAME_ESCAPED})";
 
-  // Name of dictionary entry =
-  // `Name of dictionary entry` = Value
-  $DICTIONARY_ENTRY = "(=)[^\\S\\n]*${OPTIONAL}";
-  $DICTIONARY_ENTRY_OPERATOR_INDEX = 25;
-  $DICTIONARY_ENTRY_VALUE_INDEX = 26;
+$FIELD_OR_NAME = "(:)[^\\S\\n]*${OPTIONAL}";
+$NAME_OPERATOR_INDEX = 23;
+$FIELD_VALUE_INDEX = 24;
 
-  // Name < Template name
-  // `Name` < Template name
-  $COPY = "(<)\\s*${REQUIRED}";
-  $COPY_OPERATOR_INDEX = 27;
-  $TEMPLATE_INDEX = 28;
+// Name of dictionary entry =
+// `Name of dictionary entry` = Value
+$DICTIONARY_ENTRY = "(=)[^\\S\\n]*${OPTIONAL}";
+$DICTIONARY_ENTRY_OPERATOR_INDEX = 25;
+$DICTIONARY_ENTRY_VALUE_INDEX = 26;
 
-  $LATE_DETERMINED = "${NAME}\\s*(?:${FIELD_OR_NAME}|${DICTIONARY_ENTRY}|${COPY})";
+// Name < Template name
+// `Name` < Template name
+$COPY = "(<)\\s*${REQUIRED}";
+$COPY_OPERATOR_INDEX = 27;
+$TEMPLATE_INDEX = 28;
 
-  $NOT_EMPTY = "(?:${EARLY_DETERMINED}|${LATE_DETERMINED})";
+$LATE_DETERMINED = "${NAME}\\s*(?:${FIELD_OR_NAME}|${DICTIONARY_ENTRY}|${COPY})";
 
-  $REGEX = "/[^\\S\\n]*(?:${EMPTY}|${NOT_EMPTY})[^\\S\\n]*(?=\\n|$)/";
-?>
+$NOT_EMPTY = "(?:${EARLY_DETERMINED}|${LATE_DETERMINED})";
+
+$REGEX = "/[^\\S\\n]*(?:${EMPTY}|${NOT_EMPTY})[^\\S\\n]*(?=\\n|$)/";

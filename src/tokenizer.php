@@ -407,5 +407,3 @@ function tokenize(&$context)
     }
   } // ends while(true)
 }
-
-?>

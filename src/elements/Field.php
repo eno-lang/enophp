@@ -58,5 +58,3 @@ class Field {
     $this->touched = true;
   }
 }
-
-?>
