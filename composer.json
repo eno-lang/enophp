@@ -1,4 +1,9 @@
 {
+  "autoload": {
+    "psr-4": {
+      "Eno\\": "src/elements/"
+    }
+  },
   "name": "eno-lang/enophp",
   "description": "PHP implementation of the eno library specification",
   "require-dev": {
