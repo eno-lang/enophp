@@ -1,3 +1,5 @@
 # enophp
 
-Early experimental development for an upcoming eno implementation in PHP
+PHP implementation of the eno library specification
+
+Development Status: **In Progress**
