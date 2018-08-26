@@ -1,7 +1,8 @@
 {
   "autoload": {
     "psr-4": {
-      "Eno\\": "src/elements/"
+      "Eno\\": "src/elements/",
+      "Eno\\Reporters\\": "src/reporters"
     }
   },
   "name": "eno-lang/enophp",
