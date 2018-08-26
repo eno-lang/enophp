@@ -50,11 +50,11 @@ class Text {
         $number = (string)($instruction['line'] + $context['indexing']);
 
         if($emphasize) {
-          $snippet .= " >" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_RIGHT) . " | {$content}\n";
+          $snippet .= " >" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_LEFT) . " | {$content}\n";
         } else if($mark) {
-          $snippet .= " *" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_RIGHT) . " | {$content}\n";
+          $snippet .= " *" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_LEFT) . " | {$content}\n";
         } else {
-          $snippet .= "" . str_pad($number, $gutter_width - 1, ' ', STR_PAD_RIGHT) . " | {$content}\n";
+          $snippet .= "" . str_pad($number, $gutter_width - 1, ' ', STR_PAD_LEFT) . " | {$content}\n";
         }
 
         $in_omission = false;
