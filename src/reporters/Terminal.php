@@ -2,7 +2,7 @@
 
 namespace Eno\Reporters;
 
-class Text {
+class Terminal {
   static public function report(&$context, &$emphasized = [], &$marked = []) {
     if(isset($emphasized[0])) {
       $emphasized_arr = $emphasized;
@@ -20,13 +20,13 @@ class Text {
     $gutter_header = str_pad($context['messages']['reporting']['gutter_header'], 5);
 
     $gutter_width = strlen($gutter_header) + 3;
-    $columns_header = "  {$gutter_header} | {$content_header}\n";
-    $omission = str_repeat(' ', $gutter_width - 5) . "...\n";
+    $columns_header = "\x1b[1m  {$gutter_header} | {$content_header}\x1b[0m\n";
+    $omission = "\x1b[1m" . str_repeat(' ', $gutter_width - 5) . "...\x1b[0m\n";
 
     $snippet = '';
 
     if(isset($context['source_label'])) {
-      $snippet .= "{$context['source_label']}\n";
+      $snippet .= "\x1b[1m{$context['source_label']}\x1b[0m\n";
     }
     $snippet .= $columns_header;
 
@@ -50,9 +50,9 @@ class Text {
         $number = (string)($instruction['line'] + $context['indexing']);
 
         if($emphasize) {
-          $snippet .= " >" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_LEFT) . " | {$content}\n";
+          $snippet .= "\x1b[41m >" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_LEFT) . " | {$content}\x1b[0m\n";
         } else if($mark) {
-          $snippet .= " *" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_LEFT) . " | {$content}\n";
+          $snippet .= "\x1b[33m *" . str_pad($number, $gutter_width - 3, ' ', STR_PAD_LEFT) . " | {$content}\x1b[0m\n";
         } else {
           $snippet .= str_pad($number, $gutter_width - 1, ' ', STR_PAD_LEFT) . " | {$content}\n";
         }
