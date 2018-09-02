@@ -11,7 +11,7 @@ describe('Text reporter', function() {
   });
 
   it('produces text output', function() {
-    $this->_context['reporter'] = 'html';
+    $this->_context['reporter'] = 'text';
 
     $snippet = Text::report(
       $this->_context,
@@ -19,6 +19,6 @@ describe('Text reporter', function() {
       $this->_context['instructions'][0]
     );
 
-    expect($snippet)->toEqual(snapshot('spec/reporters/snapshots/text.snap.json', $snippet));
+    expect($snippet)->toEqual(snapshot('spec/reporters/snapshots/text.snap.txt', $snippet));
   });
 });
