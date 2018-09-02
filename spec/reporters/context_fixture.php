@@ -1,6 +1,6 @@
 <?php
 
-require_once('src/messages.php');
+require('src/messages.php');
 
 $input = <<<DOC
 > comment

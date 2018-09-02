@@ -3,10 +3,8 @@
 use Eno\Reporters\Text;
 
 describe('Text reporter', function() {
-
   given('_context', function() {
-    require_once('context_fixture.php');
-
+    require('context_fixture.php');
     return $context;
   });
 
