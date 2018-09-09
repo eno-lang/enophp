@@ -1,7 +1,7 @@
 {
   "autoload": {
     "psr-4": {
-      "Eno\\": "src/elements/",
+      "Eno\\": ["src/elements/", "src/errors/"],
       "Eno\\Reporters\\": "src/reporters"
     }
   },
