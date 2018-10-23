@@ -21,7 +21,7 @@ function tokenize_error_context(&$context, $index, $line) {
         $first_instruction = $instruction;
       }
 
-      return first_instruction;
+      return $first_instruction;
     } else {
       $instruction = [
         'index' => $index,
