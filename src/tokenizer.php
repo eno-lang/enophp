@@ -394,7 +394,7 @@ function tokenize(&$context)
     $context['instructions'][] = $instruction;
 
     if($index >= strlen($context['input'])) {
-      if($context['input'][strlen($context['input']) - 1] == "\n") {
+      if(strlen($context['input']) > 0 && $context['input'][strlen($context['input']) - 1] == "\n") {
         $context['instructions'][] = [
           'index' => strlen($context['input']),
           'length' => 0,
