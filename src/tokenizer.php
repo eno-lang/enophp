@@ -335,9 +335,8 @@ function tokenize(&$context)
 
     } else if(isset($match[$TEMPLATE_INDEX][0])) {
 
-      // TODO: Support for noop regular deep copy operator << probably not yet there ?
-
       $template = $match[$TEMPLATE_INDEX][0];
+      $copy_operator = $match[$COPY_OPERATOR_INDEX][0];
       $copy_operator_column = $match[$COPY_OPERATOR_INDEX][1] - $index;
 
       if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
@@ -347,7 +346,7 @@ function tokenize(&$context)
 
         $instruction['name'] = $name;
         $instruction['ranges'] = [
-          'copy_operator' => [$copy_operator_column, $copy_operator_column + 1],
+          'copy_operator' => [$copy_operator_column, $copy_operator_column + strlen($copy_operator)],
           'name' => [$name_column, $name_column + strlen($instruction['name'])]
         ];
       } else {
@@ -360,7 +359,7 @@ function tokenize(&$context)
 
         $instruction['name'] = $name;
         $instruction['ranges'] = [
-          'copy_operator' => [$copy_operator_column, $copy_operator_column + 1],
+          'copy_operator' => [$copy_operator_column, $copy_operator_column + strlen($copy_operator)],
           'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
           'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
           'name' => [$name_column, $name_column + strlen($name)]

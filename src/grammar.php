@@ -86,11 +86,11 @@ $FIELDSET_ENTRY_VALUE_INDEX = 26;
 
 // Name < Template name
 // `Name` < Template name
-$COPY = "(<)\\s*${REQUIRED}";
+$TEMPLATE = "(<(?!<)|<<)\\s*${REQUIRED}";
 $COPY_OPERATOR_INDEX = 27;
 $TEMPLATE_INDEX = 28;
 
-$LATE_DETERMINED = "${NAME}\\s*(?:${FIELD_OR_NAME}|${FIELDSET_ENTRY}|${COPY})";
+$LATE_DETERMINED = "${NAME}\\s*(?:${FIELD_OR_NAME}|${FIELDSET_ENTRY}|${TEMPLATE})";
 
 $NOT_EMPTY = "(?:${EARLY_DETERMINED}|${LATE_DETERMINED})";
 
