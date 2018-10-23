@@ -8,6 +8,6 @@
   "name": "eno-lang/enophp",
   "description": "PHP implementation of the eno library specification",
   "require-dev": {
-    "kahlan/kahlan": "^4.1"
+    "kahlan/kahlan": "^4.3.1"
   }
 }
