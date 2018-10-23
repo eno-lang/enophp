@@ -43,8 +43,8 @@ function tokenize_error_context(&$context, $index, $line) {
 
 function tokenize(&$context)
 {
-  require_once('grammar.php');
-  require_once('messages.php');
+  require('grammar.php');
+  require('messages.php');
 
   $context['instructions'] = [];
 
