@@ -2,15 +2,14 @@
 
 namespace Eno\Matchers;
 
-// TODO: Consider outputting a "xxx.new_diff" file if the snapshot does not match the new comparison value to be able
-//       to do a quick diff with meld or similar (to augment the weak built-in diff from kahlan's CLI reporter)
-
 class ToMatchSnapshot
 {
-  public static function match($actual, $expected)
+  public static $_description = [];
+
+  public static function match($actual, $snapshot_file)
   {
-    $extension = pathinfo($expected, PATHINFO_EXTENSION);
-    $snapshot = @file_get_contents($expected);
+    $extension = pathinfo($snapshot_file, PATHINFO_EXTENSION);
+    $snapshot = @file_get_contents($snapshot_file);
 
     // When comparing object vs. object through JSON serialization
     // we do the comparison not with objects but with the serialized
@@ -23,16 +22,40 @@ class ToMatchSnapshot
     }
 
     if($snapshot === false) {
-      file_put_contents($expected, $actual);
+      static::_buildDescription($actual, $actual);
+      file_put_contents($snapshot_file, $actual);
 
       return true;
     } else {
-      return $actual === $snapshot;
+      $match = $actual === $snapshot;
+
+      if($match) {
+        static::_buildDescription($actual, $snapshot);
+      } else {
+        $diff_file = $snapshot_file . ".actual";
+        file_put_contents($diff_file, $actual);
+        static::_buildDescription($actual, $snapshot, $diff_file);
+      }
+
+      return $match;
     }
+  }
+
+  public static function _buildDescription($actual, $expected, $diff_file = null)
+  {
+      $description = "match the content of the stored snapshot file.";
+      $data['actual'] = $actual;
+      $data['expected'] = $expected;
+
+      if($diff_file) {
+        $data['diff file'] = $diff_file;
+      }
+
+      static::$_description = compact('description', 'data');
   }
 
   public static function description()
   {
-    return "match the snapshot.";
+    return static::$_description;
   }
 }
