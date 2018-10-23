@@ -126,9 +126,9 @@ function tokenize(&$context)
         $instruction['ranges']['value'] = [$value_column, $value_column + strlen($instruction['value'])];
       }
 
-    } else if(isset($match[$DICTIONARY_ENTRY_OPERATOR_INDEX][0])) {
+    } else if(isset($match[$FIELDSET_ENTRY_OPERATOR_INDEX][0])) {
 
-      $entry_operator_column = $match[$DICTIONARY_ENTRY_OPERATOR_INDEX][1] - $index;
+      $entry_operator_column = $match[$FIELDSET_ENTRY_OPERATOR_INDEX][1] - $index;
 
       if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
         $name = $match[$NAME_UNESCAPED_INDEX][0];
@@ -155,11 +155,11 @@ function tokenize(&$context)
         ];
       }
 
-      $instruction['type'] = 'DICTIONARY_ENTRY';
+      $instruction['type'] = 'FIELDSET_ENTRY';
 
-      if(isset($match[$DICTIONARY_ENTRY_VALUE_INDEX][0])) {
-        $value = $match[$DICTIONARY_ENTRY_VALUE_INDEX][0];
-        $value_column = $match[$DICTIONARY_ENTRY_VALUE_INDEX][1] - $index;
+      if(isset($match[$FIELDSET_ENTRY_VALUE_INDEX][0])) {
+        $value = $match[$FIELDSET_ENTRY_VALUE_INDEX][0];
+        $value_column = $match[$FIELDSET_ENTRY_VALUE_INDEX][1] - $index;
         $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
       }
 

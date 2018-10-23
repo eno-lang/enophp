@@ -175,7 +175,7 @@
                 23
             ]
         },
-        "type": "DICTIONARY_ENTRY",
+        "type": "FIELDSET_ENTRY",
         "length": 23
     },
     {
@@ -196,7 +196,7 @@
                 26
             ]
         },
-        "type": "DICTIONARY_ENTRY",
+        "type": "FIELDSET_ENTRY",
         "length": 26
     },
     {
@@ -225,7 +225,7 @@
                 26
             ]
         },
-        "type": "DICTIONARY_ENTRY",
+        "type": "FIELDSET_ENTRY",
         "length": 26
     },
     {
@@ -524,7 +524,7 @@
                 53
             ]
         },
-        "type": "DICTIONARY_ENTRY",
+        "type": "FIELDSET_ENTRY",
         "length": 53
     },
     {
@@ -545,7 +545,7 @@
                 45
             ]
         },
-        "type": "DICTIONARY_ENTRY",
+        "type": "FIELDSET_ENTRY",
         "length": 45
     },
     {

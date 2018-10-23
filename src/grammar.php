@@ -80,9 +80,9 @@ $FIELD_VALUE_INDEX = 24;
 
 // Name of dictionary entry =
 // `Name of dictionary entry` = Value
-$DICTIONARY_ENTRY = "(=)[^\\S\\n]*${OPTIONAL}";
-$DICTIONARY_ENTRY_OPERATOR_INDEX = 25;
-$DICTIONARY_ENTRY_VALUE_INDEX = 26;
+$FIELDSET_ENTRY = "(=)[^\\S\\n]*${OPTIONAL}";
+$FIELDSET_ENTRY_OPERATOR_INDEX = 25;
+$FIELDSET_ENTRY_VALUE_INDEX = 26;
 
 // Name < Template name
 // `Name` < Template name
@@ -90,7 +90,7 @@ $COPY = "(<)\\s*${REQUIRED}";
 $COPY_OPERATOR_INDEX = 27;
 $TEMPLATE_INDEX = 28;
 
-$LATE_DETERMINED = "${NAME}\\s*(?:${FIELD_OR_NAME}|${DICTIONARY_ENTRY}|${COPY})";
+$LATE_DETERMINED = "${NAME}\\s*(?:${FIELD_OR_NAME}|${FIELDSET_ENTRY}|${COPY})";
 
 $NOT_EMPTY = "(?:${EARLY_DETERMINED}|${LATE_DETERMINED})";
 
