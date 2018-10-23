@@ -1,0 +1,70 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                4,
+                5
+            ],
+            "name": [
+                0,
+                4
+            ]
+        },
+        "type": "NAME",
+        "length": 5
+    },
+    {
+        "index": 6,
+        "line": 1,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                8,
+                9
+            ],
+            "name": [
+                4,
+                8
+            ]
+        },
+        "type": "NAME",
+        "length": 9
+    },
+    {
+        "index": 16,
+        "line": 2,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                8,
+                9
+            ],
+            "name": [
+                0,
+                4
+            ]
+        },
+        "type": "NAME",
+        "length": 9
+    },
+    {
+        "index": 26,
+        "line": 3,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                12,
+                13
+            ],
+            "name": [
+                4,
+                8
+            ]
+        },
+        "type": "NAME",
+        "length": 13
+    }
+]
