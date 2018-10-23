@@ -380,7 +380,7 @@ function tokenize(&$context)
       $operator_column = $match[$COMMENT_OPERATOR_INDEX][1] - $index;
       $instruction['ranges'] = [ 'comment_operator' => [$operator_column, $operator_column + 1] ];
 
-      if($match[$COMMENT_TEXT_INDEX][0] != null) {
+      if(isset($match[$COMMENT_TEXT_INDEX][0])) {
         $text_column = $match[$COMMENT_TEXT_INDEX][1] - $index;
         $instruction['comment'] = $match[$COMMENT_TEXT_INDEX][0];
         $instruction['ranges']['comment'] = [$text_column, $text_column + strlen($instruction['comment'])];
