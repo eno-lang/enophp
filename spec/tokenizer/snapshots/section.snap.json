@@ -1,0 +1,74 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "depth": 1,
+        "type": "SECTION",
+        "name": "name",
+        "ranges": {
+            "name": [
+                2,
+                6
+            ],
+            "section_operator": [
+                0,
+                1
+            ]
+        },
+        "length": 6
+    },
+    {
+        "index": 7,
+        "line": 1,
+        "depth": 2,
+        "type": "SECTION",
+        "name": "name",
+        "ranges": {
+            "name": [
+                7,
+                11
+            ],
+            "section_operator": [
+                4,
+                6
+            ]
+        },
+        "length": 11
+    },
+    {
+        "index": 19,
+        "line": 2,
+        "depth": 3,
+        "type": "SECTION",
+        "name": "name",
+        "ranges": {
+            "name": [
+                7,
+                11
+            ],
+            "section_operator": [
+                0,
+                3
+            ]
+        },
+        "length": 11
+    },
+    {
+        "index": 31,
+        "line": 3,
+        "depth": 4,
+        "type": "SECTION",
+        "name": "name",
+        "ranges": {
+            "name": [
+                12,
+                16
+            ],
+            "section_operator": [
+                4,
+                8
+            ]
+        },
+        "length": 16
+    }
+]

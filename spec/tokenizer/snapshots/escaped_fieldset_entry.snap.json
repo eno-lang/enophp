@@ -1,0 +1,102 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "name": "name",
+        "ranges": {
+            "escape_begin_operator": [
+                0,
+                1
+            ],
+            "$escape_end_operator": [
+                5,
+                6
+            ],
+            "entry_operator": [
+                7,
+                8
+            ],
+            "name": [
+                1,
+                5
+            ]
+        },
+        "type": "FIELDSET_ENTRY",
+        "length": 8
+    },
+    {
+        "index": 9,
+        "line": 1,
+        "name": "na`me",
+        "ranges": {
+            "escape_begin_operator": [
+                0,
+                2
+            ],
+            "$escape_end_operator": [
+                7,
+                9
+            ],
+            "entry_operator": [
+                10,
+                11
+            ],
+            "name": [
+                2,
+                7
+            ]
+        },
+        "type": "FIELDSET_ENTRY",
+        "length": 11
+    },
+    {
+        "index": 21,
+        "line": 2,
+        "name": "na``me",
+        "ranges": {
+            "escape_begin_operator": [
+                0,
+                3
+            ],
+            "$escape_end_operator": [
+                9,
+                12
+            ],
+            "entry_operator": [
+                16,
+                17
+            ],
+            "name": [
+                3,
+                9
+            ]
+        },
+        "type": "FIELDSET_ENTRY",
+        "length": 17
+    },
+    {
+        "index": 39,
+        "line": 3,
+        "name": "`name`",
+        "ranges": {
+            "escape_begin_operator": [
+                4,
+                6
+            ],
+            "$escape_end_operator": [
+                14,
+                16
+            ],
+            "entry_operator": [
+                20,
+                21
+            ],
+            "name": [
+                7,
+                13
+            ]
+        },
+        "type": "FIELDSET_ENTRY",
+        "length": 21
+    }
+]

@@ -2,19 +2,19 @@
 
 require_once(__DIR__ . '/util.php');
 
-describe('Name tokenization', function() {
+describe('Section tokenization', function() {
   given('input', function() {
     return <<<DOC
-name:
-    name:
-name    :
-    name    :
+# name
+    ## name
+###    name
+    ####    name
 DOC;
   });
 
   it('works as specified', function() {
     $instructions = inspectTokenization($this->input);
 
-    expect($instructions)->toMatchSnapshot('spec/tokenizer/snapshots/name.snap.json');
+    expect($instructions)->toMatchSnapshot('spec/tokenizer/snapshots/section.snap.json');
   });
 });

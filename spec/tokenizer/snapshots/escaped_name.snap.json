@@ -1,0 +1,102 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "name": "name",
+        "ranges": {
+            "escape_begin_operator": [
+                0,
+                1
+            ],
+            "escape_end_operator": [
+                5,
+                6
+            ],
+            "name_operator": [
+                6,
+                7
+            ],
+            "name": [
+                1,
+                5
+            ]
+        },
+        "type": "NAME",
+        "length": 7
+    },
+    {
+        "index": 8,
+        "line": 1,
+        "name": "na`me",
+        "ranges": {
+            "escape_begin_operator": [
+                0,
+                2
+            ],
+            "escape_end_operator": [
+                7,
+                9
+            ],
+            "name_operator": [
+                9,
+                10
+            ],
+            "name": [
+                2,
+                7
+            ]
+        },
+        "type": "NAME",
+        "length": 10
+    },
+    {
+        "index": 19,
+        "line": 2,
+        "name": "na``me",
+        "ranges": {
+            "escape_begin_operator": [
+                0,
+                3
+            ],
+            "escape_end_operator": [
+                9,
+                12
+            ],
+            "name_operator": [
+                16,
+                17
+            ],
+            "name": [
+                3,
+                9
+            ]
+        },
+        "type": "NAME",
+        "length": 17
+    },
+    {
+        "index": 37,
+        "line": 3,
+        "name": "`name`",
+        "ranges": {
+            "escape_begin_operator": [
+                4,
+                6
+            ],
+            "escape_end_operator": [
+                14,
+                16
+            ],
+            "name_operator": [
+                20,
+                21
+            ],
+            "name": [
+                7,
+                13
+            ]
+        },
+        "type": "NAME",
+        "length": 21
+    }
+]

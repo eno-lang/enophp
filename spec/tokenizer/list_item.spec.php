@@ -2,19 +2,20 @@
 
 require_once(__DIR__ . '/util.php');
 
-describe('Name tokenization', function() {
+describe('List item tokenization', function() {
   given('input', function() {
     return <<<DOC
-name:
-    name:
-name    :
-    name    :
+- value
+    -    value
+        - value
+        -    value
+    - value
 DOC;
   });
 
   it('works as specified', function() {
     $instructions = inspectTokenization($this->input);
 
-    expect($instructions)->toMatchSnapshot('spec/tokenizer/snapshots/name.snap.json');
+    expect($instructions)->toMatchSnapshot('spec/tokenizer/snapshots/list_item.snap.json');
   });
 });

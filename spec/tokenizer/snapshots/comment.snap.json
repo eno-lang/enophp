@@ -1,0 +1,65 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "type": "NOOP",
+        "ranges": {
+            "comment_operator": [
+                0,
+                1
+            ],
+            "comment": [
+                2,
+                6
+            ]
+        },
+        "comment": "note",
+        "length": 6
+    },
+    {
+        "index": 7,
+        "line": 1,
+        "type": "NOOP",
+        "ranges": {
+            "comment_operator": [
+                0,
+                1
+            ],
+            "comment": [
+                2,
+                12
+            ]
+        },
+        "comment": "more notes",
+        "length": 12
+    },
+    {
+        "index": 20,
+        "line": 2,
+        "type": "NOOP",
+        "ranges": {
+            "comment_operator": [
+                4,
+                5
+            ],
+            "comment": [
+                9,
+                13
+            ]
+        },
+        "comment": "note",
+        "length": 13
+    },
+    {
+        "index": 34,
+        "line": 3,
+        "type": "NOOP",
+        "ranges": {
+            "comment_operator": [
+                4,
+                5
+            ]
+        },
+        "length": 5
+    }
+]

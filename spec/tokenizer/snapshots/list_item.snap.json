@@ -1,0 +1,87 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "ranges": {
+            "item_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                7
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": "value",
+        "length": 7
+    },
+    {
+        "index": 8,
+        "line": 1,
+        "ranges": {
+            "item_operator": [
+                4,
+                5
+            ],
+            "value": [
+                9,
+                14
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": "value",
+        "length": 14
+    },
+    {
+        "index": 23,
+        "line": 2,
+        "ranges": {
+            "item_operator": [
+                8,
+                9
+            ],
+            "value": [
+                10,
+                15
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": "value",
+        "length": 15
+    },
+    {
+        "index": 39,
+        "line": 3,
+        "ranges": {
+            "item_operator": [
+                8,
+                9
+            ],
+            "value": [
+                13,
+                18
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": "value",
+        "length": 18
+    },
+    {
+        "index": 58,
+        "line": 4,
+        "ranges": {
+            "item_operator": [
+                4,
+                5
+            ],
+            "value": [
+                6,
+                11
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": "value",
+        "length": 11
+    }
+]

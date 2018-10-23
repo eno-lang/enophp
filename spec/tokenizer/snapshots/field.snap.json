@@ -1,0 +1,90 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                4,
+                5
+            ],
+            "name": [
+                0,
+                4
+            ],
+            "value": [
+                6,
+                11
+            ]
+        },
+        "type": "FIELD",
+        "value": "value",
+        "length": 11
+    },
+    {
+        "index": 12,
+        "line": 1,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                4,
+                5
+            ],
+            "name": [
+                0,
+                4
+            ],
+            "value": [
+                9,
+                14
+            ]
+        },
+        "type": "FIELD",
+        "value": "value",
+        "length": 14
+    },
+    {
+        "index": 27,
+        "line": 2,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                8,
+                9
+            ],
+            "name": [
+                0,
+                4
+            ],
+            "value": [
+                10,
+                15
+            ]
+        },
+        "type": "FIELD",
+        "value": "value",
+        "length": 15
+    },
+    {
+        "index": 43,
+        "line": 3,
+        "name": "name",
+        "ranges": {
+            "name_operator": [
+                12,
+                13
+            ],
+            "name": [
+                4,
+                8
+            ],
+            "value": [
+                17,
+                22
+            ]
+        },
+        "type": "FIELD",
+        "value": "value",
+        "length": 22
+    }
+]
