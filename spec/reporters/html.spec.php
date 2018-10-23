@@ -17,6 +17,6 @@ describe('HTML reporter', function() {
       $this->_context['instructions'][0]
     );
 
-    expect($snippet)->toEqual(snapshot('spec/reporters/snapshots/html.snap.html', $snippet));
+    expect($snippet)->toMatchSnapshot('spec/reporters/snapshots/html.snap.html');
   });
 });

@@ -17,6 +17,6 @@ describe('Text reporter', function() {
       $this->_context['instructions'][0]
     );
 
-    expect($snippet)->toEqual(snapshot('spec/reporters/snapshots/text.snap.txt', $snippet));
+    expect($snippet)->toMatchSnapshot('spec/reporters/snapshots/text.snap.txt');
   });
 });

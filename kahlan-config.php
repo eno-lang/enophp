@@ -1,3 +1,3 @@
 <?php
 
-require_once('spec/util.php');
+Kahlan\Matcher::register('toMatchSnapshot', 'Eno\Matchers\ToMatchSnapshot');

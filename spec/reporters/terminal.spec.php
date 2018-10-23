@@ -17,6 +17,6 @@ describe('Terminal reporter', function() {
       $this->_context['instructions'][0]
     );
 
-    expect($snippet)->toEqual(snapshot('spec/reporters/snapshots/terminal.snap.sh', $snippet));
+    expect($snippet)->toMatchSnapshot('spec/reporters/snapshots/terminal.snap.sh');
   });
 });
