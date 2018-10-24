@@ -2,7 +2,7 @@
 
 namespace Eno\Reporters;
 
-class Text {
+class Text implements Reporter {
   static public function report(&$context, &$emphasized = [], &$marked = []) {
     if(isset($emphasized[0])) {
       $emphasized_arr = $emphasized;

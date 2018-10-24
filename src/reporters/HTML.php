@@ -2,7 +2,7 @@
 
 namespace Eno\Reporters;
 
-class HTML {
+class HTML implements Reporter  {
   static private function line($gutter, $content, &$classes = []) {
     $joined_classes = join(' ', $classes);
     $padded_gutter = str_pad($gutter, 10, ' ', STR_PAD_LEFT);
