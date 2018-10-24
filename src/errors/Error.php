@@ -26,6 +26,3 @@ class Error extends Exception {
   //                           . "{$this->getTraceAsString()}";
   // }
 }
-
-class ParseError extends Error { }
-class ValidationError extends Error { }
