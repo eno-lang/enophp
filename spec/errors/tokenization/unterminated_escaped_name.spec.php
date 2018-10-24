@@ -4,15 +4,11 @@ use Eno\{ParseError, Parser};
 
 describe('Tokenization::unterminatedEscapedName', function() {
   beforeAll(function() {
-    $input = <<<DOC
-`language: eno
-DOC;
+    $this->error = interceptParseError(function() {
+      $input = '`language: eno';
 
-    try {
       Parser::parse($input);
-    } catch(ParseError $e) {
-      $this->error = $e;
-    }
+    });
   });
 
   it('provides a correct error', function() {
