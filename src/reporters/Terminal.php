@@ -5,20 +5,20 @@ namespace Eno\Reporters;
 class Terminal implements Reporter  {
   static public function report(&$context, &$emphasized = [], &$marked = []) {
     if(count($emphasized) > 0) {
-      if(isset($emphasized[0])) {
-        $emphasized_arr = $emphasized;
-      } else {
+      if(isset($emphasized['line'])) {
         $emphasized_arr = [$emphasized];
+      } else {
+        $emphasized_arr = $emphasized;
       }
     } else {
       $emphasized_arr = [];
     }
 
     if(count($marked) > 0) {
-      if(isset($marked[0])) {
-        $marked_arr = $marked;
-      } else {
+      if(isset($marked['line'])) {
         $marked_arr = [$marked];
+      } else {
+        $marked_arr = $marked;
       }
     } else {
       $marked_arr = [];
