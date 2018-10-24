@@ -1,6 +1,6 @@
 <?php
 
-use Eno\Error, Eno\ValidationError;
+use Eno\{Error, ValidationError};
 
 describe('ValidationError', function() {
   given('text', function() { return 'My error'; });

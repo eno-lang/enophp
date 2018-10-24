@@ -1,6 +1,6 @@
 <?php
 
-use Eno\{Error, Parser};
+use Eno\{ParseError, Parser};
 
 describe('Tokenization::unterminatedBlock', function() {
   beforeAll(function() {
@@ -14,7 +14,7 @@ DOC;
 
     try {
       Parser::parse($input);
-    } catch(Error $e) {
+    } catch(ParseError $e) {
       $this->error = $e;
     }
   });

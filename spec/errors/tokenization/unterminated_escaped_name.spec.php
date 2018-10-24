@@ -1,6 +1,6 @@
 <?php
 
-use Eno\{Error, Parser};
+use Eno\{ParseError, Parser};
 
 describe('Tokenization::unterminatedEscapedName', function() {
   beforeAll(function() {
@@ -10,7 +10,7 @@ DOC;
 
     try {
       Parser::parse($input);
-    } catch(Error $e) {
+    } catch(ParseError $e) {
       $this->error = $e;
     }
   });

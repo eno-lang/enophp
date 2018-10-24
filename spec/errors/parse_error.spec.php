@@ -1,6 +1,6 @@
 <?php
 
-use Eno\Error, Eno\ParseError;
+use Eno\{Error, ParseError};
 
 describe('ParseError', function() {
   given('text', function() { return 'My error'; });
