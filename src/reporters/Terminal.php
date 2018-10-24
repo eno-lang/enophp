@@ -4,16 +4,24 @@ namespace Eno\Reporters;
 
 class Terminal implements Reporter  {
   static public function report(&$context, &$emphasized = [], &$marked = []) {
-    if(isset($emphasized[0])) {
-      $emphasized_arr = $emphasized;
+    if(count($emphasized) > 0) {
+      if(isset($emphasized[0])) {
+        $emphasized_arr = $emphasized;
+      } else {
+        $emphasized_arr = [$emphasized];
+      }
     } else {
-      $emphasized_arr = [$emphasized];
+      $emphasized_arr = [];
     }
 
-    if(isset($marked[0])) {
-      $marked_arr = $marked;
+    if(count($marked) > 0) {
+      if(isset($marked[0])) {
+        $marked_arr = $marked;
+      } else {
+        $marked_arr = [$marked];
+      }
     } else {
-      $marked_arr = [$marked];
+      $marked_arr = [];
     }
 
     $content_header = $context['messages']['reporting']['content_header'];
