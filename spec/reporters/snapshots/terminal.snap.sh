@@ -1,4 +1,4 @@
-[1m  Line  | Content[0m
+[1m   Line | Content[0m
 [33m *    1 | > comment[0m
 [41m >    2 | language: eno[0m
       3 | 

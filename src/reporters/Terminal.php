@@ -17,7 +17,7 @@ class Terminal {
     }
 
     $content_header = $context['messages']['reporting']['content_header'];
-    $gutter_header = str_pad($context['messages']['reporting']['gutter_header'], 5);
+    $gutter_header = str_pad($context['messages']['reporting']['gutter_header'], 5, ' ', STR_PAD_LEFT);
 
     $gutter_width = strlen($gutter_header) + 3;
     $columns_header = "\x1b[1m  {$gutter_header} | {$content_header}\x1b[0m\n";

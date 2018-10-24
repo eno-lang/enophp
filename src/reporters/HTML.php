@@ -30,7 +30,7 @@ class HTML {
     }
 
     $content_header = $context['messages']['reporting']['content_header'];
-    $gutter_header = str_pad($context['messages']['reporting']['gutter_header'], 5);
+    $gutter_header = str_pad($context['messages']['reporting']['gutter_header'], 5, ' ', STR_PAD_LEFT);
     $omission = self::line('...', '...');
 
     $snippet = '<pre class="eno-report">';
