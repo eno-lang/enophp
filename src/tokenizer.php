@@ -1,5 +1,7 @@
 <?php
 
+use Eno\Errors\Tokenization;
+
 // TODO: Make extraction of comments an optional flagged feature, by default its off to gain speed!
 
 function tokenize_error_context(&$context, $index, $line) {
@@ -58,10 +60,8 @@ function tokenize(&$context)
     $matched = preg_match($REGEX, $context['input'], $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
 
     if($matched != 1 || $match[0][1] != $index) {
-      // TODO: Finish port and other required ports
-      // $instruction = tokenize_error_context($context, $index, $line);
-      // throw errors.invalidLine(context, $instruction);
-      throw new Exception('invalidLine TODO');
+      $instruction = tokenize_error_context($context, $index, $line);
+      throw Tokenization::invalidLine($context, $instruction);
     }
 
     $instruction = [
@@ -322,8 +322,7 @@ function tokenize(&$context)
               'line' => $line
             ];
 
-            // TODO: Error implementation
-            throw errors.unterminatedBlock(context, instruction);
+            throw Tokenization::unterminatedBlock($context, $instruction);
           } else {
             $context['instructions'][] = [
               'index' => $index,

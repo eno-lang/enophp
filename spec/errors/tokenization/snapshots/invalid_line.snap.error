@@ -1,0 +1,11 @@
+--- message
+Line 4 does not follow any specified pattern.
+
+   Line | Content
+   ...
+      2 | - eno
+      3 | - json
+ >    4 | yaml
+
+--- selection
+[[3,0],[3,4]]
