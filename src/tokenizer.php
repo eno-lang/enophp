@@ -69,7 +69,7 @@ function tokenize(&$context)
       'line' => $line++
     ];
 
-    // var_dump($match);
+    $block = false;
 
     if(isset($match[$EMPTY_LINE_INDEX][0])) {
 
@@ -281,12 +281,12 @@ function tokenize(&$context)
       $start_of_block_column = $index;
 
       $name_escaped = preg_quote($instruction['name']);
-      $terminator_regex = "/[^\\S\\n]*(${operator})[^\\S\\n]*(${name_escaped})[^\\S\\n]*(?=\\n|$)/";
+      $terminator_regex = "/[^\\S\\n]*(${operator})[^\\S\\n]*(${name_escaped})[^\\S\\n]*(?=\\n|$)/A";
 
       while(true) {
         $matched = preg_match($terminator_regex, $context['input'], $terminator_match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
 
-        if($matched == 1) { // TODO: Also need to check if it matches at $index
+        if($matched == 1) {
           if($line > $instruction['line'] + 1) {
             $instruction['content_range'] = [$start_of_block_column, $index - 2];
           }
@@ -296,6 +296,7 @@ function tokenize(&$context)
 
           $instruction = [
             'index' => $index,
+            'length' => strlen($terminator_match[0][0]),
             'line' => $line,
             'ranges' => [
               'block_operator' => [$operator_column, $operator_column + strlen($operator)],
@@ -304,8 +305,11 @@ function tokenize(&$context)
             'type' => 'BLOCK_TERMINATOR'
           ];
 
+          $context['instructions'][] = $instruction;
+          $index = $index + $instruction['length'] + 1;
           $line++;
-          // TODO: ??? matcherRegex.last_column = terminator_regex.last_column;
+
+          $block = true;
 
           break;
         } else {
@@ -389,10 +393,11 @@ function tokenize(&$context)
 
     }
 
-    $instruction['length'] = $match[0][1] + strlen($match[0][0]) - $index;
-    $index += $instruction['length'] + 1;
-
-    $context['instructions'][] = $instruction;
+    if(!$block) {
+      $instruction['length'] = $match[0][1] + strlen($match[0][0]) - $index;
+      $index += $instruction['length'] + 1;
+      $context['instructions'][] = $instruction;
+    }
 
     if($index >= strlen($context['input'])) {
       if(strlen($context['input']) > 0 && $context['input'][strlen($context['input']) - 1] == "\n") {
