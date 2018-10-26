@@ -4,20 +4,20 @@ use Eno\Errors\Tokenization;
 
 // TODO: Make extraction of comments an optional flagged feature, by default its off to gain speed!
 
-function tokenize_error_context(&$context, $index, $line) {
+function tokenize_error_context($context, $index, $line) {
   $first_instruction = null;
 
   while(true) {
-    $end_of_line_column = strpos($context['input'], "\n", $index);
+    $end_of_line_column = strpos($context->input, "\n", $index);
 
     if($end_of_line_column === false) {
-      $instruction = [
+      $instruction = (object) [
         'index' => $index,
-        'length' => strlen($context['input']) - $index,
+        'length' => strlen($context->input) - $index,
         'line' => $line
       ];
 
-      $context['instructions'][] = $instruction;
+      $context->instructions[] = $instruction;
 
       if($first_instruction === null) {
         $first_instruction = $instruction;
@@ -25,13 +25,13 @@ function tokenize_error_context(&$context, $index, $line) {
 
       return $first_instruction;
     } else {
-      $instruction = [
+      $instruction = (object) [
         'index' => $index,
         'length' => $end_of_line_column - $index,
         'line' => $line
       ];
 
-      $context['instructions'][] = $instruction;
+      $context->instructions[] = $instruction;
 
       if($first_instruction === null) {
         $first_instruction = $instruction;
@@ -43,28 +43,28 @@ function tokenize_error_context(&$context, $index, $line) {
   }
 }
 
-function tokenize(&$context)
+function tokenize($context)
 {
   // TODO: Consider turning grammar into a class so it doesn't get evaluated/allocated twice when running twice (?)
   //       (require_once not working here)
   //       Also $REGEX (which comes from grammar.php) appears totally intransparently currently as a variable
   require('grammar.php');
 
-  $context['instructions'] = [];
+  $context->instructions = [];
 
   $index = 0;
   $line = 0;
   $instruction = [];
 
   while(true) {
-    $matched = preg_match($REGEX, $context['input'], $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
+    $matched = preg_match($REGEX, $context->input, $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
 
     if($matched != 1 || $match[0][1] != $index) {
       $instruction = tokenize_error_context($context, $index, $line);
       throw Tokenization::invalidLine($context, $instruction);
     }
 
-    $instruction = [
+    $instruction = (object) [
       'index' => $index,
       'line' => $line++
     ];
@@ -73,7 +73,7 @@ function tokenize(&$context)
 
     if(isset($match[$EMPTY_LINE_INDEX][0])) {
 
-      $instruction['type'] = 'NOOP';
+      $instruction->type = 'NOOP';
 
     } else if(isset($match[$NAME_OPERATOR_INDEX][0])) {
 
@@ -83,8 +83,8 @@ function tokenize(&$context)
         $name = $match[$NAME_UNESCAPED_INDEX][0];
         $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'name_operator' => [$name_operator_column, $name_operator_column + 1],
           'name' => [$name_column, $name_column + strlen($name)]
         ];
@@ -95,8 +95,8 @@ function tokenize(&$context)
         $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
         $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
           'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
           'name_operator' => [$name_operator_column, $name_operator_column + 1],
@@ -106,26 +106,26 @@ function tokenize(&$context)
 
       if(isset($match[$FIELD_VALUE_INDEX][0])) {
         $value = $match[$FIELD_VALUE_INDEX][0];
-        $instruction['type'] = 'FIELD';
-        $instruction['value'] = $value;
+        $instruction->type = 'FIELD';
+        $instruction->value = $value;
 
         $value_column = $match[$FIELD_VALUE_INDEX][1] - $index;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+        $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
       } else {
-        $instruction['type'] = 'NAME';
+        $instruction->type = 'NAME';
       }
 
     } else if(isset($match[$LIST_ITEM_OPERATOR_INDEX][0])) {
 
       $operator_column = $match[$LIST_ITEM_OPERATOR_INDEX][1] - $index;
 
-      $instruction['ranges'] = [ 'item_operator' => [$operator_column, $operator_column + 1] ];
-      $instruction['type'] = 'LIST_ITEM';
-      $instruction['value'] = $match[$LIST_ITEM_VALUE_INDEX][0];
+      $instruction->ranges = [ 'item_operator' => [$operator_column, $operator_column + 1] ];
+      $instruction->type = 'LIST_ITEM';
+      $instruction->value = $match[$LIST_ITEM_VALUE_INDEX][0];
 
-      if($instruction['value']) {
+      if($instruction->value) {
         $value_column = $match[$LIST_ITEM_VALUE_INDEX][1] - $index;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($instruction['value'])];
+        $instruction->ranges['value'] = [$value_column, $value_column + strlen($instruction->value)];
       }
 
     } else if(isset($match[$FIELDSET_ENTRY_OPERATOR_INDEX][0])) {
@@ -136,8 +136,8 @@ function tokenize(&$context)
         $name = $match[$NAME_UNESCAPED_INDEX][0];
         $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'entry_operator' => [$entry_operator_column, $entry_operator_column + 1],
           'name' => [$name_column, $name_column + strlen($name)]
         ];
@@ -148,8 +148,8 @@ function tokenize(&$context)
         $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
         $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
           '$escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
           'entry_operator' => [$entry_operator_column, $entry_operator_column + 1],
@@ -157,56 +157,56 @@ function tokenize(&$context)
         ];
       }
 
-      $instruction['type'] = 'FIELDSET_ENTRY';
+      $instruction->type = 'FIELDSET_ENTRY';
 
       if(isset($match[$FIELDSET_ENTRY_VALUE_INDEX][0])) {
         $value = $match[$FIELDSET_ENTRY_VALUE_INDEX][0];
         $value_column = $match[$FIELDSET_ENTRY_VALUE_INDEX][1] - $index;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+        $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
       }
 
     } else if(isset($match[$LINE_CONTINUATION_OPERATOR_INDEX][0])) {
 
       $operator_column = $match[$LINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
 
-      $instruction['ranges'] = [ 'line_continuation_operator' => [$operator_column, $operator_column + 1] ];
-      $instruction['separator'] = ' ';
-      $instruction['type'] = 'CONTINUATION';
+      $instruction->ranges = [ 'line_continuation_operator' => [$operator_column, $operator_column + 1] ];
+      $instruction->separator = ' ';
+      $instruction->type = 'CONTINUATION';
 
       if(isset($match[$LINE_CONTINUATION_VALUE_INDEX][0])) {
         $value = $match[$LINE_CONTINUATION_VALUE_INDEX][0];
         $value_column = $match[$LINE_CONTINUATION_VALUE_INDEX][1] - $index;
 
-        $instruction['value'] = $value;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+        $instruction->value = $value;
+        $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
       } else {
-        $instruction['value'] = null;
+        $instruction->value = null;
       }
 
     } else if(isset($match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][0])) {
 
       $operator_column = $match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
 
-      $instruction['ranges'] = [ 'newline_continuation_operator' => [$operator_column, $operator_column + 1] ];
-      $instruction['separator'] = "\n";
-      $instruction['type'] = 'CONTINUATION';
+      $instruction->ranges = [ 'newline_continuation_operator' => [$operator_column, $operator_column + 1] ];
+      $instruction->separator = "\n";
+      $instruction->type = 'CONTINUATION';
 
       if(isset($match[$NEWLINE_CONTINUATION_VALUE_INDEX][0])) {
         $value = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][0];
         $value_column = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][1] - $index;
 
-        $instruction['value'] = $value;
-        $instruction['ranges']['value'] = [$value_column, $value_column + strlen($value)];
+        $instruction->value = $value;
+        $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
       } else {
-        $instruction['value'] = null;
+        $instruction->value = null;
       }
 
     } else if(isset($match[$SECTION_HASHES_INDEX][0])) {
 
       $section_operator = $match[$SECTION_HASHES_INDEX][0];
 
-      $instruction['depth'] = strlen($section_operator);
-      $instruction['type'] = 'SECTION';
+      $instruction->depth = strlen($section_operator);
+      $instruction->type = 'SECTION';
 
       $section_operator_column = $match[$SECTION_HASHES_INDEX][1] - $index;
       $name_end_column = null;
@@ -217,8 +217,8 @@ function tokenize(&$context)
         $name_column = $match[$SECTION_NAME_UNESCAPED_INDEX][1] - $index;
         $name_end_column = $name_column + strlen($name);
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'name' => [$name_column, $name_column + strlen($name)],
           'section_operator' => [$section_operator_column, $section_operator_column + strlen($section_operator)]
         ];
@@ -231,8 +231,8 @@ function tokenize(&$context)
         $name_column = $match[$SECTION_NAME_ESCAPED_INDEX][1] - $index;
         $escape_end_operator_column = $match[$SECTION_NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
           'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
           'name' => [$name_column, $name_column + strlen($name)],
@@ -242,59 +242,59 @@ function tokenize(&$context)
 
       if(isset($match[$SECTION_TEMPLATE_INDEX][0])) {
         $template = $match[$SECTION_TEMPLATE_INDEX][0];
-        $instruction['template'] = $template;
+        $instruction->template = $template;
 
         $copy_operator = $match[$SECTION_COPY_OPERATOR_INDEX][0];
         $copy_operator_column = $match[$SECTION_COPY_OPERATOR_INDEX][1] - $index;
         $template_column = $match[$SECTION_TEMPLATE_INDEX][1] - $index;
 
         if($copy_operator == '<') {
-          $instruction['deep_copy'] = false;
-          $instruction['ranges']['copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
+          $instruction->deep_copy = false;
+          $instruction->ranges['copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
         } else { // copy_operator === '<<'
-          $instruction['deep_copy'] = true;
-          $instruction['ranges']['deep_copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
+          $instruction->deep_copy = true;
+          $instruction->ranges['deep_copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
         }
 
-        $instruction['ranges']['template'] = [$template_column, $template_column + strlen($template)];
+        $instruction->ranges['template'] = [$template_column, $template_column + strlen($template)];
       }
 
     } else if(isset($match[$BLOCK_OPERATOR_INDEX][0])) {
 
       $operator = $match[$BLOCK_OPERATOR_INDEX][0];
       $name = $match[$BLOCK_NAME_INDEX][0];
-      $instruction['name'] = $name;
-      $instruction['type'] = 'BLOCK';
+      $instruction->name = $name;
+      $instruction->type = 'BLOCK';
 
       $operator_column = $match[$BLOCK_OPERATOR_INDEX][1] - $index;
       $name_column = $match[$BLOCK_NAME_INDEX][1] - $index;
-      $instruction['length'] = strlen($match[0][0]);
-      $instruction['ranges'] = [
+      $instruction->length = strlen($match[0][0]);
+      $instruction->ranges = [
         'block_operator' => [$operator_column, $operator_column + strlen($operator)],
         'name' => [$name_column, $name_column + strlen($name)]
       ];
 
-      $index = $index + $instruction['length'] + 1;
+      $index = $index + $instruction->length + 1;
 
-      $context['instructions'][] = $instruction;
+      $context->instructions[] = $instruction;
 
       $start_of_block_column = $index;
 
-      $name_escaped = preg_quote($instruction['name']);
+      $name_escaped = preg_quote($instruction->name);
       $terminator_regex = "/[^\\S\\n]*(${operator})[^\\S\\n]*(${name_escaped})[^\\S\\n]*(?=\\n|$)/A";
 
       while(true) {
-        $matched = preg_match($terminator_regex, $context['input'], $terminator_match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
+        $matched = preg_match($terminator_regex, $context->input, $terminator_match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
 
         if($matched == 1) {
-          if($line > $instruction['line'] + 1) {
-            $instruction['content_range'] = [$start_of_block_column, $index - 2];
+          if($line > $instruction->line + 1) {
+            $instruction->content_range = [$start_of_block_column, $index - 2];
           }
 
           $operator_column = $terminator_match[1][1] - $index;
           $name_column = $terminator_match[2][1] - $index;
 
-          $instruction = [
+          $instruction = (object) [
             'index' => $index,
             'length' => strlen($terminator_match[0][0]),
             'line' => $line,
@@ -305,26 +305,26 @@ function tokenize(&$context)
             'type' => 'BLOCK_TERMINATOR'
           ];
 
-          $context['instructions'][] = $instruction;
-          $index = $index + $instruction['length'] + 1;
+          $context->instructions[] = $instruction;
+          $index = $index + $instruction->length + 1;
           $line++;
 
           $block = true;
 
           break;
         } else {
-          $end_of_line_column = strpos($context['input'], "\n", $index);
+          $end_of_line_column = strpos($context->input, "\n", $index);
 
           if($end_of_line_column === false) {
-            $context['instructions'][] = [
+            $context->instructions[] = (object) [
               'index' => $index,
-              'length' => strlen($context['input']) - $index,
+              'length' => strlen($context->input) - $index,
               'line' => $line
             ];
 
             throw Tokenization::unterminatedBlock($context, $instruction);
           } else {
-            $context['instructions'][] = [
+            $context->instructions[] = (object) [
               'index' => $index,
               'length' => $end_of_line_column - $index,
               'line' => $line,
@@ -349,10 +349,10 @@ function tokenize(&$context)
 
         $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'copy_operator' => [$copy_operator_column, $copy_operator_column + strlen($copy_operator)],
-          'name' => [$name_column, $name_column + strlen($instruction['name'])]
+          'name' => [$name_column, $name_column + strlen($instruction->name)]
         ];
       } else {
         $name = $match[$NAME_ESCAPED_INDEX][0];
@@ -362,8 +362,8 @@ function tokenize(&$context)
         $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
         $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
-        $instruction['name'] = $name;
-        $instruction['ranges'] = [
+        $instruction->name = $name;
+        $instruction->ranges = [
           'copy_operator' => [$copy_operator_column, $copy_operator_column + strlen($copy_operator)],
           'escape_begin_operator' => [$escape_begin_operator_column, $escape_begin_operator_column + strlen($escape_operator)],
           'escape_end_operator' => [$escape_end_operator_column, $escape_end_operator_column + strlen($escape_operator)],
@@ -371,37 +371,37 @@ function tokenize(&$context)
         ];
       }
 
-      $instruction['template'] = $template;
-      $instruction['type'] = 'NAME';
+      $instruction->template = $template;
+      $instruction->type = 'NAME';
 
       $template_column = $match[$TEMPLATE_INDEX][1] - $index;
-      $instruction['ranges']['template'] = [$template_column, $template_column + strlen($template)];
+      $instruction->ranges['template'] = [$template_column, $template_column + strlen($template)];
 
     } else if(isset($match[$COMMENT_OPERATOR_INDEX][0])) {
 
-      $instruction['type'] = 'NOOP';
+      $instruction->type = 'NOOP';
 
       $operator_column = $match[$COMMENT_OPERATOR_INDEX][1] - $index;
-      $instruction['ranges'] = [ 'comment_operator' => [$operator_column, $operator_column + 1] ];
+      $instruction->ranges = [ 'comment_operator' => [$operator_column, $operator_column + 1] ];
 
       if(isset($match[$COMMENT_TEXT_INDEX][0])) {
         $text_column = $match[$COMMENT_TEXT_INDEX][1] - $index;
-        $instruction['comment'] = $match[$COMMENT_TEXT_INDEX][0];
-        $instruction['ranges']['comment'] = [$text_column, $text_column + strlen($instruction['comment'])];
+        $instruction->comment = $match[$COMMENT_TEXT_INDEX][0];
+        $instruction->ranges['comment'] = [$text_column, $text_column + strlen($instruction->comment)];
       }
 
     }
 
     if(!$block) {
-      $instruction['length'] = $match[0][1] + strlen($match[0][0]) - $index;
-      $index += $instruction['length'] + 1;
-      $context['instructions'][] = $instruction;
+      $instruction->length = $match[0][1] + strlen($match[0][0]) - $index;
+      $index += $instruction->length + 1;
+      $context->instructions[] = $instruction;
     }
 
-    if($index >= strlen($context['input'])) {
-      if(strlen($context['input']) > 0 && $context['input'][strlen($context['input']) - 1] == "\n") {
-        $context['instructions'][] = [
-          'index' => strlen($context['input']),
+    if($index >= strlen($context->input)) {
+      if(strlen($context->input) > 0 && $context->input[strlen($context->input) - 1] == "\n") {
+        $context->instructions[] = (object) [
+          'index' => strlen($context->input),
           'length' => 0,
           'line' => $line,
           'type' => 'NOOP'

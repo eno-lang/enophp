@@ -2,10 +2,10 @@
 
 require_once('src/tokenizer.php');
 
-function inspectTokenization(&$input) {
-  $context = [ 'input' => $input ];
+function inspectTokenization($input) {
+  $context = (object) [ 'input' => $input ];
 
   tokenize($context);
 
-  return $context['instructions'];
+  return $context->instructions;
 };

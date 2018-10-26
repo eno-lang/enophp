@@ -3,13 +3,13 @@
 use Eno\Field;
 
 describe('Field', function() {
-  given('_context', function() { return []; });
-  given('instruction', function() { return [ 'name' => 'language', 'value' => 'eno' ]; });
-  given('instruction_named_valueless', function() { return [ 'name' => 'language', 'value' => null ]; });
-  given('instruction_unnamed_value', function() { return [ 'name' => null, 'value' => 'eno' ]; });
-  given('instruction_unnamed_long_value', function() { return [ 'name' => null, 'value' => 'The language is eno' ]; });
-  given('instruction_void', function() { return [ 'name' => null, 'value' => null ]; });
-  given('parent', function() { return []; });
+  given('_context', function() { return (object) []; });
+  given('instruction', function() { return (object) [ 'name' => 'language', 'value' => 'eno' ]; });
+  given('instruction_named_valueless', function() { return (object) [ 'name' => 'language', 'value' => null ]; });
+  given('instruction_unnamed_value', function() { return (object) [ 'name' => null, 'value' => 'eno' ]; });
+  given('instruction_unnamed_long_value', function() { return (object) [ 'name' => null, 'value' => 'The language is eno' ]; });
+  given('instruction_void', function() { return (object) [ 'name' => null, 'value' => null ]; });
+  given('parent', function() { return (object) []; });
 
   beforeEach(function() {
     $this->field = new Field($this->_context, $this->instruction, $this->parent);

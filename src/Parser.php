@@ -2,26 +2,27 @@
 
 namespace Eno;
 
+require_once('analyzer.php'); // TODO: Class (?)
 require_once('tokenizer.php'); // TODO: Class (?)
 
 class Parser {
-  public static function parse(&$input, $locale = 'en', $reporter = null) {
-    $context = [];
+  public static function parse($input, $locale = 'en', $reporter = null) {
+    $context = (object) [];
 
-    $context['locale'] = $locale;
-    $context['indexing'] = 1;
-    $context['input'] = $input;
-    $context['source_label'] = null;
+    $context->locale = $locale;
+    $context->indexing = 1;
+    $context->input = $input;
+    $context->source_label = null;
 
     if($reporter == null) {
-      $context['reporter'] = new Reporters\Text;
+      $context->reporter = new Reporters\Text;
     } else {
-      $context['reporter'] = $reporter;
+      $context->reporter = $reporter;
     }
 
     require('src/messages.php');  // TODO: Refactor to a class or something.
 
-    $context['messages'] = $MESSAGES[$context['locale']];
+    $context->messages = $MESSAGES[$context->locale];
 
     if(!array_key_exists($locale, $MESSAGES)) {
       throw new Error(
@@ -30,6 +31,9 @@ class Parser {
       );
     }
 
-    return tokenize($context);
+    tokenize($context);
+    analyze($context);
+
+    return 'TODO';
   }
 }

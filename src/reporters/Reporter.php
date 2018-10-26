@@ -3,5 +3,5 @@
 namespace Eno\Reporters;
 
 interface Reporter {
-  public static function report(&$context, &$emphasized = [], &$marked = []);
+  public static function report($context, $emphasized = [], $marked = []);
 }

@@ -3,7 +3,7 @@
 namespace Eno\Reporters;
 
 class HTML implements Reporter  {
-  static private function line($gutter, $content, &$classes = []) {
+  static private function line($gutter, $content, $classes = []) {
     $joined_classes = join(' ', $classes);
     $padded_gutter = str_pad($gutter, 10, ' ', STR_PAD_LEFT);
     $escaped_content = htmlspecialchars($content, ENT_QUOTES);
@@ -16,49 +16,37 @@ class HTML implements Reporter  {
     return $result;
   }
 
-  static public function report(&$context, &$emphasized = [], &$marked = []) {
-    if(count($emphasized) > 0) {
-      if(isset($emphasized['line'])) {
-        $emphasized_arr = [$emphasized];
-      } else {
-        $emphasized_arr = $emphasized;
-      }
-    } else {
-      $emphasized_arr = [];
+  static public function report($context, $emphasized = [], $marked = []) {
+    if($emphasized instanceof \stdClass) {
+      $emphasized = [$emphasized];
     }
 
-    if(count($marked) > 0) {
-      if(isset($marked['line'])) {
-        $marked_arr = [$marked];
-      } else {
-        $marked_arr = $marked;
-      }
-    } else {
-      $marked_arr = [];
+    if($marked instanceOf \stdClass) {
+      $marked = [$marked];
     }
 
-    $content_header = $context['messages']['reporting']['content_header'];
-    $gutter_header = str_pad($context['messages']['reporting']['gutter_header'], 5, ' ', STR_PAD_LEFT);
+    $content_header = $context->messages['reporting']['content_header'];
+    $gutter_header = str_pad($context->messages['reporting']['gutter_header'], 5, ' ', STR_PAD_LEFT);
     $omission = self::line('...', '...');
 
     $snippet = '<pre class="eno-report">';
 
-    if(isset($context['source_label'])) {
-      $snippet .= "<div>{$context['source_label']}</div>";
+    if(isset($context->source_label)) {
+      $snippet .= "<div>{$context->source_label}</div>";
     }
 
     $snippet .= self::line($gutter_header, $content_header);
 
     $in_omission = false;
 
-    foreach($context['instructions'] as $instruction) {
-      $emphasize = in_array($instruction, $emphasized_arr);
-      $mark = in_array($instruction, $marked_arr);
+    foreach($context->instructions as $instruction) {
+      $emphasize = in_array($instruction, $emphasized);
+      $mark = in_array($instruction, $marked);
 
       $show = false;
-      foreach(array_merge($emphasized_arr, $marked_arr) as $marked_instruction) {
-        if($instruction['line'] >= $marked_instruction['line'] - 2 &&
-           $instruction['line'] <= $marked_instruction['line'] + 2) {
+      foreach(array_merge($emphasized, $marked) as $marked_instruction) {
+        if($instruction->line >= $marked_instruction->line - 2 &&
+           $instruction->line <= $marked_instruction->line + 2) {
           $show = true;
           break;
         }
@@ -75,8 +63,8 @@ class HTML implements Reporter  {
 
 
         $snippet .= self::line(
-          (string)($instruction['line'] + $context['indexing']),
-          substr($context['input'], $instruction['index'], $instruction['length']),
+          (string)($instruction->line + $context->indexing),
+          substr($context->input, $instruction->index, $instruction->length),
           $classes
         );
 

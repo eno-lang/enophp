@@ -9,12 +9,12 @@ describe('Terminal reporter', function() {
   });
 
   it('produces text output', function() {
-    $this->_context['reporter'] = 'terminal';
+    $this->_context->reporter = new Terminal;
 
     $snippet = Terminal::report(
       $this->_context,
-      $this->_context['instructions'][1],
-      $this->_context['instructions'][0]
+      $this->_context->instructions[1],
+      $this->_context->instructions[0]
     );
 
     expect($snippet)->toMatchSnapshot('spec/reporters/snapshots/terminal.snap.sh');

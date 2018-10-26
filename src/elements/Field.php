@@ -6,18 +6,18 @@ class Field {
   public $touched;
   private $value = null;
 
-  function __construct(&$context, &$instruction, &$parent, $from_empty = false) {
+  function __construct($context, $instruction, $parent, $from_empty = false) {
     $this->context = $context;
     $this->instruction = $instruction;
-    $this->name = $instruction['name'];
+    $this->name = $instruction->name;
     $this->parent = $parent;
-    $this->value = $instruction['value'];
+    $this->value = $instruction->value;
     $this->touched = false;
 
     if($from_empty)
       return;
 
-    $instruction['element'] = $this;
+    $instruction->element = $this;
 
     // ... TODO
   }

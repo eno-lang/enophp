@@ -3,9 +3,9 @@
 use Eno\EmptyElement;
 
 describe('EmptyElement', function() {
-  given('_context', function() { return []; });
-  given('instruction', function() { return [ 'name' => 'language' ]; });
-  given('parent', function() { return []; });
+  given('_context', function() { return (object) []; });
+  given('instruction', function() { return (object) [ 'name' => 'language' ]; });
+  given('parent', function() { return (object) []; });
 
   beforeEach(function() {
     $this->empty = new EmptyElement($this->_context, $this->instruction, $this->parent);
