@@ -1,0 +1,11 @@
+--- message
+The fieldset 'languages' contains two entries named 'eno'.
+
+   Line | Content
+ *    1 | languages:
+ >    2 | eno = eno notation
+ *    3 | json = JavaScript Object Notation
+ >    4 | eno = eno notation
+
+--- selection
+[[3,0],[3,18]]

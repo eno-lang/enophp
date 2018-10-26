@@ -1,0 +1,9 @@
+--- message
+Line 2 starts a section that is more than one level deeper than the current one.
+
+   Line | Content
+ *    1 | # section
+ >    2 | ### subsection
+
+--- selection
+[[1,0],[1,14]]

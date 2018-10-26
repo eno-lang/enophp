@@ -1,0 +1,8 @@
+--- message
+Line 1 contains a list item without a name for a list being specified before.
+
+   Line | Content
+ >    1 | - eno
+
+--- selection
+[[0,0],[0,5]]
