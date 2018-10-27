@@ -1,0 +1,11 @@
+--- message
+In line 4 a list is copied into a section.
+
+   Line | Content
+   ...
+      2 | - value
+      3 | 
+ >    4 | # copy < original
+
+--- selection
+[[3,0],[3,17]]

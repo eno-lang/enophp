@@ -1,0 +1,10 @@
+--- message
+In line 3 'a' is copied into itself.
+
+   Line | Content
+ *    1 | # a
+ *    2 | ## b
+ >    3 | ### c < a
+
+--- selection
+[[2,8],[2,9]]

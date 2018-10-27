@@ -1,0 +1,12 @@
+--- message
+In line 4 'either' is copied into itself.
+
+   Line | Content
+ *    1 | either < or
+      2 | either = or
+      3 | 
+ >    4 | or < either
+      5 | or = either
+
+--- selection
+[[3,5],[3,11]]

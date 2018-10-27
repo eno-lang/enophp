@@ -1,0 +1,11 @@
+--- message
+In line 4 it is not clear which of the elements named 'original' should be copied.
+
+   Line | Content
+ >    1 | original: value
+ >    2 | original: value
+      3 | 
+ >    4 | copy < original
+
+--- selection
+[[3,0],[3,15]]

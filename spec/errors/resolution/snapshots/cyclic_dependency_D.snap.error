@@ -1,0 +1,18 @@
+--- message
+In line 10 'one' is copied into itself.
+
+   Line | Content
+ *    1 | # one < two
+      2 | 1: one
+      3 | 
+ *    4 | ## three < four
+      5 | 3: three
+      6 | 
+   ...
+      8 | 2: two
+      9 | 
+ >   10 | ## four < one
+     11 | 4: four
+
+--- selection
+[[9,10],[9,13]]

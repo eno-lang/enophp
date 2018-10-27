@@ -1,0 +1,10 @@
+--- message
+In line 3 a field is copied into a section.
+
+   Line | Content
+      1 | original: value
+      2 | 
+ >    3 | # copy < original
+
+--- selection
+[[2,0],[2,17]]

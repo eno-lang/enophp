@@ -1,0 +1,11 @@
+--- message
+In line 3 a field is copied into a fieldset.
+
+   Line | Content
+      1 | original: value
+      2 | 
+ >    3 | copy < original
+      4 | entry = value
+
+--- selection
+[[2,0],[2,15]]

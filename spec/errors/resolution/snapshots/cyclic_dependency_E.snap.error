@@ -1,0 +1,10 @@
+--- message
+In line 2 'foo' is copied into itself.
+
+   Line | Content
+ *    1 | # foo
+ >    2 | ## bar < foo
+      3 | # baz < foo
+
+--- selection
+[[1,9],[1,12]]

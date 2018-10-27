@@ -1,0 +1,15 @@
+--- message
+In line 7 'one' is copied into itself.
+
+   Line | Content
+   ...
+      2 | | all
+      3 | 
+ *    4 | one < two
+      5 | | one
+      6 | 
+ >    7 | two < one
+      8 | | two
+
+--- selection
+[[6,6],[6,9]]
