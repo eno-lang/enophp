@@ -245,13 +245,13 @@ class Resolution {
   }
 
   public static function cyclicDependency($context, $instruction, $instruction_chain) {
-    $first_occurrence = $instruction_chain.indexOf($instruction);
-    $feedback_chain = $instruction_chain.slice($first_occurrence);
+    $first_occurrence = array_search($instruction, $instruction_chain);
+    $feedback_chain = array_slice($instruction_chain, $first_occurrence);
     $first_instruction = $feedback_chain[0];
     $last_instruction = $feedback_chain[count($feedback_chain) - 1];
 
     $copy_instruction = null;
-    if($last_instruction->template) {
+    if(isset($last_instruction->template)) {
       $copy_instruction = $last_instruction;
     } else if($first_instruction->template) {
       $copy_instruction = $first_instruction;
@@ -269,8 +269,8 @@ class Resolution {
     $snippet = $context->reporter::report($context, $copy_instruction, $other_instructions);
 
     $selection = [
-      [$copy_instruction->line, $copy_instruction['ranges']->template[0]],
-      [$copy_instruction->line, $copy_instruction['ranges']->template[1]]
+      [$copy_instruction->line, $copy_instruction->ranges['template'][0]],
+      [$copy_instruction->line, $copy_instruction->ranges['template'][1]]
     ];
 
     return new ParseError($message, $snippet, $selection);
