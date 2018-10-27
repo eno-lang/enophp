@@ -33,7 +33,7 @@ class ListElement {
       $this->name => array_map(
         function($item) { return $item->value(); },
         $this->items
-      );
+      )
     ];
   }
 }
