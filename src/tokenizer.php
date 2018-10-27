@@ -121,9 +121,10 @@ function tokenize($context)
 
       $instruction->ranges = [ 'item_operator' => [$operator_column, $operator_column + 1] ];
       $instruction->type = 'LIST_ITEM';
-      $instruction->value = $match[$LIST_ITEM_VALUE_INDEX][0];
+      $instruction->value = null;
 
-      if($instruction->value) {
+      if(isset($match[$LIST_ITEM_VALUE_INDEX][0])) {
+        $instruction->value = $match[$LIST_ITEM_VALUE_INDEX][0];
         $value_column = $match[$LIST_ITEM_VALUE_INDEX][1] - $index;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($instruction->value)];
       }
