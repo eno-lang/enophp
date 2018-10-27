@@ -1,0 +1,883 @@
+[
+    {
+        "index": 0,
+        "line": 0,
+        "name": "Field",
+        "ranges": {
+            "name_operator": [
+                5,
+                6
+            ],
+            "name": [
+                0,
+                5
+            ],
+            "value": [
+                7,
+                12
+            ]
+        },
+        "type": "FIELD",
+        "value": "Value",
+        "length": 12,
+        "subinstructions": [
+            {
+                "index": 13,
+                "line": 1,
+                "ranges": {
+                    "line_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        19
+                    ]
+                },
+                "separator": " ",
+                "type": "CONTINUATION",
+                "value": "Line continuation",
+                "length": 19
+            },
+            {
+                "index": 33,
+                "line": 2,
+                "ranges": {
+                    "newline_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        22
+                    ]
+                },
+                "separator": "\n",
+                "type": "CONTINUATION",
+                "value": "Newline continuation",
+                "length": 22
+            }
+        ]
+    },
+    {
+        "index": 13,
+        "line": 1,
+        "ranges": {
+            "line_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                19
+            ]
+        },
+        "separator": " ",
+        "type": "CONTINUATION",
+        "value": "Line continuation",
+        "length": 19
+    },
+    {
+        "index": 33,
+        "line": 2,
+        "ranges": {
+            "newline_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                22
+            ]
+        },
+        "separator": "\n",
+        "type": "CONTINUATION",
+        "value": "Newline continuation",
+        "length": 22
+    },
+    {
+        "index": 56,
+        "line": 3,
+        "type": "NOOP",
+        "length": 0
+    },
+    {
+        "index": 57,
+        "line": 4,
+        "name": "Fieldset",
+        "ranges": {
+            "name_operator": [
+                8,
+                9
+            ],
+            "name": [
+                0,
+                8
+            ]
+        },
+        "type": "FIELDSET",
+        "length": 9,
+        "subinstructions": [
+            {
+                "index": 67,
+                "line": 5,
+                "name": "Empty",
+                "ranges": {
+                    "entry_operator": [
+                        6,
+                        7
+                    ],
+                    "name": [
+                        0,
+                        5
+                    ],
+                    "value": [
+                        8,
+                        13
+                    ]
+                },
+                "type": "FIELDSET_ENTRY",
+                "length": 13,
+                "subinstructions": [
+                    {
+                        "index": 81,
+                        "line": 6,
+                        "ranges": {
+                            "line_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                19
+                            ]
+                        },
+                        "separator": " ",
+                        "type": "CONTINUATION",
+                        "value": "Line continuation",
+                        "length": 19
+                    },
+                    {
+                        "index": 101,
+                        "line": 7,
+                        "ranges": {
+                            "newline_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                22
+                            ]
+                        },
+                        "separator": "\n",
+                        "type": "CONTINUATION",
+                        "value": "Newline continuation",
+                        "length": 22
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "index": 67,
+        "line": 5,
+        "name": "Empty",
+        "ranges": {
+            "entry_operator": [
+                6,
+                7
+            ],
+            "name": [
+                0,
+                5
+            ],
+            "value": [
+                8,
+                13
+            ]
+        },
+        "type": "FIELDSET_ENTRY",
+        "length": 13,
+        "subinstructions": [
+            {
+                "index": 81,
+                "line": 6,
+                "ranges": {
+                    "line_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        19
+                    ]
+                },
+                "separator": " ",
+                "type": "CONTINUATION",
+                "value": "Line continuation",
+                "length": 19
+            },
+            {
+                "index": 101,
+                "line": 7,
+                "ranges": {
+                    "newline_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        22
+                    ]
+                },
+                "separator": "\n",
+                "type": "CONTINUATION",
+                "value": "Newline continuation",
+                "length": 22
+            }
+        ]
+    },
+    {
+        "index": 81,
+        "line": 6,
+        "ranges": {
+            "line_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                19
+            ]
+        },
+        "separator": " ",
+        "type": "CONTINUATION",
+        "value": "Line continuation",
+        "length": 19
+    },
+    {
+        "index": 101,
+        "line": 7,
+        "ranges": {
+            "newline_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                22
+            ]
+        },
+        "separator": "\n",
+        "type": "CONTINUATION",
+        "value": "Newline continuation",
+        "length": 22
+    },
+    {
+        "index": 124,
+        "line": 8,
+        "type": "NOOP",
+        "length": 0
+    },
+    {
+        "index": 125,
+        "line": 9,
+        "name": "List",
+        "ranges": {
+            "name_operator": [
+                4,
+                5
+            ],
+            "name": [
+                0,
+                4
+            ]
+        },
+        "type": "LIST",
+        "length": 5,
+        "subinstructions": [
+            {
+                "index": 131,
+                "line": 10,
+                "ranges": {
+                    "item_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        7
+                    ]
+                },
+                "type": "LIST_ITEM",
+                "value": "Value",
+                "length": 7,
+                "name": "List",
+                "subinstructions": [
+                    {
+                        "index": 139,
+                        "line": 11,
+                        "ranges": {
+                            "line_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                19
+                            ]
+                        },
+                        "separator": " ",
+                        "type": "CONTINUATION",
+                        "value": "Line continuation",
+                        "length": 19
+                    },
+                    {
+                        "index": 159,
+                        "line": 12,
+                        "ranges": {
+                            "newline_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                22
+                            ]
+                        },
+                        "separator": "\n",
+                        "type": "CONTINUATION",
+                        "value": "Newline continuation",
+                        "length": 22
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "index": 131,
+        "line": 10,
+        "ranges": {
+            "item_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                7
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": "Value",
+        "length": 7,
+        "name": "List",
+        "subinstructions": [
+            {
+                "index": 139,
+                "line": 11,
+                "ranges": {
+                    "line_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        19
+                    ]
+                },
+                "separator": " ",
+                "type": "CONTINUATION",
+                "value": "Line continuation",
+                "length": 19
+            },
+            {
+                "index": 159,
+                "line": 12,
+                "ranges": {
+                    "newline_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        22
+                    ]
+                },
+                "separator": "\n",
+                "type": "CONTINUATION",
+                "value": "Newline continuation",
+                "length": 22
+            }
+        ]
+    },
+    {
+        "index": 139,
+        "line": 11,
+        "ranges": {
+            "line_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                19
+            ]
+        },
+        "separator": " ",
+        "type": "CONTINUATION",
+        "value": "Line continuation",
+        "length": 19
+    },
+    {
+        "index": 159,
+        "line": 12,
+        "ranges": {
+            "newline_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                22
+            ]
+        },
+        "separator": "\n",
+        "type": "CONTINUATION",
+        "value": "Newline continuation",
+        "length": 22
+    },
+    {
+        "index": 182,
+        "line": 13,
+        "type": "NOOP",
+        "length": 0
+    },
+    {
+        "index": 183,
+        "line": 14,
+        "name": "Empty field",
+        "ranges": {
+            "name_operator": [
+                11,
+                12
+            ],
+            "name": [
+                0,
+                11
+            ]
+        },
+        "type": "FIELD",
+        "length": 12,
+        "subinstructions": [
+            {
+                "index": 196,
+                "line": 15,
+                "ranges": {
+                    "line_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        19
+                    ]
+                },
+                "separator": " ",
+                "type": "CONTINUATION",
+                "value": "Line continuation",
+                "length": 19
+            },
+            {
+                "index": 216,
+                "line": 16,
+                "ranges": {
+                    "newline_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        22
+                    ]
+                },
+                "separator": "\n",
+                "type": "CONTINUATION",
+                "value": "Newline continuation",
+                "length": 22
+            }
+        ]
+    },
+    {
+        "index": 196,
+        "line": 15,
+        "ranges": {
+            "line_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                19
+            ]
+        },
+        "separator": " ",
+        "type": "CONTINUATION",
+        "value": "Line continuation",
+        "length": 19
+    },
+    {
+        "index": 216,
+        "line": 16,
+        "ranges": {
+            "newline_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                22
+            ]
+        },
+        "separator": "\n",
+        "type": "CONTINUATION",
+        "value": "Newline continuation",
+        "length": 22
+    },
+    {
+        "index": 239,
+        "line": 17,
+        "type": "NOOP",
+        "length": 0
+    },
+    {
+        "index": 240,
+        "line": 18,
+        "name": "Fieldset with empty entry",
+        "ranges": {
+            "name_operator": [
+                25,
+                26
+            ],
+            "name": [
+                0,
+                25
+            ]
+        },
+        "type": "FIELDSET",
+        "length": 26,
+        "subinstructions": [
+            {
+                "index": 267,
+                "line": 19,
+                "name": "Empty entry",
+                "ranges": {
+                    "entry_operator": [
+                        12,
+                        13
+                    ],
+                    "name": [
+                        0,
+                        11
+                    ]
+                },
+                "type": "FIELDSET_ENTRY",
+                "length": 13,
+                "subinstructions": [
+                    {
+                        "index": 281,
+                        "line": 20,
+                        "ranges": {
+                            "line_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                19
+                            ]
+                        },
+                        "separator": " ",
+                        "type": "CONTINUATION",
+                        "value": "Line continuation",
+                        "length": 19
+                    },
+                    {
+                        "index": 301,
+                        "line": 21,
+                        "ranges": {
+                            "newline_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                22
+                            ]
+                        },
+                        "separator": "\n",
+                        "type": "CONTINUATION",
+                        "value": "Newline continuation",
+                        "length": 22
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "index": 267,
+        "line": 19,
+        "name": "Empty entry",
+        "ranges": {
+            "entry_operator": [
+                12,
+                13
+            ],
+            "name": [
+                0,
+                11
+            ]
+        },
+        "type": "FIELDSET_ENTRY",
+        "length": 13,
+        "subinstructions": [
+            {
+                "index": 281,
+                "line": 20,
+                "ranges": {
+                    "line_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        19
+                    ]
+                },
+                "separator": " ",
+                "type": "CONTINUATION",
+                "value": "Line continuation",
+                "length": 19
+            },
+            {
+                "index": 301,
+                "line": 21,
+                "ranges": {
+                    "newline_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        22
+                    ]
+                },
+                "separator": "\n",
+                "type": "CONTINUATION",
+                "value": "Newline continuation",
+                "length": 22
+            }
+        ]
+    },
+    {
+        "index": 281,
+        "line": 20,
+        "ranges": {
+            "line_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                19
+            ]
+        },
+        "separator": " ",
+        "type": "CONTINUATION",
+        "value": "Line continuation",
+        "length": 19
+    },
+    {
+        "index": 301,
+        "line": 21,
+        "ranges": {
+            "newline_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                22
+            ]
+        },
+        "separator": "\n",
+        "type": "CONTINUATION",
+        "value": "Newline continuation",
+        "length": 22
+    },
+    {
+        "index": 324,
+        "line": 22,
+        "type": "NOOP",
+        "length": 0
+    },
+    {
+        "index": 325,
+        "line": 23,
+        "name": "List with empty item",
+        "ranges": {
+            "name_operator": [
+                20,
+                21
+            ],
+            "name": [
+                0,
+                20
+            ]
+        },
+        "type": "LIST",
+        "length": 21,
+        "subinstructions": [
+            {
+                "index": 347,
+                "line": 24,
+                "ranges": {
+                    "item_operator": [
+                        0,
+                        1
+                    ]
+                },
+                "type": "LIST_ITEM",
+                "value": null,
+                "length": 1,
+                "name": "List with empty item",
+                "subinstructions": [
+                    {
+                        "index": 349,
+                        "line": 25,
+                        "ranges": {
+                            "line_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                19
+                            ]
+                        },
+                        "separator": " ",
+                        "type": "CONTINUATION",
+                        "value": "Line continuation",
+                        "length": 19
+                    },
+                    {
+                        "index": 369,
+                        "line": 26,
+                        "ranges": {
+                            "newline_continuation_operator": [
+                                0,
+                                1
+                            ],
+                            "value": [
+                                2,
+                                22
+                            ]
+                        },
+                        "separator": "\n",
+                        "type": "CONTINUATION",
+                        "value": "Newline continuation",
+                        "length": 22
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "index": 347,
+        "line": 24,
+        "ranges": {
+            "item_operator": [
+                0,
+                1
+            ]
+        },
+        "type": "LIST_ITEM",
+        "value": null,
+        "length": 1,
+        "name": "List with empty item",
+        "subinstructions": [
+            {
+                "index": 349,
+                "line": 25,
+                "ranges": {
+                    "line_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        19
+                    ]
+                },
+                "separator": " ",
+                "type": "CONTINUATION",
+                "value": "Line continuation",
+                "length": 19
+            },
+            {
+                "index": 369,
+                "line": 26,
+                "ranges": {
+                    "newline_continuation_operator": [
+                        0,
+                        1
+                    ],
+                    "value": [
+                        2,
+                        22
+                    ]
+                },
+                "separator": "\n",
+                "type": "CONTINUATION",
+                "value": "Newline continuation",
+                "length": 22
+            }
+        ]
+    },
+    {
+        "index": 349,
+        "line": 25,
+        "ranges": {
+            "line_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                19
+            ]
+        },
+        "separator": " ",
+        "type": "CONTINUATION",
+        "value": "Line continuation",
+        "length": 19
+    },
+    {
+        "index": 369,
+        "line": 26,
+        "ranges": {
+            "newline_continuation_operator": [
+                0,
+                1
+            ],
+            "value": [
+                2,
+                22
+            ]
+        },
+        "separator": "\n",
+        "type": "CONTINUATION",
+        "value": "Newline continuation",
+        "length": 22
+    }
+]
