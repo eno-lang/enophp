@@ -3,13 +3,41 @@
 use Eno\Field;
 
 describe('Field', function() {
-  given('_context', function() { return (object) []; });
-  given('instruction', function() { return (object) [ 'name' => 'language', 'value' => 'eno' ]; });
-  given('instruction_named_valueless', function() { return (object) [ 'name' => 'language', 'value' => null ]; });
-  given('instruction_unnamed_value', function() { return (object) [ 'name' => null, 'value' => 'eno' ]; });
-  given('instruction_unnamed_long_value', function() { return (object) [ 'name' => null, 'value' => 'The language is eno' ]; });
-  given('instruction_void', function() { return (object) [ 'name' => null, 'value' => null ]; });
-  given('parent', function() { return (object) []; });
+  beforeAll(function() {
+    $this->_context = (object) [];
+    $this->instruction = (object) [
+      'name' => 'language',
+      'subinstructions' => [],
+      'type' => 'FIELD',
+      'value' => 'eno'
+    ];
+    $this->instruction_named_valueless = (object) [
+      'name' => 'language',
+      'subinstructions' => [],
+      'type' => 'FIELD',
+      'value' => null
+    ];
+    $this->instruction_unnamed_value = (object) [
+      'name' => null,
+      'subinstructions' => [],
+      'type' => 'FIELD',
+      'value' => 'eno'
+    ];
+    $this->instruction_unnamed_long_value = (object) [
+      'name' => null,
+      'subinstructions' => [],
+      'type' => 'FIELD',
+      'value' => 'The language is eno'
+    ];
+    $this->instruction_void = (object) [
+      'name' => null,
+      'subinstructions' => [],
+      'type' => 'FIELD',
+      'value' => null
+    ];
+    $this->parent = (object) [];
+  });
+
 
   beforeEach(function() {
     $this->field = new Field($this->_context, $this->instruction, $this->parent);

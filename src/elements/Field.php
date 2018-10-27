@@ -4,7 +4,6 @@ namespace Eno;
 
 class Field {
   public $touched;
-  private $value = null;
 
   function __construct($context, $instruction, $parent, $from_empty = false) {
     $this->context = $context;
@@ -19,7 +18,48 @@ class Field {
 
     $instruction->element = $this;
 
-    // ... TODO
+    if($instruction->type == 'BLOCK' && array_key_exists('content_range', $instruction)) {
+      $this->value = substr($context->input, $instruction['content_range'][0], $instruction['content_range'][1] + 1);
+
+      foreach($instruction->subinstructions as $subinstruction) {
+        $subinstruction->element = $this;
+      }
+    } else if($instruction->subinstructions) {
+      $unresolved_newlines = 0;
+
+      foreach($instruction->subinstructions as $subinstruction) {
+        $subinstruction->element = $this;
+
+        if($subinstruction->type == 'CONTINUATION') {
+          if($this->value === null) {
+            $this->value = $subinstruction->value;
+          } else {
+            if($subinstruction->value === null) {
+              if($subinstruction->separator === "\n") {
+                $unresolved_newlines++;
+              }
+            } else {
+              if($unresolved_newlines > 0) {
+                $this->value .= str_repeat("\n", $unresolved_newlines);
+                $unresolved_newlines = 0;
+              }
+
+              $this->value .= $subinstruction->separator . $subinstruction->value;
+            }
+          }
+          continue;
+        } else if($subinstruction->type == 'BLOCK' && array_key_exists('content_range', $subinstruction)) {
+          // blocks can only appear as a subinstruction when they are copied,
+          // and as a copy they always appear as the first subinstruction,
+          // that is why write to value straight without any checks->
+          $this->value = substr(
+            $context->input,
+            $subinstruction['content_range'][0],
+            $subinstruction['content_range'][1] + 1
+          );
+        }
+      }
+    }
   }
 
   public function __toString() {
@@ -42,11 +82,11 @@ class Field {
     }
   }
 
-  function isEmpty() {
+  public function isEmpty() {
     return $this->value === null;
   }
 
-  function raw() {
+  public function raw() {
     if($this->name === null) {
       return $this->value;
     } else {
@@ -54,7 +94,12 @@ class Field {
     }
   }
 
-  function touch() {
+  public function touch() {
     $this->touched = true;
+  }
+
+  public function value() {
+    return $this->value;
+    // TODO ...
   }
 }

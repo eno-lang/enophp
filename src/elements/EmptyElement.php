@@ -4,7 +4,6 @@ namespace Eno;
 
 class EmptyElement {
   public $touched;
-  private $value = null;
 
   function __construct($context, $instruction, $parent) {
     $this->context = $context;
@@ -20,19 +19,19 @@ class EmptyElement {
     return "[EmptyElement name=\"{$this->name}\"]";
   }
 
-  function error($message) {
+  public function error($message) {
     // TODO
   }
 
-  function raw() {
+  public function raw() {
     return [ $this->name => null ];
   }
 
-  function touch() {
+  public function touch() {
     $this->touched = true;
   }
 
-  function value() {
+  public function value() {
     $this->touched = true;
     return null;
   }

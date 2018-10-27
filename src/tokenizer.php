@@ -164,6 +164,9 @@ function tokenize($context)
         $value = $match[$FIELDSET_ENTRY_VALUE_INDEX][0];
         $value_column = $match[$FIELDSET_ENTRY_VALUE_INDEX][1] - $index;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
+        $instruction->value = $value;
+      } else {
+        $instruction->value = null;
       }
 
     } else if(isset($match[$LINE_CONTINUATION_OPERATOR_INDEX][0])) {

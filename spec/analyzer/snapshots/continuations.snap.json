@@ -137,6 +137,7 @@
                     ]
                 },
                 "type": "FIELDSET_ENTRY",
+                "value": "Value",
                 "length": 13,
                 "subinstructions": [
                     {
@@ -198,6 +199,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": "Value",
         "length": 13,
         "subinstructions": [
             {
@@ -582,6 +584,7 @@
                     ]
                 },
                 "type": "FIELDSET_ENTRY",
+                "value": null,
                 "length": 13,
                 "subinstructions": [
                     {
@@ -639,6 +642,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": null,
         "length": 13,
         "subinstructions": [
             {

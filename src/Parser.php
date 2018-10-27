@@ -1,6 +1,7 @@
 <?php
 
 namespace Eno;
+use Eno\Section;
 
 require_once('analyzer.php'); // TODO: Class (?)
 require_once('tokenizer.php'); // TODO: Class (?)
@@ -36,6 +37,8 @@ class Parser {
     analyze($context);
     resolve($context);
 
-    return 'TODO';
+    $context->document = new Section($context, $context->document_instruction, null);
+
+    return $context->document;
   }
 }

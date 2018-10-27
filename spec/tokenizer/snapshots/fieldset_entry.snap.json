@@ -18,6 +18,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": "value",
         "length": 13
     },
     {
@@ -39,6 +40,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": "value",
         "length": 16
     },
     {
@@ -60,6 +62,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": "value",
         "length": 17
     },
     {
@@ -81,6 +84,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": "value",
         "length": 20
     },
     {
@@ -102,6 +106,7 @@
             ]
         },
         "type": "FIELDSET_ENTRY",
+        "value": "value",
         "length": 23
     }
 ]
