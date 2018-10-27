@@ -4,6 +4,7 @@ namespace Eno;
 
 require_once('analyzer.php'); // TODO: Class (?)
 require_once('tokenizer.php'); // TODO: Class (?)
+require_once('resolver.php'); // TODO: Class (?)
 
 class Parser {
   public static function parse($input, $locale = 'en', $reporter = null) {
@@ -33,6 +34,7 @@ class Parser {
 
     tokenize($context);
     analyze($context);
+    resolve($context);
 
     return 'TODO';
   }
