@@ -200,6 +200,7 @@ function analyze($context) {
 
       if($last_name_instruction->type == 'NAME') {
         $last_name_instruction->type = 'FIELD';
+        $last_name_instruction->value = null;
       }
 
       $last_continuable_instruction->subinstructions[] = $instruction;

@@ -1,6 +1,6 @@
 <?php
 
-use Eno\Field;
+use Eno\{Field, Parser};
 
 describe('Field', function() {
   beforeAll(function() {
@@ -112,5 +112,63 @@ describe('Field', function() {
       });
     });
   });
-});
 
+  describe('value()', function() {
+    describe('without a loader', function() {
+      beforeEach(function() {
+        $this->value = $this->field->value();
+      });
+
+      it('returns the value', function() {
+        expect($this->value)->toEqual('eno');
+      });
+
+      it('touches the element', function() {
+        expect($this->field->touched)->toBe(true);
+      });
+    });
+
+    describe('with a loader closure', function() {
+      beforeEach(function() {
+        $this->result = $this->field->value(function($context, $name, $value) {
+          return strtoupper($value);
+        });
+      });
+
+      it('applies the loader', function() {
+        expect($this->result)->toEqual('ENO');
+      });
+
+      it('touches the element', function() {
+        expect($this->field->touched)->toBe(true);
+      });
+    });
+
+    describe('with enforce_value', function() {
+      beforeEach(function() {
+        $input = <<<DOC
+language:
+|
+DOC;
+
+        $this->empty_field = Parser::parse($input)->element('language');
+      });
+
+      describe('when not set', function() {
+        it('returns null', function() {
+          expect($this->empty_field->value())->toBe(null);
+        });
+      });
+
+      describe('when set to true', function() {
+        it('throws an error', function() {
+          $error = interceptValidationError(function() {
+            $_ = $this->empty_field->value(null, true);
+          });
+
+          expect($error)->toMatchErrorSnapshot('spec/elements/snapshots/field_value_with_enforce_value.snap.error');
+        });
+      });
+    });
+  });
+});

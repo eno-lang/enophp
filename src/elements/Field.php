@@ -1,6 +1,7 @@
 <?php
 
 namespace Eno;
+use Eno\Errors\Validation;
 
 class Field {
   public $touched;
@@ -82,6 +83,14 @@ class Field {
     }
   }
 
+  public function error($message = null) {
+    if(!is_string($message) && is_callable($message)) {
+      $message = $message($this->name, $this->value);
+    }
+
+    return Validation::valueError($this->context, $message, $this->instruction);
+  }
+
   public function isEmpty() {
     return $this->value === null;
   }
@@ -98,8 +107,26 @@ class Field {
     $this->touched = true;
   }
 
-  public function value() {
-    return $this->value;
-    // TODO ...
+  public function value($loader = null, $enforce_value = false) {
+    $this->touched = true;
+
+    if($this->value !== null) {
+      if($loader) {
+        try {
+          // TODO: What to do with $context, method signature, etc.?
+          return $loader($this->context, $this->name, $this->value);
+        } catch(Exception $e) {
+          throw Validation::valueError($this->context, $e->getMessage(), $this->instruction);
+        }
+      }
+
+      return $this->value;
+    } else {
+      if($enforce_value) {
+        throw Validation::missingValue($this->context, $this->instruction);
+      }
+
+      return null;
+    }
   }
 }
