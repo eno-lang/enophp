@@ -1,6 +1,7 @@
 <?php
 
 namespace Eno;
+use Eno\Errors\Validation;
 
 class Section {
   public $touched;
@@ -46,6 +47,35 @@ class Section {
         $append(new Section($context, $subinstruction, $this));
       }
     }
+  }
+
+  // TODO: 'options.required' was not kept here (only enforce_element)
+  //       Consider how to deal with this generally in enophp
+  public function element($name, $enforce_element = true) {
+    $this->touched = true;
+
+    if(!array_key_exists($name, $this->elements_associative)) {
+      if($enforce_element)
+        throw Validation::missingElement($this->context, $name, $this->instruction);
+
+      return null;
+    }
+
+    $elements = $this->elements_associative[$name];
+
+    if(count($elements) > 1) {
+      throw Validation::expectedElementGotElements(
+        $this->context,
+        $name,
+        array_map(function($element) { return $element->instruction; }, $elements)
+      );
+    }
+
+    $element = $elements[0];
+
+    $element->touch();
+
+    return $element;
   }
 
   public function raw() {
