@@ -1,6 +1,7 @@
 <?php
 
 namespace Eno;
+use Eno\Errors\Validation;
 
 class EmptyElement {
   public $touched;
@@ -19,8 +20,12 @@ class EmptyElement {
     return "[EmptyElement name=\"{$this->name}\"]";
   }
 
-  public function error($message) {
-    // TODO
+  public function error($message = null) {
+    if(!is_string($message) && is_callable($message)) {
+      $message = $message($this->name, null);
+    }
+
+    return Validation::valueError($this->context, $message, $this->instruction);
   }
 
   public function raw() {
