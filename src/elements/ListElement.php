@@ -29,7 +29,7 @@ class ListElement {
   }
 
   public function __toString() {
-    return "[object List name=\"{$this->name}\" items={count($this->items)}]";
+    return "[List name=\"{$this->name}\" items={count($this->items)}]";
   }
 
   public function elements() {
