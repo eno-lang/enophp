@@ -3,9 +3,11 @@
 use Eno\EmptyElement;
 
 describe('EmptyElement', function() {
-  given('_context', function() { return (object) []; });
-  given('instruction', function() { return (object) [ 'name' => 'language' ]; });
-  given('parent', function() { return (object) []; });
+  beforeAll(function() {
+    $this->_context = (object) [];
+    $this->instruction = (object) [ 'name' => 'language' ];
+    $this->parent = (object) [];
+  });
 
   beforeEach(function() {
     $this->empty = new EmptyElement($this->_context, $this->instruction, $this->parent);
@@ -15,7 +17,7 @@ describe('EmptyElement', function() {
     expect($this->empty->touched)->toBe(false);
   });
 
-  describe('raw', function() {
+  describe('raw()', function() {
     it('returns a native object representation', function() {
       expect($this->empty->raw())->toEqual([ 'language' => null ]);
     });
@@ -35,12 +37,15 @@ describe('EmptyElement', function() {
   });
 
   describe('value()', function() {
+    beforeEach(function() {
+      $this->value = $this->empty->value();
+    });
+
     it('returns null', function() {
-      expect($this->empty->value())->toBe(null);
+      expect($this->value)->toBe(null);
     });
 
     it('touches the element', function() {
-      $_ = $this->empty->value();
       expect($this->empty->touched)->toBe(true);
     });
   });
