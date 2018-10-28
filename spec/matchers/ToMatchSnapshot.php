@@ -6,8 +6,7 @@ class ToMatchSnapshot
 {
   public static $_description = [];
 
-  public static function match($actual, $snapshot_file)
-  {
+  public static function match($actual, string $snapshot_file) {
     $extension = pathinfo($snapshot_file, PATHINFO_EXTENSION);
     $snapshot = @file_get_contents($snapshot_file);
 
@@ -41,7 +40,7 @@ class ToMatchSnapshot
     }
   }
 
-  public static function _buildDescription($actual, $expected, $diff_file = null)
+  public static function _buildDescription($actual, $expected, string $diff_file = null)
   {
       $description = "match the content of the stored snapshot file.";
       $data['actual'] = $actual;

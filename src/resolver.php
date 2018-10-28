@@ -2,9 +2,8 @@
 
 use Eno\Errors\Resolution;
 
-function consolidate($context, $instruction, $template) {
+function consolidate(stdClass $context, stdClass $instruction, stdClass $template) : void {
   if($instruction->type == 'SECTION') {
-
     if($template->type == 'SECTION') {
       mergeSections($instruction, $template, $instruction->deep_copy);
     }
@@ -115,16 +114,15 @@ function consolidate($context, $instruction, $template) {
     if($template->type == 'SECTION') {
       throw Resolution::copyingSectionIntoField($context, $instruction);
     }
-
   }
 }
 
-function copyBlock($instruction, $template) {
+function copyBlock(stdClass $instruction, stdClass $template) : void {
   $cloned = clone $template;
   array_unshift($instruction->subinstructions, $cloned);
 }
 
-function copyField($instruction, $template) {
+function copyField(stdClass $instruction, stdClass $template) : void {
   if($template->value) {
     array_unshift($instruction->subinstructions, (object) [
       'index' => $template->index,
@@ -140,7 +138,7 @@ function copyField($instruction, $template) {
   copyGeneric($instruction, $template);
 }
 
-function copyGeneric($instruction, $template) {
+function copyGeneric(stdClass $instruction, stdClass $template) : void {
   for(end($template->subinstructions); key($template->subinstructions) !== null; prev($template->subinstructions)) {
     $template_subinstruction = current($template->subinstructions);
 
@@ -152,7 +150,7 @@ function copyGeneric($instruction, $template) {
   }
 }
 
-function mergeFieldsets($instruction, $template) {
+function mergeFieldsets(stdClass $instruction, stdClass $template) : void {
   $existing_entry_names = [];
   foreach($instruction->subinstructions as $subinstruction) {
     if($subinstruction->type == 'FIELDSET_ENTRY') {
@@ -173,7 +171,7 @@ function mergeFieldsets($instruction, $template) {
   }
 }
 
-function mergeSections($instruction, $template, $deep_merge) {
+function mergeSections(stdClass $instruction, stdClass $template, bool $deep_merge) : void {
   $existing_subinstructions_name_index = [];
 
   for(end($template->subinstructions); key($template->subinstructions) !== null; prev($template->subinstructions)) {
@@ -228,7 +226,7 @@ function mergeSections($instruction, $template, $deep_merge) {
   }
 }
 
-function recursiveResolve($context, $instruction, $previous_instructions = []) {
+function recursiveResolve(stdClass $context, stdClass $instruction, array $previous_instructions = []) : void {
   if($instruction->type == 'NOOP') return;
 
   if(in_array($instruction, $previous_instructions)) {
@@ -264,7 +262,7 @@ function recursiveResolve($context, $instruction, $previous_instructions = []) {
   }
 }
 
-function resolve($context) {
+function resolve(stdClass $context) : void {
   while(count($context->unresolved_instructions) > 0) {
     recursiveResolve($context, $context->unresolved_instructions[0]);
   }

@@ -2,13 +2,14 @@
 
 namespace Eno;
 use Eno\Section;
+use Eno\Reporters\Reporter;
 
 require_once('analyzer.php'); // TODO: Class (?)
 require_once('tokenizer.php'); // TODO: Class (?)
 require_once('resolver.php'); // TODO: Class (?)
 
 class Parser {
-  public static function parse($input, $locale = 'en', $reporter = null) {
+  public static function parse(string $input, string $locale = 'en', Reporter $reporter = null) : Section {
     $context = (object) [];
 
     $context->locale = $locale;

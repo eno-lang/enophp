@@ -1,14 +1,15 @@
 <?php
 
 namespace Eno\Reporters;
+use \stdClass;
 
 class Text implements Reporter {
-  static public function report($context, $emphasized = [], $marked = []) {
-    if($emphasized instanceof \stdClass) {
+  static public function report(stdClass $context, $emphasized = [], $marked = []) : string {
+    if($emphasized instanceof stdClass) {
       $emphasized = [$emphasized];
     }
 
-    if($marked instanceOf \stdClass) {
+    if($marked instanceOf stdClass) {
       $marked = [$marked];
     }
 

@@ -2,10 +2,11 @@
 
 namespace Eno\Errors;
 use Eno\ParseError;
+use \stdClass;
 
 class Analysis {
 
-  public static function fieldsetEntryInField($context, $entry_instruction, $field_instruction) {
+  public static function fieldsetEntryInField(stdClass $context, stdClass $entry_instruction, stdClass $field_instruction) : ParseError {
     $message = $context->messages['analysis']['fieldset_entry_in_field'](
       $entry_instruction->line + $context->indexing
     );
@@ -21,7 +22,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function fieldsetEntryInList($context, $entry_instruction, $list_instruction) {
+  public static function fieldsetEntryInList(stdClass $context, stdClass $entry_instruction, stdClass $list_instruction) : ParseError {
     $message = $context->messages['analysis']['fieldset_entry_in_list'](
       $entry_instruction->line + $context->indexing
     );
@@ -37,7 +38,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function duplicateFieldsetEntryName($context, $fieldset_instruction, $entry_instruction) {
+  public static function duplicateFieldsetEntryName(stdClass $context, stdClass $fieldset_instruction, stdClass $entry_instruction) : ParseError {
     $previous_entry_instruction = null;
     foreach($fieldset_instruction->subinstructions as $instruction) {
       if($instruction->name === $entry_instruction->name) {
@@ -63,7 +64,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function listItemInField($context, $item_instruction, $field_instruction) {
+  public static function listItemInField(stdClass $context, stdClass $item_instruction, stdClass $field_instruction) : ParseError {
     $message = $context->messages['analysis']['list_item_in_field'](
       $item_instruction->line + $context->indexing
     );
@@ -79,7 +80,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function listItemInFieldset($context, $item_instruction, $fieldset_instruction) {
+  public static function listItemInFieldset(stdClass $context, stdClass $item_instruction, stdClass $fieldset_instruction) : ParseError {
     $message = $context->messages['analysis']['list_item_in_fieldset'](
       $item_instruction->line + $context->indexing
     );
@@ -95,7 +96,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function missingElementForContinuation($context, $instruction) {
+  public static function missingElementForContinuation(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['analysis']['missing_element_for_continuation'](
       $instruction->line + $context->indexing
     );
@@ -110,7 +111,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function missingNameForFieldsetEntry($context, $instruction) {
+  public static function missingNameForFieldsetEntry(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['analysis']['missing_name_for_fieldset_entry'](
       $instruction->line + $context->indexing
     );
@@ -125,7 +126,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function missingNameForListItem($context, $instruction) {
+  public static function missingNameForListItem(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['analysis']['missing_name_for_list_item'](
       $instruction->line + $context->indexing
     );
@@ -140,7 +141,7 @@ class Analysis {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function sectionHierarchyLayerSkip($context, $section_instruction, $super_section_instruction) {
+  public static function sectionHierarchyLayerSkip(stdClass $context, stdClass $section_instruction, stdClass $super_section_instruction) : ParseError {
     $message = $context->messages['analysis']['section_hierarchy_layer_skip'](
       $section_instruction->line + $context->indexing
     );

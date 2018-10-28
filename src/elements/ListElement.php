@@ -1,11 +1,13 @@
 <?php
 
 namespace Eno;
+use Eno\ValidationError;
+use \stdClass;
 
 class ListElement {
   public $touched;
 
-  function __construct($context, $instruction, $parent, $from_empty = false) {
+  function __construct(stdClass $context, stdClass $instruction, Section $parent, bool $from_empty = false) {
     $this->context = $context;
     $this->instruction = $instruction;
     $this->name = $instruction->name;
@@ -28,17 +30,17 @@ class ListElement {
     }
   }
 
-  public function __toString() {
+  public function __toString() : string {
     return "[List name=\"{$this->name}\" items={count($this->items)}]";
   }
 
-  public function elements() {
+  public function elements() : array {
     $this->touched = true;
     return $this->items;
   }
 
   // TODO: Think of something for all the method signatures, let's use this opportunity to think about methods and signatures for eno in general again
-  public function items($loader = null, $enforce_values = true, $with_elements = false, $return_elements = false) {
+  public function items(callable $loader = null, bool $enforce_values = true, bool $with_elements = false, bool $return_elements = false) : array {
     $this->touched = true;
 
     if($return_elements)
@@ -62,11 +64,11 @@ class ListElement {
     );
   }
 
-  public function length() {
+  public function length() : int {
     return count($this->items);
   }
 
-  public function raw() {
+  public function raw() : array {
     return [
       $this->name => array_map(
         function($item) { return $item->value(); },
@@ -75,7 +77,7 @@ class ListElement {
     ];
   }
 
-  public function touch($items = false) {
+  public function touch(bool $items = false) : void {
     $this->touched = true;
 
     if($items) {

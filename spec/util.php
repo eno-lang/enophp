@@ -2,7 +2,7 @@
 
 use Eno\{ParseError, ValidationError};
 
-function interceptParseError($callback) {
+function interceptParseError(callable $callback) : ParseError {
   $error = null;
 
   try {
@@ -18,7 +18,7 @@ function interceptParseError($callback) {
   return $error;
 }
 
-function interceptValidationError($callback) {
+function interceptValidationError(callable $callback) : ValidationError {
   $error = null;
 
   try {

@@ -1,9 +1,10 @@
 <?php
 
 namespace Eno\Reporters;
+use \stdClass;
 
 class HTML implements Reporter  {
-  static private function line($gutter, $content, $classes = []) {
+  static private function line(string $gutter, string $content, array $classes = []) : string {
     $joined_classes = join(' ', $classes);
     $padded_gutter = str_pad($gutter, 10, ' ', STR_PAD_LEFT);
     $escaped_content = htmlspecialchars($content, ENT_QUOTES);
@@ -16,12 +17,12 @@ class HTML implements Reporter  {
     return $result;
   }
 
-  static public function report($context, $emphasized = [], $marked = []) {
-    if($emphasized instanceof \stdClass) {
+  static public function report(stdClass $context, $emphasized = [], $marked = []) : string {
+    if($emphasized instanceof stdClass) {
       $emphasized = [$emphasized];
     }
 
-    if($marked instanceOf \stdClass) {
+    if($marked instanceOf stdClass) {
       $marked = [$marked];
     }
 

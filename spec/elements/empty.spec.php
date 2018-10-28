@@ -1,12 +1,17 @@
 <?php
 
-use Eno\EmptyElement;
+use Eno\{EmptyElement, Section};
 
 describe('EmptyElement', function() {
   beforeAll(function() {
     $this->_context = (object) [];
     $this->instruction = (object) [ 'name' => 'language' ];
-    $this->parent = (object) [];
+    $this->section_instruction = (object) [
+      'depth' => 0,
+      'name' => 'mock',
+      'subinstructions' => []
+    ];
+    $this->parent = new Section($this->_context, $this->section_instruction, null);
   });
 
   beforeEach(function() {

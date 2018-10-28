@@ -10,7 +10,7 @@ class Error extends Exception {
   public $snippet;
   public $text;
 
-  public function __construct($text, $snippet, $selection) {
+  public function __construct(string $text, string $snippet, array $selection) {
     $this->cursor = $selection[0];
     $this->message = $text . "\n\n" . $snippet;
     $this->selection = $selection;

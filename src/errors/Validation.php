@@ -2,8 +2,9 @@
 
 namespace Eno\Errors;
 use Eno\ValidationError;
+use \stdClass;
 
-function deepExpandInstruction($instruction) {
+function deepExpandInstruction(stdClass $instruction) : array {
   $result = [$instruction];
 
   if(array_key_exists('subinstructions', $instruction)) {
@@ -15,7 +16,7 @@ function deepExpandInstruction($instruction) {
   return $result;
 }
 
-function expandInstructions($instructions) {
+function expandInstructions(stdClass $instructions) : array {
   $result = [];
 
   foreach($instructions as $instruction) {
@@ -30,7 +31,7 @@ function expandInstructions($instructions) {
 }
 
 class Validation {
-  public static function exactCountNotMet($context, $instruction, $exact_count) {
+  public static function exactCountNotMet(stdClass $context, stdClass $instruction, int $exact_count) : ValidationError {
     $message = $context->messages['validation']['exact_count_not_met'](
       $instruction->name,
       array_key_exists('subinstructions', $instruction) ? count($instruction->subinstructions) : 0,
@@ -57,7 +58,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function excessName($context, $message, $instruction) {
+  public static function excessName(stdClass $context, string $message, stdClass $instruction) : ValidationError {
     if($message === null) {
       $message = $context->messages['validation']['excess_name']($instruction->name);
     }
@@ -76,7 +77,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetsGotField($context, $instruction) {
+  public static function expectedFieldsetsGotField(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fieldsets_got_field']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -92,7 +93,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetsGotList($context, $instruction) {
+  public static function expectedFieldsetsGotList(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fieldsets_got_list']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -108,7 +109,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetsGotSection($context, $instruction) {
+  public static function expectedFieldsetsGotSection(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fieldsets_got_section']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -124,7 +125,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetGotFieldsets($context, $name, $instructions) {
+  public static function expectedFieldsetGotFieldsets(stdClass $context, string $name, array $instructions) : ValidationError {
     $expanded_instructions = expandInstructions(instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
@@ -140,7 +141,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetGotField($context, $instruction) {
+  public static function expectedFieldsetGotField(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fieldset_got_field']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -156,7 +157,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetGotList($context, $instruction) {
+  public static function expectedFieldsetGotList(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fieldset_got_list']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -172,7 +173,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsetGotSection($context, $instruction) {
+  public static function expectedFieldsetGotSection(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fieldset_got_section']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -188,7 +189,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedElementGotElements($context, $name, $instructions) {
+  public static function expectedElementGotElements(stdClass $context, string $name, array $instructions) : ValidationError {
     $expanded_instructions = expandInstructions(instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
@@ -204,7 +205,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldGotFieldset($context, $instruction) {
+  public static function expectedFieldGotFieldset(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_field_got_fieldset']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -220,7 +221,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldGotList($context, $instruction) {
+  public static function expectedFieldGotList(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_field_got_list']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -236,7 +237,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldGotFields($context, $name, $instructions) {
+  public static function expectedFieldGotFields(stdClass $context, string $name, array $instructions) : ValidationError {
     $expanded_instructions = expandInstructions(instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
@@ -252,7 +253,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldGotSection($context, $instruction) {
+  public static function expectedFieldGotSection(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_field_got_section']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -268,7 +269,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsGotFieldset($context, $instruction) {
+  public static function expectedFieldsGotFieldset(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fields_got_fieldset']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -284,7 +285,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsGotList($context, $instruction) {
+  public static function expectedFieldsGotList(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fields_got_list']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -300,7 +301,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedFieldsGotSection($context, $instruction) {
+  public static function expectedFieldsGotSection(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_fields_got_section']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -316,7 +317,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListGotFieldset($context, $instruction) {
+  public static function expectedListGotFieldset(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_list_got_fieldset']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -332,7 +333,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListGotField($context, $instruction) {
+  public static function expectedListGotField(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_list_got_field']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -348,7 +349,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListGotLists($context, $name, $instructions) {
+  public static function expectedListGotLists(stdClass $context, string $name, array $instructions) : ValidationError {
     $expanded_instructions = expandInstructions(instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
@@ -364,7 +365,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListGotSection($context, $instruction) {
+  public static function expectedListGotSection(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_list_got_section']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -380,7 +381,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListsGotFieldset($context, $instruction) {
+  public static function expectedListsGotFieldset(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_lists_got_fieldset']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -396,7 +397,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListsGotField($context, $instruction) {
+  public static function expectedListsGotField(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_lists_got_field']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -412,7 +413,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedListsGotSection($context, $instruction) {
+  public static function expectedListsGotSection(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_lists_got_section']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -428,7 +429,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionGotFieldset($context, $instruction) {
+  public static function expectedSectionGotFieldset(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_section_got_fieldset']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -444,7 +445,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionGotEmpty($context, $instruction) {
+  public static function expectedSectionGotEmpty(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_section_got_empty']($instruction->name);
 
     $snippet = $context->reporter::report($context, $instruction);
@@ -457,7 +458,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionGotField($context, $instruction) {
+  public static function expectedSectionGotField(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_section_got_field']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -473,7 +474,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionGotList($context, $instruction) {
+  public static function expectedSectionGotList(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_section_got_list']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -489,7 +490,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionGotSections($context, $name, $instructions) {
+  public static function expectedSectionGotSections(stdClass $context, string $name, array $instructions) : ValidationError {
     $expanded_instructions = expandInstructions(instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
@@ -505,7 +506,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionsGotFieldset($context, $instruction) {
+  public static function expectedSectionsGotFieldset(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_sections_got_fieldset']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -521,7 +522,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionsGotEmpty($context, $instruction) {
+  public static function expectedSectionsGotEmpty(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_sections_got_empty']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -537,7 +538,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionsGotField($context, $instruction) {
+  public static function expectedSectionsGotField(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_sections_got_field']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -553,7 +554,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function expectedSectionsGotList($context, $instruction) {
+  public static function expectedSectionsGotList(stdClass $context, stdClass $instruction) : ValidationError {
     $message = $context->messages['validation']['expected_sections_got_list']($instruction->name);
 
     $snippet = $context->reporter::report($context, array_merge([$instruction], $instruction->subinstructions));
@@ -569,7 +570,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function maxCountNotMet($context, $instruction, $max_count) {
+  public static function maxCountNotMet(stdClass $context, stdClass $instruction, int $max_count) : ValidationError {
     $message = $context->messages['validation']['max_count_not_met'](
       $instruction->name,
       array_key_exists('subinstructions', $instruction) ? count($instruction->subinstructions) : 0,
@@ -596,7 +597,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function minCountNotMet($context, $instruction, $min_count) {
+  public static function minCountNotMet(stdClass $context, stdClass $instruction, int $min_count) : ValidationError {
     $message = $context->messages['validation']['min_count_not_met'](
       $instruction->name,
       array_key_exists('subinstructions', $instruction) ? count($instruction->subinstructions) : 0,
@@ -625,7 +626,7 @@ class Validation {
 
   // TODO: Exclude sections within sections for all the missing* errors (except missingFieldsetEntry)
 
-  public static function missingFieldset($context, $name, $section_instruction) {
+  public static function missingFieldset(stdClass $context, string $name, stdClass $section_instruction) : ValidationError {
     $message = $context->messages['validation']['missing_fieldset']($name);
 
     $snippet = $context->reporter::report($context, $section_instruction, deepExpandInstruction($section_instruction));
@@ -638,7 +639,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function missingFieldsetEntry($context, $name, $fieldset_instruction) {
+  public static function missingFieldsetEntry(stdClass $context, string $name, stdClass $fieldset_instruction) : ValidationError {
     $message = $context->messages['validation']['missing_fieldset_entry']($name);
 
     $snippet = $context->reporter::report($context, $fieldset_instruction, deepExpandInstruction($fieldset_instruction));
@@ -651,7 +652,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function missingElement($context, $name, $section_instruction) {
+  public static function missingElement(stdClass $context, string $name, stdClass $section_instruction) : ValidationError {
     $message = $context->messages['validation']['missing_element']($name);
 
     $snippet = $context->reporter::report($context, $section_instruction, deepExpandInstruction($section_instruction));
@@ -664,7 +665,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function missingField($context, $name, $section_instruction) {
+  public static function missingField(stdClass $context, string $name, stdClass $section_instruction) : ValidationError {
     $message = $context->messages['validation']['missing_field']($name);
 
     $snippet = $context->reporter::report($context, $section_instruction, deepExpandInstruction($section_instruction));
@@ -677,7 +678,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function missingList($context, $name, $section_instruction) {
+  public static function missingList(stdClass $context, string $name, stdClass $section_instruction) : ValidationError {
     $message = $context->messages['validation']['missing_list']($name);
 
     $snippet = $context->reporter::report($context, $section_instruction, deepExpandInstruction($section_instruction));
@@ -690,7 +691,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function missingSection($context, $name, $section_instruction) {
+  public static function missingSection(stdClass $context, string $name, stdClass $section_instruction) : ValidationError {
     $message = $context->messages['validation']['missing_section']($name);
 
     $snippet = $context->reporter::report($context, $section_instruction, deepExpandInstruction($section_instruction));
@@ -707,7 +708,7 @@ class Validation {
   //       (In terms of quality of results and architecture - DRY up probably)
   //       Share best implementation among other eno libraries
 
-  public static function missingValue($context, $instruction) {
+  public static function missingValue(stdClass $context, stdClass $instruction) : ValidationError {
     $message = null;
     $selection = null;
 
@@ -751,7 +752,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function valueError($context, $message, $instruction) {
+  public static function valueError(stdClass $context, ?string $message, stdClass $instruction) : ValidationError {
     if($message === null) {
       $message = $context->messages['validation']['generic_error']($instruction->name);
     }

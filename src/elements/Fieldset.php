@@ -1,11 +1,12 @@
 <?php
 
 namespace Eno;
+use \stdClass;
 
 class Fieldset {
   public $touched;
 
-  function __construct($context, $instruction, $parent, $from_empty = false) {
+  function __construct(stdClass $context, stdClass $instruction, Section $parent, bool $from_empty = false) {
     $this->context = $context;
     $this->instruction = $instruction;
     $this->name = $instruction->name;

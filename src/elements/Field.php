@@ -2,11 +2,13 @@
 
 namespace Eno;
 use Eno\Errors\Validation;
+use Eno\ValidationError;
+use \stdClass;
 
 class Field {
   public $touched;
 
-  function __construct($context, $instruction, $parent, $from_empty = false) {
+  function __construct(stdClass $context, stdClass $instruction, object $parent, bool $from_empty = false) {
     $this->context = $context;
     $this->instruction = $instruction;
     $this->name = $instruction->name;
@@ -63,7 +65,7 @@ class Field {
     }
   }
 
-  public function __toString() {
+  public function __toString() : string {
     $value = $this->value;
 
     if($value === null) {
@@ -83,7 +85,7 @@ class Field {
     }
   }
 
-  public function error($message = null) {
+  public function error($message = null) : ValidationError {
     if(!is_string($message) && is_callable($message)) {
       $message = $message($this->name, $this->value);
     }
@@ -91,7 +93,7 @@ class Field {
     return Validation::valueError($this->context, $message, $this->instruction);
   }
 
-  public function isEmpty() {
+  public function isEmpty() : bool {
     return $this->value === null;
   }
 
@@ -103,11 +105,11 @@ class Field {
     }
   }
 
-  public function touch() {
+  public function touch() : void {
     $this->touched = true;
   }
 
-  public function value($loader = null, $enforce_value = false) {
+  public function value(callable $loader = null, bool $enforce_value = false) {
     $this->touched = true;
 
     if($this->value !== null) {

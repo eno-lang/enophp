@@ -2,11 +2,12 @@
 
 namespace Eno;
 use Eno\Errors\Validation;
+use \stdClass;
 
 class Section {
   public $touched;
 
-  function __construct($context, $instruction, $parent) {
+  function __construct(stdClass $context, stdClass $instruction, ?Section $parent) {
     $this->context = $context;
     $this->depth = $instruction->depth;
     $this->instruction = $instruction;
@@ -51,7 +52,7 @@ class Section {
 
   // TODO: 'options.required' was not kept here (only enforce_element)
   //       Consider how to deal with this generally in enophp
-  public function element($name, $enforce_element = true) {
+  public function element(string $name, bool $enforce_element = true) : object {
     $this->touched = true;
 
     if(!array_key_exists($name, $this->elements_associative)) {
@@ -78,7 +79,7 @@ class Section {
     return $element;
   }
 
-  public function raw() {
+  public function raw() : array {
     $elements = array_map(
       function($element) { return $element->raw(); },
       $this->elements

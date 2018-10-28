@@ -2,7 +2,7 @@
 
 use Eno\Errors\Analysis;
 
-function analyze($context) {
+function analyze(stdClass $context) : void {
   $context->document_instruction = (object) [
     'depth' => 0,
     'index' => 0,

@@ -2,12 +2,13 @@
 
 namespace Eno\Errors;
 use Eno\ParseError;
+use \stdClass;
 
 class Tokenization {
   private const UNTERMINATED_ESCAPED_NAME = "/^\s*(`+)(?!`)((?:(?!\1).)+)$/";
 
   // ```name: value
-  static public function unterminatedEscapedName($context, $instruction, $unterminated_column) {
+  static public function unterminatedEscapedName(stdClass $context, stdClass $instruction, int $unterminated_column) : ParseError {
     $line = substr($context->input, $instruction->index, $instruction->length);
 
     $message = $context->messages['tokenization']['unterminated_escaped_name'](
@@ -23,7 +24,7 @@ class Tokenization {
     return new ParseError($message, $snippet, $selection);
   }
 
-  static public function invalidLine($context, $instruction) {
+  static public function invalidLine(stdClass $context, stdClass $instruction) : ParseError {
     $line = substr($context->input, $instruction->index, $instruction->length);
 
     $matched = preg_match(self::UNTERMINATED_ESCAPED_NAME, $line, $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);;
@@ -45,7 +46,7 @@ class Tokenization {
     return new ParseError($message, $snippet, $selection);
   }
 
-  static public function unterminatedBlock($context, $instruction) {
+  static public function unterminatedBlock(stdClass $context, stdClass $instruction) : ParseError {
     $block_content_instructions = array_filter($context->instructions, function($filter_instruction) use($instruction) {
       return $filter_instruction->line > $instruction->line;
     });

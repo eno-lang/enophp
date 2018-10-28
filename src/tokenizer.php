@@ -4,7 +4,7 @@ use Eno\Errors\Tokenization;
 
 // TODO: Make extraction of comments an optional flagged feature, by default its off to gain speed!
 
-function tokenize_error_context($context, $index, $line) {
+function tokenize_error_context(stdClass $context, int $index, int $line) : stdClass {
   $first_instruction = null;
 
   while(true) {
@@ -43,8 +43,7 @@ function tokenize_error_context($context, $index, $line) {
   }
 }
 
-function tokenize($context)
-{
+function tokenize(stdClass $context) : void {
   // TODO: Consider turning grammar into a class so it doesn't get evaluated/allocated twice when running twice (?)
   //       (require_once not working here)
   //       Also $REGEX (which comes from grammar.php) appears totally intransparently currently as a variable

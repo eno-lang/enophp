@@ -2,9 +2,10 @@
 
 namespace Eno\Errors;
 use Eno\ParseError;
+use \stdClass;
 
 class Resolution {
-  public static function copyingBlockIntoFieldset($context, $instruction) {
+  public static function copyingBlockIntoFieldset(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_block_into_fieldset'](
       $instruction->line + $context->indexing
     );
@@ -19,7 +20,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingBlockIntoList($context, $instruction) {
+  public static function copyingBlockIntoList(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_block_into_list'](
       $instruction->line + $context->indexing
     );
@@ -34,7 +35,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingBlockIntoSection($context, $instruction) {
+  public static function copyingBlockIntoSection(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_block_into_section'](
       $instruction->line + $context->indexing
     );
@@ -49,7 +50,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingFieldsetIntoField($context, $instruction) {
+  public static function copyingFieldsetIntoField(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_fieldset_into_field'](
       $instruction->line + $context->indexing
     );
@@ -64,7 +65,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingFieldsetIntoList($context, $instruction) {
+  public static function copyingFieldsetIntoList(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_fieldset_into_list'](
       $instruction->line + $context->indexing
     );
@@ -79,7 +80,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingFieldsetIntoSection($context, $instruction) {
+  public static function copyingFieldsetIntoSection(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_fieldset_into_section'](
       $instruction->line + $context->indexing
     );
@@ -94,7 +95,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingFieldIntoFieldset($context, $instruction) {
+  public static function copyingFieldIntoFieldset(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_field_into_fieldset'](
       $instruction->line + $context->indexing
     );
@@ -109,7 +110,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingFieldIntoList($context, $instruction) {
+  public static function copyingFieldIntoList(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_field_into_list'](
       $instruction->line + $context->indexing
     );
@@ -124,7 +125,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingFieldIntoSection($context, $instruction) {
+  public static function copyingFieldIntoSection(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_field_into_section'](
       $instruction->line + $context->indexing
     );
@@ -139,7 +140,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingListIntoFieldset($context, $instruction) {
+  public static function copyingListIntoFieldset(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_list_into_fieldset'](
       $instruction->line + $context->indexing
     );
@@ -154,7 +155,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingListIntoField($context, $instruction) {
+  public static function copyingListIntoField(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_list_into_field'](
       $instruction->line + $context->indexing
     );
@@ -169,7 +170,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingListIntoSection($context, $instruction) {
+  public static function copyingListIntoSection(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_list_into_section'](
       $instruction->line + $context->indexing
     );
@@ -184,7 +185,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingSectionIntoFieldset($context, $instruction) {
+  public static function copyingSectionIntoFieldset(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_section_into_fieldset'](
       $instruction->line + $context->indexing
     );
@@ -199,7 +200,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingSectionIntoField($context, $instruction) {
+  public static function copyingSectionIntoField(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_section_into_field'](
       $instruction->line + $context->indexing
     );
@@ -214,7 +215,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingSectionIntoList($context, $instruction) {
+  public static function copyingSectionIntoList(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_section_into_list'](
       $instruction->line + $context->indexing
     );
@@ -229,7 +230,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function copyingSectionIntoEmpty($context, $instruction) {
+  public static function copyingSectionIntoEmpty(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_section_into_empty'](
       $instruction->line + $context->indexing
     );
@@ -244,7 +245,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function cyclicDependency($context, $instruction, $instruction_chain) {
+  public static function cyclicDependency(stdClass $context, stdClass $instruction, array $instruction_chain) : ParseError {
     $first_occurrence = array_search($instruction, $instruction_chain);
     $feedback_chain = array_slice($instruction_chain, $first_occurrence);
     $first_instruction = $feedback_chain[0];
@@ -276,7 +277,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function multipleTemplatesFound($context, $instruction, $templates) {
+  public static function multipleTemplatesFound(stdClass $context, stdClass $instruction, array $templates) : ParseError {
     $message = $context->messages['resolution']['multiple_templates_found'](
       $instruction->line + $context->indexing,
       $instruction->template
@@ -292,7 +293,7 @@ class Resolution {
     return new ParseError($message, $snippet, $selection);
   }
 
-  public static function templateNotFound($context, $instruction) {
+  public static function templateNotFound(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['template_not_found'](
       $instruction->line + $context->indexing,
       $instruction->template
