@@ -65,7 +65,7 @@ class Fieldset {
     }
   }
 
-  public function element(string $name, array $options = []) : Field {
+  public function element(string $name, array $options = []) : ?Field {
     $default_options = [
       'enforce_element' => true,
       'required' => null

@@ -92,7 +92,7 @@ class Section {
     }
   }
 
-  public function element(string $name, array $options = []) : object {
+  public function element(string $name, array $options = []) : ?object {
     $default_options = [
       'enforce_element' => true,
       'required' => null
@@ -263,7 +263,7 @@ class Section {
     );
   }
 
-  public function fieldset(string $name, array $options = []) : object {
+  public function fieldset(string $name, array $options = []) : ?object {
     $default_options = [
       'enforce_element' => true,
       'required' => null
@@ -475,7 +475,7 @@ class Section {
     );
   }
 
-  public function lookup(...$position) : array {
+  public function lookup(...$position) : ?array {
     $line = null;
     $column = null;
 
@@ -544,7 +544,7 @@ class Section {
     return [ $this->name => $elements ];
   }
 
-  public function section(string $name, array $options = []) : object {
+  public function section(string $name, array $options = []) : ?object {
     $default_options = [
       'enforce_element' => true,
       'required' => null
