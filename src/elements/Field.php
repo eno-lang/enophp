@@ -118,6 +118,9 @@ class Field {
     $loader = null;
 
     foreach($optional as $argument) {
+      if($argument === null)
+        continue;
+
       if(is_callable($argument)) {
         $loader = $argument;
       } else {
