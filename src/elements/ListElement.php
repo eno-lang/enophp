@@ -93,10 +93,14 @@ class ListElement {
     ];
   }
 
-  public function touch(bool $items = false) : void {
+  public function touch(array $options = []) : void {
+    $default_options = [ 'items' => false ];
+
+    $options = array_merge($default_options, $options);
+
     $this->touched = true;
 
-    if($items) {
+    if($options['items']) {
       foreach($this->items as $item) {
         $item->touch();
       }

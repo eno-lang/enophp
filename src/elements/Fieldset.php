@@ -157,16 +157,6 @@ class Fieldset {
     return $element->value($loader, [ 'enforce_value' => $options['enforce_value'] ]);
   }
 
-  public function touch(bool $entries = false) : void {
-    $this->touched = true;
-
-    if($entries) {
-      foreach($this->entries as $entry) {
-        $entry->touch();
-      }
-    }
-  }
-
   public function raw() : array {
     return [
       $this->name => array_map(
@@ -174,5 +164,19 @@ class Fieldset {
         $this->entries
       )
     ];
+  }
+
+  public function touch(array $options = []) : void {
+    $default_options = [ 'entries' => false ];
+
+    $options = array_merge($default_options, $options);
+
+    $this->touched = true;
+
+    if($options['entries']) {
+      foreach($this->entries as $entry) {
+        $entry->touch();
+      }
+    }
   }
 }
