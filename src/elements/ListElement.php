@@ -64,7 +64,7 @@ class ListElement {
 
     if($options['with_elements']) {
       return array_map(
-        function($item) {
+        function($item) use($loader, $options) {
           return [
             'element' => $item,
             'value' => $item->value($loader, [ 'enforce_value' => $options['enforce_values'] ])
@@ -75,7 +75,9 @@ class ListElement {
     }
 
     return array_map(
-      function($item) { return $item->value($loader, [ 'enforce_value' => $options['enforce_values'] ]); },
+      function($item) use($loader, $options) {
+        return $item->value($loader, [ 'enforce_value' => $options['enforce_values'] ]);
+      },
       $this->items
     );
   }
