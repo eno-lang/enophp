@@ -9,7 +9,7 @@ describe('Fetching an empty element through fieldset()', function() {
   });
 
   it('returns a fieldset', function() {
-    expect($this->fieldset instanceof Fieldset)->toBe(true);
+    expect($this->fieldset)->toBeAnInstanceOf('Eno\\Fieldset');
   });
 
   it('returns a fieldset with enforceAllElements disabled', function() {
@@ -37,7 +37,7 @@ describe('Fetching an empty element through fieldsets()', function() {
   });
 
   it('returns a fieldset as first element', function() {
-    expect($this->fieldsets[0] instanceof Fieldset)->toBe(true);
+    expect($this->fieldsets[0])->toBeAnInstanceOf('Eno\\Fieldset');
   });
 
   it('returns a fieldset with enforceAllElements disabled', function() {
@@ -63,7 +63,7 @@ describe('Fetching an empty element through fields()', function() {
   });
 
   it('returns a field as first element', function() {
-    expect($this->fields[0] instanceof Field)->toBe(true);
+    expect($this->fields[0])->toBeAnInstanceOf('Eno\\Field');
   });
 });
 
@@ -76,6 +76,6 @@ describe('Fetching an empty element through lists()', function() {
   });
 
   it('returns a list as first element', function() {
-    expect($this->lists[0] instanceof ListElement)->toBe(true);
+    expect($this->lists[0])->toBeAnInstanceOf('Eno\\ListElement');
   });
 });

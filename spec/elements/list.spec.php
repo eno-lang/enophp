@@ -85,7 +85,7 @@ describe('List', function() {
 
     describe('with a loader', function() {
       beforeEach(function() {
-        // TODO: Follow through for sensible loader signature 
+        // TODO: Follow through for sensible loader signature
         $this->result = $this->list->items(function($context, $name, $value) { return strtoupper($value); });
       });
 
@@ -111,7 +111,7 @@ describe('List', function() {
 
       it('returns the elements', function() {
         foreach($this->result as $item) {
-          expect($item['element'] instanceof Field)->toBe(true);
+          expect($item['element'])->toBeAnInstanceOf('Eno\\Field');
         }
       });
 
