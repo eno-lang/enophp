@@ -38,7 +38,7 @@ class Parser {
     analyze($context);
     resolve($context);
 
-    $context->document = new Section($context, $context->document_instruction, null);
+    $context->document = new Section($context, $context->document_instruction);
 
     return $context->document;
   }

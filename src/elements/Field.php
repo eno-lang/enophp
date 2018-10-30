@@ -109,7 +109,26 @@ class Field {
     $this->touched = true;
   }
 
-  public function value(callable $loader = null, bool $enforce_value = false) {
+  public function value(...$optional) {
+    $options = [
+      'enforce_value' => false,
+      'required' => null
+    ];
+
+    $loader = null;
+
+    foreach($optional as $argument) {
+      if(is_callable($argument)) {
+        $loader = $argument;
+      } else {
+        $options = array_merge($options, $argument);
+      }
+    }
+
+    if($options['required'] !== null) {
+      $options['enforce_value'] = $options['required'];
+    }
+
     $this->touched = true;
 
     if($this->value !== null) {
@@ -124,7 +143,7 @@ class Field {
 
       return $this->value;
     } else {
-      if($enforce_value) {
+      if($options['enforce_value']) {
         throw Validation::missingValue($this->context, $this->instruction);
       }
 

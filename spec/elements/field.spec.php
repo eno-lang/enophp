@@ -144,7 +144,7 @@ describe('Field', function() {
       });
     });
 
-    describe('with enforce_value', function() {
+    describe("'required' alias for 'enforceValue'", function() {
       beforeEach(function() {
         $input = <<<DOC
 language:
@@ -163,10 +163,10 @@ DOC;
       describe('when set to true', function() {
         it('throws an error', function() {
           $error = interceptValidationError(function() {
-            $_ = $this->empty_field->value(null, true);
+            $_ = $this->empty_field->value([ 'required' => true ]);
           });
 
-          expect($error)->toMatchErrorSnapshot('spec/elements/snapshots/field_value_with_enforce_value.snap.error');
+          expect($error)->toMatchErrorSnapshot('spec/elements/snapshots/field_value_with_required.snap.error');
         });
       });
     });

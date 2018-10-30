@@ -39,19 +39,34 @@ class ListElement {
     return $this->items;
   }
 
-  // TODO: Think of something for all the method signatures, let's use this opportunity to think about methods and signatures for eno in general again
-  public function items(callable $loader = null, bool $enforce_values = true, bool $with_elements = false, bool $return_elements = false) : array {
+  public function items(...$optional) : array {
+    $options = [
+      'elements' => false,
+      'enforce_values' => true,
+      'with_elements' => false
+    ];
+
+    $loader = null;
+
+    foreach($optional as $argument) {
+      if(is_callable($argument)) {
+        $loader = $argument;
+      } else {
+        $options = array_merge($options, $argument);
+      }
+    }
+
     $this->touched = true;
 
-    if($return_elements)
+    if($options['elements'])
       return $this->items;
 
-    if($with_elements) {
+    if($options['with_elements']) {
       return array_map(
         function($item) {
           return [
             'element' => $item,
-            'value' => $item->value($loader, $enforce_values)
+            'value' => $item->value($loader, [ 'enforce_value' => $options['enforce_values'] ])
           ];
         },
         $this->items
@@ -59,7 +74,7 @@ class ListElement {
     }
 
     return array_map(
-      function($item) { return $item->value($loader, $enforce_values); },
+      function($item) { return $item->value($loader, [ 'enforce_value' => $options['enforce_values'] ]); },
       $this->items
     );
   }

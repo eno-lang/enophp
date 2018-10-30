@@ -11,7 +11,7 @@ describe('EmptyElement', function() {
       'name' => 'mock',
       'subinstructions' => []
     ];
-    $this->parent = new Section($this->_context, $this->section_instruction, null);
+    $this->parent = new Section($this->_context, $this->section_instruction);
   });
 
   beforeEach(function() {
