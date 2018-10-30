@@ -1,6 +1,6 @@
 <?php
 
-use Eno\{Field, Parser};
+use Eno\{Field, Parser, Section};
 
 describe('Field', function() {
   beforeAll(function() {
@@ -35,7 +35,12 @@ describe('Field', function() {
       'type' => 'FIELD',
       'value' => null
     ];
-    $this->parent = (object) [];
+    $this->section_instruction = (object) [
+      'depth' => 0,
+      'name' => 'mock',
+      'subinstructions' => []
+    ];
+    $this->parent = new Section($this->_context, $this->section_instruction);
   });
 
 
