@@ -51,10 +51,12 @@ class Section {
   }
 
   public function __toString() : string {
-    if($this->name == '<>#:=|\\_ENO_DOCUMENT')
-      return "[Section document elements={count($this->elements)}]";
+    $elements_count = count($this->elements);
 
-    return "[Section name=\"{$this->name}\" elements={count($this->elements)}]";
+    if($this->name == '<>#:=|\\_ENO_DOCUMENT')
+      return "[Section document elements={$elements_count}]";
+
+    return "[Section name=\"{$this->name}\" elements={$elements_count}]";
   }
 
   public function assertAllTouched(array $options = []) : void {

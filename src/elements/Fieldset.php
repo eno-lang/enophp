@@ -38,7 +38,8 @@ class Fieldset {
   }
 
   public function __toString() : string {
-    return "[Fieldset name=\"{$this->name}\" entries=${count($this->entries)}]";
+    $entries_count = count($this->entries);
+    return "[Fieldset name=\"{$this->name}\" entries={$entries_count}]";
   }
 
   public function assertAllTouched(array $options = []) : void {

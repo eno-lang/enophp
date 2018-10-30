@@ -31,7 +31,8 @@ class ListElement {
   }
 
   public function __toString() : string {
-    return "[List name=\"{$this->name}\" items={count($this->items)}]";
+    $items_count = count($this->items);
+    return "[List name=\"{$this->name}\" items={$items_count}]";
   }
 
   public function elements() : array {
