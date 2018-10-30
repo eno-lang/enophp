@@ -79,7 +79,7 @@ class Fieldset {
 
     $this->touched = true;
 
-    if(!array_key_exists('name', $this->entries_associative)) {
+    if(!array_key_exists($name, $this->entries_associative)) {
       if($options['enforce_element']) {
         throw Validation::missingFieldsetEntry($this->context, $name, $this->instruction);
       }
@@ -142,7 +142,7 @@ class Fieldset {
 
     $element = $this->entries_associative[$name];
 
-    $element.touch();
+    $element->touch();
 
     if($options['element'])
       return $element;
