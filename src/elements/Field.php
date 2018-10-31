@@ -13,7 +13,7 @@ class Field {
     $this->instruction = $instruction;
     $this->name = $instruction->name;
     $this->parent = $parent;
-    $this->value = $instruction->value;
+    $this->value = $from_empty ? null : $instruction->value;
     $this->touched = false;
 
     if($from_empty)
