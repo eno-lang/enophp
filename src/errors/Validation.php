@@ -726,13 +726,13 @@ class Validation {
         $selection = [[$instruction->line, $instruction->length]];
       }
     } else if($instruction->type == 'FIELDSET_ENTRY') {
-      $message = $context->messages['validation']['missing_fieldsetEntryValue']($instruction->name);
+      $message = $context->messages['validation']['missing_fieldset_entry_value']($instruction->name);
       $selection = [[
         $instruction->line,
         min($instruction->ranges['entry_operator'][1] + 1, $instruction->length)
       ]];
     } else if($instruction->type == 'LIST_ITEM') {
-      $message = $context->messages['validation']['missingListItemValue']($instruction->name);
+      $message = $context->messages['validation']['missing_list_item_value']($instruction->name);
       $selection = [[
         $instruction->line,
         min($instruction->ranges['item_operator'][1] + 1, $instruction->length)
