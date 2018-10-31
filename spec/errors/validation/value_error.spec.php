@@ -1,6 +1,6 @@
 <?php
 
-use Eno\{ValidationError, Parser};
+use Eno\{Parser};
 
 describe('Validation::valueError', function() {
   describe('calling error on an empty element', function() {
