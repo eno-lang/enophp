@@ -42,14 +42,21 @@ class Fieldset {
     return "[Fieldset name=\"{$this->name}\" entries={$entries_count}]";
   }
 
-  public function assertAllTouched(array $options = []) : void {
-    $default_options = [
-      'message' => null,
+  public function assertAllTouched(...$optional) : void {
+    $options = [
       'except' => null,
       'only' => null
     ];
 
-    $options = array_merge($default_options, $options);
+    $message = null;
+
+    foreach($optional as $argument) {
+      if(is_string($argument) || is_callable($argument)) {
+        $message = $argument;
+      } else {
+        $options = array_merge($options, $argument);
+      }
+    }
 
     foreach($this->entries as $entry) {
       if($options['except'] && in_array($entry->name, $options['except'])) continue;
