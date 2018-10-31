@@ -58,7 +58,7 @@ class Validation {
     return new ValidationError($message, $snippet, $selection);
   }
 
-  public static function excessName(stdClass $context, string $message, stdClass $instruction) : ValidationError {
+  public static function excessName(stdClass $context, ?string $message, stdClass $instruction) : ValidationError {
     if($message === null) {
       $message = $context->messages['validation']['excess_name']($instruction->name);
     }
