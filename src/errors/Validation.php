@@ -16,7 +16,7 @@ function deepExpandInstruction(stdClass $instruction) : array {
   return $result;
 }
 
-function expandInstructions(stdClass $instructions) : array {
+function expandInstructions(array $instructions) : array {
   $result = [];
 
   foreach($instructions as $instruction) {
@@ -126,7 +126,7 @@ class Validation {
   }
 
   public static function expectedFieldsetGotFieldsets(stdClass $context, string $name, array $instructions) : ValidationError {
-    $expanded_instructions = expandInstructions(instructions);
+    $expanded_instructions = expandInstructions($instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
     $message = $context->messages['validation']['expected_fieldset_got_fieldsets']($name);
@@ -190,7 +190,7 @@ class Validation {
   }
 
   public static function expectedElementGotElements(stdClass $context, string $name, array $instructions) : ValidationError {
-    $expanded_instructions = expandInstructions(instructions);
+    $expanded_instructions = expandInstructions($instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
     $message = $context->messages['validation']['expected_element_got_elements']($name);
@@ -238,7 +238,7 @@ class Validation {
   }
 
   public static function expectedFieldGotFields(stdClass $context, string $name, array $instructions) : ValidationError {
-    $expanded_instructions = expandInstructions(instructions);
+    $expanded_instructions = expandInstructions($instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
     $message = $context->messages['validation']['expected_field_got_fields']($name);
@@ -350,7 +350,7 @@ class Validation {
   }
 
   public static function expectedListGotLists(stdClass $context, string $name, array $instructions) : ValidationError {
-    $expanded_instructions = expandInstructions(instructions);
+    $expanded_instructions = expandInstructions($instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
     $message = $context->messages['validation']['expected_list_got_lists']($name);
@@ -491,7 +491,7 @@ class Validation {
   }
 
   public static function expectedSectionGotSections(stdClass $context, string $name, array $instructions) : ValidationError {
-    $expanded_instructions = expandInstructions(instructions);
+    $expanded_instructions = expandInstructions($instructions);
     $last_instruction = $expanded_instructions[count($expanded_instructions) - 1];
 
     $message = $context->messages['validation']['expected_section_got_sections']($name);

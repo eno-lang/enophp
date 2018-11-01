@@ -467,15 +467,15 @@ class Section {
         }
 
         if($element instanceof Fieldset) {
-          throw errors.expectedListsGotFieldset($this->context, $element->instruction);
+          throw Validation::expectedListsGotFieldset($this->context, $element->instruction);
         }
 
         if($element instanceof Section) {
-          throw errors.expectedListsGotSection($this->context, $element->instruction);
+          throw Validation::expectedListsGotSection($this->context, $element->instruction);
         }
 
         if($element instanceof Field) {
-          throw errors.expectedListsGotField($this->context, $element->instruction);
+          throw Validation::expectedListsGotField($this->context, $element->instruction);
         }
       },
       $elements
