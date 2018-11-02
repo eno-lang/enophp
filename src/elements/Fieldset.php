@@ -2,6 +2,8 @@
 
 namespace Eno;
 use Eno\Errors\Validation;
+use \BadMethodCallException;
+use \Closure;
 use \stdClass;
 
 class Fieldset {
@@ -34,6 +36,17 @@ class Fieldset {
           $subinstruction->element = $this;
         }
       }
+    }
+  }
+
+  public function __call($function_name, $arguments) {
+    if(method_exists('Eno\Loaders', $function_name)) {
+      $name = $arguments[0];
+      $optional = count($arguments) > 1 ? array_slice($arguments, 1) : [];
+
+      return $this->entry($name, Closure::fromCallable(['Eno\\Loaders', $function_name]), ...$optional);
+    } else {
+      throw new BadMethodCallException("Call to undefined method Eno\\Fieldset::{$function_name}()");
     }
   }
 
@@ -171,6 +184,10 @@ class Fieldset {
         $this->entries
       )
     ];
+  }
+
+  public function string(...$arguments) {
+    return $this->entry(...$arguments);
   }
 
   public function touch(array $options = []) : void {

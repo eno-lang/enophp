@@ -3,6 +3,9 @@
 namespace Eno;
 use Eno\Errors\Validation;
 use Eno\ValidationError;
+use \BadMethodCallException;
+use \Closure;
+use \Exception;
 use \stdClass;
 
 class Field {
@@ -65,6 +68,14 @@ class Field {
     }
   }
 
+  public function __call($function_name, $arguments) {
+    if(method_exists('Eno\Loaders', $function_name)) {
+      return $this->value(Closure::fromCallable(['Eno\\Loaders', $function_name]), ...$arguments);
+    } else {
+      throw new BadMethodCallException("Call to undefined method Eno\\Field::{$function_name}()");
+    }
+  }
+
   public function __toString() : string {
     $value = $this->value;
 
@@ -103,6 +114,10 @@ class Field {
     } else {
       return [ $this->name => $this->value ];
     }
+  }
+
+  public function string(...$arguments) {
+    return $this->value(...$arguments);
   }
 
   public function touch() : void {

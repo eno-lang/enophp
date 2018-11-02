@@ -2,6 +2,8 @@
 
 namespace Eno;
 use Eno\Errors\Validation;
+use \BadMethodCallException;
+use \Closure;
 use \stdClass;
 
 // TODO: Here and elsewhere - declare private properties private
@@ -50,6 +52,28 @@ class Section {
       } else if($subinstruction->type == 'SECTION') {
         $append(new Section($context, $subinstruction, $this));
       }
+    }
+  }
+
+  public function __call($function_name, $arguments) {
+    $loader_name = $function_name;
+
+    if(strpos($function_name, 'List', strlen($function_name) - 4) !== false) {
+      $loader_name = substr($function_name, 0, -4);
+    }
+
+    if(method_exists('Eno\Loaders', $loader_name)) {
+      $loader = Closure::fromCallable(['Eno\\Loaders', $loader_name]);
+      $name = $arguments[0];
+      $optional = count($arguments) > 1 ? array_slice($arguments, 1) : [];
+
+      if($loader_name === $function_name) {
+        return $this->field($name, $loader, ...$optional);
+      } else {
+        return $this->list($name, $loader, ...$optional);
+      }
+    } else {
+      throw new BadMethodCallException("Call to undefined method Eno\\Section::{$function_name}()");
     }
   }
 
@@ -635,6 +659,14 @@ class Section {
     }
 
     return $elements;
+  }
+
+  public function string(...$arguments) {
+    return $this->field(...$arguments);
+  }
+
+  public function stringList(...$arguments) {
+    return $this->list(...$arguments);
   }
 
   public function touch() : void {

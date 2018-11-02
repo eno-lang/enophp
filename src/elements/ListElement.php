@@ -2,6 +2,8 @@
 
 namespace Eno;
 use Eno\ValidationError;
+use \BadMethodCallException;
+use \Closure;
 use \stdClass;
 
 class ListElement {
@@ -27,6 +29,16 @@ class ListElement {
       } else {
         $subinstruction->element = $this;
       }
+    }
+  }
+
+  public function __call($function_name, $arguments) {
+    $function_name = substr($function_name, 0, -5);
+
+    if(method_exists('Eno\Loaders', $function_name)) {
+      return $this->items(Closure::fromCallable(['Eno\\Loaders', $function_name]), ...$arguments);
+    } else {
+      throw new BadMethodCallException("Call to undefined method Eno\\Section::{$function_name}()");
     }
   }
 
@@ -96,6 +108,10 @@ class ListElement {
         $this->items
       )
     ];
+  }
+
+  public function stringItems(...$arguments) {
+    return $this->items(...$arguments);
   }
 
   public function touch(array $options = []) : void {
