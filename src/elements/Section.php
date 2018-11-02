@@ -4,6 +4,9 @@ namespace Eno;
 use Eno\Errors\Validation;
 use \stdClass;
 
+// TODO: Here and elsewhere - declare private properties private
+//       (And use reflection API in specs to still test private properties where needed)
+
 class Section {
   public $touched;
 
