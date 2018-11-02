@@ -22,7 +22,7 @@ class Field {
     $instruction->element = $this;
 
     if($instruction->type == 'BLOCK' && array_key_exists('content_range', $instruction)) {
-      $this->value = substr($context->input, $instruction['content_range'][0], $instruction['content_range'][1] + 1);
+      $this->value = substr($context->input, $instruction->content_range[0], $instruction->content_range[1] + 1);
 
       foreach($instruction->subinstructions as $subinstruction) {
         $subinstruction->element = $this;

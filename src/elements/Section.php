@@ -533,7 +533,7 @@ class Section {
 
       foreach($instruction->ranges as $type => $range) {
         if($column >= $range[0] && $column <= $range[1] && $range[0] >= $rightmost_match) {
-          $result->zone = $type;
+          $result['zone'] = $type;
           $rightmost_match = $column;
         }
       }
