@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // This code was auto-generated on Sat Jul 21 2018 09:50:30 GMT+0200 (Central European Summer Time)
 // by the eno-locales project (https://github.com/eno-lang/eno-locales/)

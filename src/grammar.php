@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // Note: Study this file from the bottom up
 
