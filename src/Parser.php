@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Eno;
+use \OutOfRangeException;
 use Eno\Section;
 use Eno\Reporters\Reporter;
 
@@ -9,30 +10,33 @@ require_once('tokenizer.php'); // TODO: Class (?)
 require_once('resolver.php'); // TODO: Class (?)
 
 class Parser {
-  public static function parse(string $input, string $locale = 'en', Reporter $reporter = null) : Section {
-    $context = (object) [];
+  public static function parse(string $input, array $options = []) : Section {
+    $default_options = [
+      'locale' => 'en',
+      'reporter' => new Reporters\Text,
+      'source_label' => null,
+      'zero_indexing' => false
+    ];
 
-    $context->locale = $locale;
-    $context->indexing = 1;
-    $context->input = $input;
-    $context->source_label = null;
-
-    if($reporter == null) {
-      $context->reporter = new Reporters\Text;
-    } else {
-      $context->reporter = $reporter;
-    }
+    $options = array_merge($default_options, $options);
 
     require('src/messages.php');  // TODO: Refactor to a class or something.
 
-    $context->messages = $MESSAGES[$context->locale];
-
-    if(!array_key_exists($locale, $MESSAGES)) {
-      throw new Error(
-        "The requested locale '{$locale}' is not available. Translation contributions are " .
+    if(!array_key_exists($options['locale'], $MESSAGES)) {
+      throw new OutOfRangeException(
+        "The requested locale '{$options['locale']}' is not available. Translation contributions are " .
         "greatly appreciated, visit https://github.com/eno-lang/eno-locales if you wish to contribute."
       );
     }
+
+    $context = (object) [
+      'locale' => $options['locale'],
+      'indexing' => $options['zero_indexing'] ? 0 : 1,
+      'input' => $input,
+      'messages' => $MESSAGES[$options['locale']],
+      'reporter' => $options['reporter'],
+      'source_label' => $options['source_label']
+    ];
 
     tokenize($context);
     analyze($context);
