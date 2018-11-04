@@ -85,8 +85,7 @@ describe('List', function() {
 
     describe('with a loader', function() {
       beforeEach(function() {
-        // TODO: Follow through for sensible loader signature
-        $this->result = $this->list->items(function($context, $name, $value) { return strtoupper($value); });
+        $this->result = $this->list->items(function($value) { return strtoupper($value); });
       });
 
       it('returns the processed values', function() {

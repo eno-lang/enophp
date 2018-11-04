@@ -1,12 +1,14 @@
 <?php declare(strict_types=1);
 
 namespace Eno;
-use Eno\Errors\Validation;
-use Eno\ValidationError;
+
 use \BadMethodCallException;
 use \Closure;
 use \Exception;
+use \ReflectionFunction;
 use \stdClass;
+use Eno\Errors\Validation;
+use Eno\ValidationError;
 
 class Field {
   public $touched;
@@ -152,8 +154,16 @@ class Field {
     if($this->value !== null) {
       if($loader) {
         try {
-          // TODO: What to do with $context, method signature, etc.?
-          return $loader($this->context, $this->name, $this->value);
+          $info = new ReflectionFunction($loader);
+
+          switch ($info->getNumberOfParameters()) {
+            case 3:
+              return $loader($this->name, $this->value, $this->context);
+            case 1:
+              return $loader($this->value);
+            default:
+              return $loader($this->name, $this->value);
+          }
         } catch(Exception $e) {
           throw Validation::valueError($this->context, $e->getMessage(), $this->instruction);
         }

@@ -141,8 +141,7 @@ describe('Fieldset', function() {
 
     describe('with a loader', function() {
       beforeEach(function() {
-        // TODO: Loader signature considerations
-        $this->result =  $this->fieldset->entry('eno', function($context, $name, $value) { return strtoupper($value); });
+        $this->result =  $this->fieldset->entry('eno', function($value) { return strtoupper($value); });
       });
 
       it('applies the loader', function() {

@@ -15,7 +15,7 @@ class Loaders {
   private const LAT_LNG_REGEXP = '/^\s*(-?\d{1,3}(?:\.\d+)?)\s*,\s*(-?\d{1,3}(?:\.\d+)?)\s*$/';
   private const URL_REGEXP = '/^\s*https?:\/\/[^\s.]+\.\S+\s*$/';
 
-  public static function boolean($context, $name, $value) {
+  public static function boolean($name, $value, $context) {
     $lower = strtolower(trim($value));
 
     if($lower == 'true') return true;
@@ -26,7 +26,7 @@ class Loaders {
     throw new Exception($context->messages['loaders']['invalid_boolean']($name));
   }
 
-  public static function color($context, $name, $value) {
+  public static function color($name, $value, $context) {
     if(!preg_match(self::COLOR_REGEXP, $value)) {
       throw new Exception($context->messages['loaders']['invalid_color']($name));
     }
@@ -34,15 +34,14 @@ class Loaders {
     return $value;
   }
 
-  // TODO: Only use $value as soon as dynamic loader signatures are in
-  public static function commaSeparated($context, $name, $value) {
+  public static function commaSeparated($value) {
     return array_map(
       function($item) { return trim($item); },
       explode(',', $value)
     );
   }
 
-  public static function date($context, $name, $value) {
+  public static function date($name, $value, $context) {
     $matched = preg_match(self::DATE_REGEXP, $value, $match);
 
     if(!$matched) {
@@ -69,7 +68,7 @@ class Loaders {
   // 1997-07-16T19:20:30.45+01:00
   // 1994-11-05T08:15:30-05:00
   // 1994-11-05T13:15:30Z
-  public static function datetime($context, $name, $value) {
+  public static function datetime($name, $value, $context) {
     $matched = preg_match(self::DATETIME_REGEXP, $value, $match, PREG_UNMATCHED_AS_NULL);
 
     if(!$matched) {
@@ -101,7 +100,7 @@ class Loaders {
     return $date_time;
   }
 
-  public static function email($context, $name, $value) {
+  public static function email($name, $value, $context) {
     if(!preg_match(self::EMAIL_REGEXP, $value)) {
       throw new Exception($context->messages['loaders']['invalid_email']($name));
     }
@@ -109,7 +108,7 @@ class Loaders {
     return $value;
   }
 
-  public static function float($context, $name, $value) {
+  public static function float($name, $value, $context) {
     if(!preg_match(self::FLOAT_REGEXP, $value)) {
       throw new Exception($context->messages['loaders']['invalid_float']($name));
     }
@@ -117,7 +116,7 @@ class Loaders {
     return floatval($value);
   }
 
-  public static function integer($context, $name, $value) {
+  public static function integer($name, $value, $context) {
     if(!preg_match(self::INTEGER_REGEXP, $value)) {
       throw new Exception($context->messages['loaders']['invalid_integer']($name));
     }
@@ -125,7 +124,7 @@ class Loaders {
     return intval($value);
   }
 
-  public static function json($context, $name, $value) {
+  public static function json($name, $value, $context) {
     $decoded = json_decode($value);
 
     switch(json_last_error()) {
@@ -154,7 +153,7 @@ class Loaders {
     throw new Exception($context->messages['loaders']['invalid_json']($name, $error));
   }
 
-  public static function latLng($context, $name, $value) {
+  public static function latLng($name, $value, $context) {
     $matched = preg_match(self::LAT_LNG_REGEXP, $value, $match);
 
     if(!$matched) {
@@ -164,11 +163,11 @@ class Loaders {
     return [ 'lat' => floatval($match[1]), 'lng' => floatval($match[2]) ];
   }
 
-  public static function number($context, $name, $value) {
-    return self::integer($context, $name, $value);
+  public static function number($name, $value, $context) {
+    return self::integer($name, $value, $context);
   }
 
-  public static function url($context, $name, $value) {
+  public static function url($name, $value, $context) {
     if(!preg_match(self::URL_REGEXP, $value)) {
       throw new Exception($context->messages['loaders']['invalid_url']($name));
     }

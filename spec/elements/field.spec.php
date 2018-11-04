@@ -135,7 +135,7 @@ describe('Field', function() {
 
     describe('with a loader closure', function() {
       beforeEach(function() {
-        $this->result = $this->field->value(function($context, $name, $value) {
+        $this->result = $this->field->value(function($value) {
           return strtoupper($value);
         });
       });
