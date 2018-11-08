@@ -5,9 +5,9 @@ use \OutOfRangeException;
 use Eno\Section;
 use Eno\Reporters\Reporter;
 
-require_once('analyzer.php'); // TODO: Class (?)
-require_once('tokenizer.php'); // TODO: Class (?)
-require_once('resolver.php'); // TODO: Class (?)
+require_once(__DIR__ . '/analyzer.php'); // TODO: Class (?)
+require_once(__DIR__ . '/tokenizer.php'); // TODO: Class (?)
+require_once(__DIR__ . '/resolver.php'); // TODO: Class (?)
 
 class Parser {
   public static function parse(string $input, array $options = []) : Section {
@@ -20,7 +20,7 @@ class Parser {
 
     $options = array_merge($default_options, $options);
 
-    require('src/messages.php');  // TODO: Refactor to a class or something.
+    require(__DIR__ . '/messages.php'); // TODO: Refactor to a class or something.
 
     if(!array_key_exists($options['locale'], $MESSAGES)) {
       throw new OutOfRangeException(

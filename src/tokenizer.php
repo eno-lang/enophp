@@ -47,7 +47,7 @@ function tokenize(stdClass $context) : void {
   // TODO: Consider turning grammar into a class so it doesn't get evaluated/allocated twice when running twice (?)
   //       (require_once not working here)
   //       Also $REGEX (which comes from grammar.php) appears totally intransparently currently as a variable
-  require('grammar.php');
+  require(__DIR__ . '/grammar.php');
 
   $context->instructions = [];
 

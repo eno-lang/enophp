@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-require_once('src/analyzer.php');
-require_once('src/tokenizer.php');
+require_once(__DIR__ . '/../../src/analyzer.php');
+require_once(__DIR__ . '/../../src/tokenizer.php');
 
 function inspectAnalysis($input) {
   $context = (object) [ 'input' => $input ];

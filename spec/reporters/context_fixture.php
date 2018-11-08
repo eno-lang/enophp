@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-require('src/messages.php');
+require(__DIR__ . '/../../src/messages.php');
 
 $input = <<<DOC
 > comment

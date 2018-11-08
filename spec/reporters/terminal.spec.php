@@ -4,7 +4,7 @@ use Eno\Reporters\Terminal;
 
 describe('Terminal reporter', function() {
   given('_context', function() {
-    require('context_fixture.php');
+    require(__DIR__ . '/context_fixture.php');
     return $context;
   });
 
