@@ -4,7 +4,7 @@ PHP library for parsing, loading and inspecting eno documents
 
 ## Installation
 
-    composer require --dev eno-lang/enophp
+    composer require eno-lang/enophp
 
 ## Getting started
 
