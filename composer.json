@@ -1,15 +1,36 @@
 {
+  "authors": [
+    {
+      "email": "simon@fdpl.io",
+      "homepage": "https://simonrepp.com",
+      "name": "Simon Repp"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Eno\\": ["src", "src/elements/", "src/errors/"],
       "Eno\\Errors\\": "src/errors",
-      "Eno\\Matchers\\": "spec/matchers",
       "Eno\\Reporters\\": "src/reporters"
     }
   },
+  "autoload-dev": {
+    "psr-4": { "Eno\\Matchers\\": "spec/matchers" }
+  },
+  "description": "PHP library for parsing, loading and inspecting eno documents",
+  "keywords": [
+    "eno",
+    "parser",
+    "validation"
+  ],
+  "homepage": "https://eno-lang.org/php/",
+  "license": "MIT",
   "name": "eno-lang/enophp",
-  "description": "PHP implementation of the eno library specification",
   "require-dev": {
     "kahlan/kahlan": "^4.3.1"
+  },
+  "support": {
+    "docs": "https://eno-lang.org/php/",
+    "issues": "https://github.com/eno-lang/enophp/issues",
+    "source": "https://github.com/eno-lang/enophp/"
   }
 }

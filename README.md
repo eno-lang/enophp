@@ -1,12 +1,10 @@
 # enophp
 
-PHP implementation of the eno library specification
-
-Development Status: **Approaching mid-november 2018 release**
+PHP library for parsing, loading and inspecting eno documents
 
 ## Installation
 
-Release pending
+    composer require --dev eno-lang/enophp
 
 ## Getting started
 
@@ -19,9 +17,15 @@ Greeting: Hello World!
 A minimal example to read this file with `enophp`:
 
 ```php
+use Eno\Parser;
+
 $input = file_get_contents('intro.eno');
 
-$document = Eno\Parser::parse($input);
+$document = Parser::parse($input);
 
 echo( $document->field('Greeting') );  // prints 'Hello World!'
 ```
+
+## Complete documentation and API reference
+
+See [eno-lang.org/php](https://eno-lang.org/php/)
