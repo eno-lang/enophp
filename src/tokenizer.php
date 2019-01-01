@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use Eno\Errors\Tokenization;
+use Eno\Grammar;
 
 // TODO: Make extraction of comments an optional flagged feature, by default its off to gain speed!
 
@@ -44,11 +45,6 @@ function tokenize_error_context(stdClass $context, int $index, int $line) : stdC
 }
 
 function tokenize(stdClass $context) : void {
-  // TODO: Consider turning grammar into a class so it doesn't get evaluated/allocated twice when running twice (?)
-  //       (require_once not working here)
-  //       Also $REGEX (which comes from grammar.php) appears totally intransparently currently as a variable
-  require(__DIR__ . '/grammar.php');
-
   $context->instructions = [];
 
   $index = 0;
@@ -56,7 +52,7 @@ function tokenize(stdClass $context) : void {
   $instruction = [];
 
   while(true) {
-    $matched = preg_match($REGEX, $context->input, $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
+    $matched = preg_match(Grammar::REGEX, $context->input, $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
 
     if($matched != 1 || $match[0][1] != $index) {
       $instruction = tokenize_error_context($context, $index, $line);
@@ -70,17 +66,17 @@ function tokenize(stdClass $context) : void {
 
     $block = false;
 
-    if(isset($match[$EMPTY_LINE_INDEX][0])) {
+    if(isset($match[Grammar::EMPTY_LINE_INDEX][0])) {
 
       $instruction->type = 'NOOP';
 
-    } else if(isset($match[$NAME_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::NAME_OPERATOR_INDEX][0])) {
 
-      $name_operator_column = $match[$NAME_OPERATOR_INDEX][1] - $index;
+      $name_operator_column = $match[Grammar::NAME_OPERATOR_INDEX][1] - $index;
 
-      if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
-        $name = $match[$NAME_UNESCAPED_INDEX][0];
-        $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
+      if(isset($match[Grammar::NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[Grammar::NAME_UNESCAPED_INDEX][0];
+        $name_column = $match[Grammar::NAME_UNESCAPED_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -88,11 +84,11 @@ function tokenize(stdClass $context) : void {
           'name' => [$name_column, $name_column + strlen($name)]
         ];
       } else {
-        $name = $match[$NAME_ESCAPED_INDEX][0];
-        $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
-        $escape_begin_operator_column = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
-        $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
-        $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+        $name = $match[Grammar::NAME_ESCAPED_INDEX][0];
+        $escape_operator = $match[Grammar::NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $escape_begin_operator_column = $match[Grammar::NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[Grammar::NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[Grammar::NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -103,39 +99,39 @@ function tokenize(stdClass $context) : void {
         ];
       }
 
-      if(isset($match[$FIELD_VALUE_INDEX][0])) {
-        $value = $match[$FIELD_VALUE_INDEX][0];
+      if(isset($match[Grammar::FIELD_VALUE_INDEX][0])) {
+        $value = $match[Grammar::FIELD_VALUE_INDEX][0];
         $instruction->type = 'FIELD';
         $instruction->value = $value;
 
-        $value_column = $match[$FIELD_VALUE_INDEX][1] - $index;
+        $value_column = $match[Grammar::FIELD_VALUE_INDEX][1] - $index;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
       } else {
         $instruction->type = 'NAME';
       }
 
-    } else if(isset($match[$LIST_ITEM_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::LIST_ITEM_OPERATOR_INDEX][0])) {
 
-      $operator_column = $match[$LIST_ITEM_OPERATOR_INDEX][1] - $index;
+      $operator_column = $match[Grammar::LIST_ITEM_OPERATOR_INDEX][1] - $index;
 
       $instruction->ranges = [ 'item_operator' => [$operator_column, $operator_column + 1] ];
       $instruction->type = 'LIST_ITEM';
 
-      if(isset($match[$LIST_ITEM_VALUE_INDEX][0])) {
-        $instruction->value = $match[$LIST_ITEM_VALUE_INDEX][0];
-        $value_column = $match[$LIST_ITEM_VALUE_INDEX][1] - $index;
+      if(isset($match[Grammar::LIST_ITEM_VALUE_INDEX][0])) {
+        $instruction->value = $match[Grammar::LIST_ITEM_VALUE_INDEX][0];
+        $value_column = $match[Grammar::LIST_ITEM_VALUE_INDEX][1] - $index;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($instruction->value)];
       } else {
         $instruction->value = null;
       }
 
-    } else if(isset($match[$FIELDSET_ENTRY_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::FIELDSET_ENTRY_OPERATOR_INDEX][0])) {
 
-      $entry_operator_column = $match[$FIELDSET_ENTRY_OPERATOR_INDEX][1] - $index;
+      $entry_operator_column = $match[Grammar::FIELDSET_ENTRY_OPERATOR_INDEX][1] - $index;
 
-      if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
-        $name = $match[$NAME_UNESCAPED_INDEX][0];
-        $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
+      if(isset($match[Grammar::NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[Grammar::NAME_UNESCAPED_INDEX][0];
+        $name_column = $match[Grammar::NAME_UNESCAPED_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -143,11 +139,11 @@ function tokenize(stdClass $context) : void {
           'name' => [$name_column, $name_column + strlen($name)]
         ];
       } else {
-        $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
-        $name = $match[$NAME_ESCAPED_INDEX][0];
-        $escape_begin_operator_column = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
-        $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
-        $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+        $escape_operator = $match[Grammar::NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $name = $match[Grammar::NAME_ESCAPED_INDEX][0];
+        $escape_begin_operator_column = $match[Grammar::NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[Grammar::NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[Grammar::NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -160,26 +156,26 @@ function tokenize(stdClass $context) : void {
 
       $instruction->type = 'FIELDSET_ENTRY';
 
-      if(isset($match[$FIELDSET_ENTRY_VALUE_INDEX][0])) {
-        $value = $match[$FIELDSET_ENTRY_VALUE_INDEX][0];
-        $value_column = $match[$FIELDSET_ENTRY_VALUE_INDEX][1] - $index;
+      if(isset($match[Grammar::FIELDSET_ENTRY_VALUE_INDEX][0])) {
+        $value = $match[Grammar::FIELDSET_ENTRY_VALUE_INDEX][0];
+        $value_column = $match[Grammar::FIELDSET_ENTRY_VALUE_INDEX][1] - $index;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
         $instruction->value = $value;
       } else {
         $instruction->value = null;
       }
 
-    } else if(isset($match[$LINE_CONTINUATION_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::LINE_CONTINUATION_OPERATOR_INDEX][0])) {
 
-      $operator_column = $match[$LINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
+      $operator_column = $match[Grammar::LINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
 
       $instruction->ranges = [ 'line_continuation_operator' => [$operator_column, $operator_column + 1] ];
       $instruction->separator = ' ';
       $instruction->type = 'CONTINUATION';
 
-      if(isset($match[$LINE_CONTINUATION_VALUE_INDEX][0])) {
-        $value = $match[$LINE_CONTINUATION_VALUE_INDEX][0];
-        $value_column = $match[$LINE_CONTINUATION_VALUE_INDEX][1] - $index;
+      if(isset($match[Grammar::LINE_CONTINUATION_VALUE_INDEX][0])) {
+        $value = $match[Grammar::LINE_CONTINUATION_VALUE_INDEX][0];
+        $value_column = $match[Grammar::LINE_CONTINUATION_VALUE_INDEX][1] - $index;
 
         $instruction->value = $value;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
@@ -187,17 +183,17 @@ function tokenize(stdClass $context) : void {
         $instruction->value = null;
       }
 
-    } else if(isset($match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::NEWLINE_CONTINUATION_OPERATOR_INDEX][0])) {
 
-      $operator_column = $match[$NEWLINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
+      $operator_column = $match[Grammar::NEWLINE_CONTINUATION_OPERATOR_INDEX][1] - $index;
 
       $instruction->ranges = [ 'newline_continuation_operator' => [$operator_column, $operator_column + 1] ];
       $instruction->separator = "\n";
       $instruction->type = 'CONTINUATION';
 
-      if(isset($match[$NEWLINE_CONTINUATION_VALUE_INDEX][0])) {
-        $value = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][0];
-        $value_column = $match[$NEWLINE_CONTINUATION_VALUE_INDEX][1] - $index;
+      if(isset($match[Grammar::NEWLINE_CONTINUATION_VALUE_INDEX][0])) {
+        $value = $match[Grammar::NEWLINE_CONTINUATION_VALUE_INDEX][0];
+        $value_column = $match[Grammar::NEWLINE_CONTINUATION_VALUE_INDEX][1] - $index;
 
         $instruction->value = $value;
         $instruction->ranges['value'] = [$value_column, $value_column + strlen($value)];
@@ -205,20 +201,20 @@ function tokenize(stdClass $context) : void {
         $instruction->value = null;
       }
 
-    } else if(isset($match[$SECTION_HASHES_INDEX][0])) {
+    } else if(isset($match[Grammar::SECTION_HASHES_INDEX][0])) {
 
-      $section_operator = $match[$SECTION_HASHES_INDEX][0];
+      $section_operator = $match[Grammar::SECTION_HASHES_INDEX][0];
 
       $instruction->depth = strlen($section_operator);
       $instruction->type = 'SECTION';
 
-      $section_operator_column = $match[$SECTION_HASHES_INDEX][1] - $index;
+      $section_operator_column = $match[Grammar::SECTION_HASHES_INDEX][1] - $index;
       $name_end_column = null;
 
-      if(isset($match[$SECTION_NAME_UNESCAPED_INDEX][0])) {
-        $name = $match[$SECTION_NAME_UNESCAPED_INDEX][0];
+      if(isset($match[Grammar::SECTION_NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[Grammar::SECTION_NAME_UNESCAPED_INDEX][0];
 
-        $name_column = $match[$SECTION_NAME_UNESCAPED_INDEX][1] - $index;
+        $name_column = $match[Grammar::SECTION_NAME_UNESCAPED_INDEX][1] - $index;
         $name_end_column = $name_column + strlen($name);
 
         $instruction->name = $name;
@@ -227,13 +223,13 @@ function tokenize(stdClass $context) : void {
           'section_operator' => [$section_operator_column, $section_operator_column + strlen($section_operator)]
         ];
       } else {
-        $name = $match[$SECTION_NAME_ESCAPED_INDEX][0];
+        $name = $match[Grammar::SECTION_NAME_ESCAPED_INDEX][0];
 
-        $escape_operator = $match[$SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
-        $name = $match[$SECTION_NAME_ESCAPED_INDEX][0];
-        $escape_begin_operator_column = $match[$SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
-        $name_column = $match[$SECTION_NAME_ESCAPED_INDEX][1] - $index;
-        $escape_end_operator_column = $match[$SECTION_NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+        $escape_operator = $match[Grammar::SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $name = $match[Grammar::SECTION_NAME_ESCAPED_INDEX][0];
+        $escape_begin_operator_column = $match[Grammar::SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[Grammar::SECTION_NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[Grammar::SECTION_NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -244,13 +240,13 @@ function tokenize(stdClass $context) : void {
         ];
       }
 
-      if(isset($match[$SECTION_TEMPLATE_INDEX][0])) {
-        $template = $match[$SECTION_TEMPLATE_INDEX][0];
+      if(isset($match[Grammar::SECTION_TEMPLATE_INDEX][0])) {
+        $template = $match[Grammar::SECTION_TEMPLATE_INDEX][0];
         $instruction->template = $template;
 
-        $copy_operator = $match[$SECTION_COPY_OPERATOR_INDEX][0];
-        $copy_operator_column = $match[$SECTION_COPY_OPERATOR_INDEX][1] - $index;
-        $template_column = $match[$SECTION_TEMPLATE_INDEX][1] - $index;
+        $copy_operator = $match[Grammar::SECTION_COPY_OPERATOR_INDEX][0];
+        $copy_operator_column = $match[Grammar::SECTION_COPY_OPERATOR_INDEX][1] - $index;
+        $template_column = $match[Grammar::SECTION_TEMPLATE_INDEX][1] - $index;
 
         if($copy_operator == '<') {
           $instruction->deep_copy = false;
@@ -263,15 +259,15 @@ function tokenize(stdClass $context) : void {
         $instruction->ranges['template'] = [$template_column, $template_column + strlen($template)];
       }
 
-    } else if(isset($match[$BLOCK_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::BLOCK_OPERATOR_INDEX][0])) {
 
-      $operator = $match[$BLOCK_OPERATOR_INDEX][0];
-      $name = $match[$BLOCK_NAME_INDEX][0];
+      $operator = $match[Grammar::BLOCK_OPERATOR_INDEX][0];
+      $name = $match[Grammar::BLOCK_NAME_INDEX][0];
       $instruction->name = $name;
       $instruction->type = 'BLOCK';
 
-      $operator_column = $match[$BLOCK_OPERATOR_INDEX][1] - $index;
-      $name_column = $match[$BLOCK_NAME_INDEX][1] - $index;
+      $operator_column = $match[Grammar::BLOCK_OPERATOR_INDEX][1] - $index;
+      $name_column = $match[Grammar::BLOCK_NAME_INDEX][1] - $index;
       $instruction->length = strlen($match[0][0]);
       $instruction->ranges = [
         'block_operator' => [$operator_column, $operator_column + strlen($operator)],
@@ -342,16 +338,16 @@ function tokenize(stdClass $context) : void {
         }
       }
 
-    } else if(isset($match[$TEMPLATE_INDEX][0])) {
+    } else if(isset($match[Grammar::TEMPLATE_INDEX][0])) {
 
-      $template = $match[$TEMPLATE_INDEX][0];
-      $copy_operator = $match[$COPY_OPERATOR_INDEX][0];
-      $copy_operator_column = $match[$COPY_OPERATOR_INDEX][1] - $index;
+      $template = $match[Grammar::TEMPLATE_INDEX][0];
+      $copy_operator = $match[Grammar::COPY_OPERATOR_INDEX][0];
+      $copy_operator_column = $match[Grammar::COPY_OPERATOR_INDEX][1] - $index;
 
-      if(isset($match[$NAME_UNESCAPED_INDEX][0])) {
-        $name = $match[$NAME_UNESCAPED_INDEX][0];
+      if(isset($match[Grammar::NAME_UNESCAPED_INDEX][0])) {
+        $name = $match[Grammar::NAME_UNESCAPED_INDEX][0];
 
-        $name_column = $match[$NAME_UNESCAPED_INDEX][1] - $index;
+        $name_column = $match[Grammar::NAME_UNESCAPED_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -359,12 +355,12 @@ function tokenize(stdClass $context) : void {
           'name' => [$name_column, $name_column + strlen($instruction->name)]
         ];
       } else {
-        $name = $match[$NAME_ESCAPED_INDEX][0];
+        $name = $match[Grammar::NAME_ESCAPED_INDEX][0];
 
-        $escape_operator = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
-        $escape_begin_operator_column = $match[$NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
-        $name_column = $match[$NAME_ESCAPED_INDEX][1] - $index;
-        $escape_end_operator_column = $match[$NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
+        $escape_operator = $match[Grammar::NAME_ESCAPE_BEGIN_OPERATOR_INDEX][0];
+        $escape_begin_operator_column = $match[Grammar::NAME_ESCAPE_BEGIN_OPERATOR_INDEX][1] - $index;
+        $name_column = $match[Grammar::NAME_ESCAPED_INDEX][1] - $index;
+        $escape_end_operator_column = $match[Grammar::NAME_ESCAPE_END_OPERATOR_INDEX][1] - $index;
 
         $instruction->name = $name;
         $instruction->ranges = [
@@ -378,19 +374,19 @@ function tokenize(stdClass $context) : void {
       $instruction->template = $template;
       $instruction->type = 'NAME';
 
-      $template_column = $match[$TEMPLATE_INDEX][1] - $index;
+      $template_column = $match[Grammar::TEMPLATE_INDEX][1] - $index;
       $instruction->ranges['template'] = [$template_column, $template_column + strlen($template)];
 
-    } else if(isset($match[$COMMENT_OPERATOR_INDEX][0])) {
+    } else if(isset($match[Grammar::COMMENT_OPERATOR_INDEX][0])) {
 
       $instruction->type = 'NOOP';
 
-      $operator_column = $match[$COMMENT_OPERATOR_INDEX][1] - $index;
+      $operator_column = $match[Grammar::COMMENT_OPERATOR_INDEX][1] - $index;
       $instruction->ranges = [ 'comment_operator' => [$operator_column, $operator_column + 1] ];
 
-      if(isset($match[$COMMENT_TEXT_INDEX][0])) {
-        $text_column = $match[$COMMENT_TEXT_INDEX][1] - $index;
-        $instruction->comment = $match[$COMMENT_TEXT_INDEX][0];
+      if(isset($match[Grammar::COMMENT_TEXT_INDEX][0])) {
+        $text_column = $match[Grammar::COMMENT_TEXT_INDEX][1] - $index;
+        $instruction->comment = $match[Grammar::COMMENT_TEXT_INDEX][0];
         $instruction->ranges['comment'] = [$text_column, $text_column + strlen($instruction->comment)];
       }
 
