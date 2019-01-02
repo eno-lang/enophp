@@ -281,7 +281,7 @@ function tokenize(stdClass $context) : void {
       $start_of_block_column = $index;
 
       $name_escaped = preg_quote($instruction->name);
-      $terminator_regex = "/[^\\S\\n]*(${operator})[^\\S\\n]*(${name_escaped})[^\\S\\n]*(?=\\n|$)/A";
+      $terminator_regex = "/[^\\S\\n]*(${operator})(?!-)[^\\S\\n]*(${name_escaped})[^\\S\\n]*(?=\\n|$)/A";
 
       while(true) {
         $matched = preg_match($terminator_regex, $context->input, $terminator_match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);

@@ -35,21 +35,21 @@ class Grammar {
   const LIST_ITEM_VALUE_INDEX = 9;
 
   // -- Block name
-  const BLOCK = '(-{2,})[^\\S\\n]*'.self::REQUIRED;
+  const BLOCK = '(--++)[^\\S\\n]*'.self::REQUIRED;
   const BLOCK_OPERATOR_INDEX = 10;
   const BLOCK_NAME_INDEX = 11;
 
   // #
-  const SECTION_HASHES = '(#+)(?!#)';
+  const SECTION_HASHES = '(#++)';
   const SECTION_HASHES_INDEX = 12;
 
   // # Section name
-  const SECTION_NAME_UNESCAPED = '(?!`)([^\\s<][^<\\n]*?)';
+  const SECTION_NAME_UNESCAPED = '([^\\s`<][^<\\n]*?)';
   const SECTION_NAME_UNESCAPED_INDEX = 13;
 
   // # `Escaped section name`
   const SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX = 14;
-  const SECTION_NAME_ESCAPED = '(`+)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\'.self::SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX.')'; // TODO: Should this exclude the backreference inside the quotes? (as in ((?:(?!\1).)+) ) here and elsewhere (probably not because it's not greedy.?!
+  const SECTION_NAME_ESCAPED = '(`++)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\'.self::SECTION_NAME_ESCAPE_BEGIN_OPERATOR_INDEX.')'; // TODO: Should this exclude the backreference inside the quotes? (as in ((?:(?!\1).)+) ) here and elsewhere (probably not because it's not greedy.?!
   const SECTION_NAME_ESCAPED_INDEX = 15;
   const SECTION_NAME_ESCAPE_END_OPERATOR_INDEX = 16;
 
@@ -65,13 +65,13 @@ class Grammar {
 
   // Name:
   // Name: Value
-  const NAME_UNESCAPED = '(?![>#\\-`\\\\|])([^\\s:=<][^:=<]*?)';
+  const NAME_UNESCAPED = '([^\\s>#\\-`\\\\|:=<][^\\n:=<]*?)';
   const NAME_UNESCAPED_INDEX = 19;
 
   // Name:
   // `Name`: Value
   const NAME_ESCAPE_BEGIN_OPERATOR_INDEX = 20;
-  const NAME_ESCAPED = '(`+)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\'.self::NAME_ESCAPE_BEGIN_OPERATOR_INDEX.')';
+  const NAME_ESCAPED = '(`++)[^\\S\\n]*(\\S[^\\n]*?)[^\\S\\n]*(\\'.self::NAME_ESCAPE_BEGIN_OPERATOR_INDEX.')';
   const NAME_ESCAPED_INDEX = 21;
   const NAME_ESCAPE_END_OPERATOR_INDEX = 22;
 
