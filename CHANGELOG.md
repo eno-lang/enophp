@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.2 / `2019-01-02`
+
+#### Fixed
+
+- Port core pattern matching fixes `7c07438`
+- Ensure strict type checking for all comparison operations `b8206e6`
+
+#### Maintenance
+
+- Port core pattern matching spec suite `991b01e`
+- Modularize grammar constants as a class `8980e35`
+
 ## 0.1.1 / `2018-11-08`
 
 #### Fixed
