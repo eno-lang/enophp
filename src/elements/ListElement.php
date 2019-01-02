@@ -23,7 +23,7 @@ class ListElement {
     $instruction->element = $this;
 
     foreach($instruction->subinstructions as $subinstruction) {
-      if($subinstruction->type == 'LIST_ITEM') {
+      if($subinstruction->type === 'LIST_ITEM') {
         $subinstruction->element = new Field($context, $subinstruction, $this);
         $this->items[] = $subinstruction->element;
       } else {

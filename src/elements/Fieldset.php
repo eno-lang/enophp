@@ -28,7 +28,7 @@ class Fieldset {
       $this->enforce_all_elements = false;
 
       foreach($instruction->subinstructions as $subinstruction) {
-        if($subinstruction->type == 'FIELDSET_ENTRY') {
+        if($subinstruction->type === 'FIELDSET_ENTRY') {
           $subinstruction->element = new Field($context, $subinstruction, $this);
           $this->entries[] = $subinstruction->element;
           $this->entries_associative[$subinstruction->name] = $subinstruction->element;

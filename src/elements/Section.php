@@ -37,19 +37,19 @@ class Section {
     };
 
     foreach($instruction->subinstructions as $subinstruction) {
-      if($subinstruction->type == 'NOOP') {
+      if($subinstruction->type === 'NOOP') {
         $subinstruction->element = $this;
-      } else if($subinstruction->type == 'NAME') {
+      } else if($subinstruction->type === 'NAME') {
         $append(new EmptyElement($context, $subinstruction, $this));
-      } else if($subinstruction->type == 'FIELD') {
+      } else if($subinstruction->type === 'FIELD') {
         $append(new Field($context, $subinstruction, $this));
-      } else if($subinstruction->type == 'LIST') {
+      } else if($subinstruction->type === 'LIST') {
         $append(new ListElement($context, $subinstruction, $this));
-      } else if($subinstruction->type == 'BLOCK') {
+      } else if($subinstruction->type === 'BLOCK') {
         $append(new Field($context, $subinstruction, $this));
-      } else if($subinstruction->type == 'FIELDSET') {
+      } else if($subinstruction->type === 'FIELDSET') {
         $append(new Fieldset($context, $subinstruction, $this));
-      } else if($subinstruction->type == 'SECTION') {
+      } else if($subinstruction->type === 'SECTION') {
         $append(new Section($context, $subinstruction, $this));
       }
     }
@@ -80,7 +80,7 @@ class Section {
   public function __toString() : string {
     $elements_count = count($this->elements);
 
-    if($this->name == '<>#:=|\\_ENO_DOCUMENT')
+    if($this->name === '<>#:=|\\_ENO_DOCUMENT')
       return "[Section document elements={$elements_count}]";
 
     return "[Section name=\"{$this->name}\" elements={$elements_count}]";
@@ -513,7 +513,7 @@ class Section {
     $line = null;
     $column = null;
 
-    if(count($position) == 2) {
+    if(count($position) === 2) {
       $line = $position[0];
       $column = $position[1];
     } else {
@@ -525,7 +525,7 @@ class Section {
         if($index >= strlen($this->context->input))
           return null;
 
-        if($this->context->input[$index] == "\n") {
+        if($this->context->input[$index] === "\n") {
           $line++;
           $column = 0;
         } else {
@@ -538,7 +538,7 @@ class Section {
 
     $instruction = null;
     foreach($this->context->instructions as $find_instruction) {
-      if($find_instruction->line == $line) {
+      if($find_instruction->line === $line) {
         $instruction = $find_instruction;
         break;
       }
@@ -572,7 +572,7 @@ class Section {
       $this->elements
     );
 
-    if($this->name == '<>#:=|\\_ENO_DOCUMENT')
+    if($this->name === '<>#:=|\\_ENO_DOCUMENT')
       return $elements;
 
     return [ $this->name => $elements ];

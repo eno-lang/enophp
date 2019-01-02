@@ -26,7 +26,7 @@ class Field {
 
     $instruction->element = $this;
 
-    if($instruction->type == 'BLOCK' && array_key_exists('content_range', $instruction)) {
+    if($instruction->type === 'BLOCK' && array_key_exists('content_range', $instruction)) {
       $this->value = substr($context->input, $instruction->content_range[0], $instruction->content_range[1] + 1);
 
       foreach($instruction->subinstructions as $subinstruction) {
@@ -38,7 +38,7 @@ class Field {
       foreach($instruction->subinstructions as $subinstruction) {
         $subinstruction->element = $this;
 
-        if($subinstruction->type == 'CONTINUATION') {
+        if($subinstruction->type === 'CONTINUATION') {
           if($this->value === null) {
             $this->value = $subinstruction->value;
           } else {
@@ -56,7 +56,7 @@ class Field {
             }
           }
           continue;
-        } else if($subinstruction->type == 'BLOCK' && array_key_exists('content_range', $subinstruction)) {
+        } else if($subinstruction->type === 'BLOCK' && array_key_exists('content_range', $subinstruction)) {
           // blocks can only appear as a subinstruction when they are copied,
           // and as a copy they always appear as the first subinstruction,
           // that is why write to value straight without any checks->

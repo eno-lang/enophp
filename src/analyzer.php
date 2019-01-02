@@ -28,7 +28,7 @@ function analyze(stdClass $context) : void {
 
   foreach($context->instructions as $instruction) {
 
-    if($instruction->type == 'NOOP') {
+    if($instruction->type === 'NOOP') {
       if($last_name_instruction) {
         $unresolved_idle_instructions[] = $instruction;
       } else {
@@ -41,12 +41,12 @@ function analyze(stdClass $context) : void {
     // TODO: Appending block content instructions to the block as subinstructions
     //       is probably not necessary anymore in the new architecture, this could
     //       save performance if we can omit it, investigate and follow up.
-    if($instruction->type == 'BLOCK_CONTENT') {
+    if($instruction->type === 'BLOCK_CONTENT') {
       $last_name_instruction->subinstructions[] = $instruction;
       continue;
     }
 
-    if($instruction->type == 'FIELD') {
+    if($instruction->type === 'FIELD') {
       $last_section_instruction->subinstructions = array_merge($last_section_instruction->subinstructions, $unresolved_idle_instructions);
       $unresolved_idle_instructions = [];
 
@@ -66,7 +66,7 @@ function analyze(stdClass $context) : void {
       continue;
     }
 
-    if($instruction->type == 'NAME') {
+    if($instruction->type === 'NAME') {
       $last_section_instruction->subinstructions = array_merge($last_section_instruction->subinstructions, $unresolved_idle_instructions);
       $unresolved_idle_instructions = [];
 
@@ -92,8 +92,8 @@ function analyze(stdClass $context) : void {
       continue;
     }
 
-    if($instruction->type == 'LIST_ITEM') {
-      if($last_name_instruction == null) {
+    if($instruction->type === 'LIST_ITEM') {
+      if($last_name_instruction === null) {
         throw Analysis::missingNameForListItem($context, $instruction);
       }
 
@@ -103,30 +103,30 @@ function analyze(stdClass $context) : void {
       $instruction->name = $last_name_instruction->name;
       $instruction->subinstructions = [];
 
-      if($last_name_instruction->type == 'LIST') {
+      if($last_name_instruction->type === 'LIST') {
         $last_name_instruction->subinstructions[] = $instruction;
         $last_continuable_instruction = $instruction;
         continue;
       }
 
-      if($last_name_instruction->type == 'NAME') {
+      if($last_name_instruction->type === 'NAME') {
         $last_name_instruction->type = 'LIST';
         $last_name_instruction->subinstructions[] = $instruction;
         $last_continuable_instruction = $instruction;
         continue;
       }
 
-      if($last_name_instruction->type == 'FIELDSET') {
+      if($last_name_instruction->type === 'FIELDSET') {
         throw Analysis::listItemInFieldset($context, $instruction, $last_name_instruction);
       }
 
-      if($last_name_instruction->type == 'FIELD') {
+      if($last_name_instruction->type === 'FIELD') {
         throw Analysis::listItemInField($context, $instruction, $last_name_instruction);
       }
     }
 
-    if($instruction->type == 'FIELDSET_ENTRY') {
-      if($last_name_instruction == null) {
+    if($instruction->type === 'FIELDSET_ENTRY') {
+      if($last_name_instruction === null) {
         throw Analysis::missingNameForFieldsetEntry($context, $instruction);
       }
 
@@ -135,7 +135,7 @@ function analyze(stdClass $context) : void {
 
       $instruction->subinstructions = [];
 
-      if($last_name_instruction->type == 'FIELDSET') {
+      if($last_name_instruction->type === 'FIELDSET') {
         if(in_array($instruction->name, $last_fieldset_entry_names)) {
           throw Analysis::duplicateFieldsetEntryName($context, $last_name_instruction, $instruction);
         } else {
@@ -147,7 +147,7 @@ function analyze(stdClass $context) : void {
         continue;
       }
 
-      if($last_name_instruction->type == 'NAME') {
+      if($last_name_instruction->type === 'NAME') {
         $last_name_instruction->type = 'FIELDSET';
         $last_name_instruction->subinstructions[] = $instruction;
         $last_fieldset_entry_names = [$instruction->name];
@@ -155,16 +155,16 @@ function analyze(stdClass $context) : void {
         continue;
       }
 
-      if($last_name_instruction->type == 'LIST') {
+      if($last_name_instruction->type === 'LIST') {
         throw Analysis::fieldsetEntryInList($context, $instruction, $last_name_instruction);
       }
 
-      if($last_name_instruction->type == 'FIELD') {
+      if($last_name_instruction->type === 'FIELD') {
         throw Analysis::fieldsetEntryInField($context, $instruction, $last_name_instruction);
       }
     }
 
-    if($instruction->type ==  'BLOCK') {
+    if($instruction->type ===  'BLOCK') {
       $last_section_instruction->subinstructions = array_merge($last_section_instruction->subinstructions, $unresolved_idle_instructions);
       $unresolved_idle_instructions = [];
 
@@ -184,21 +184,21 @@ function analyze(stdClass $context) : void {
       continue;
     }
 
-    if($instruction->type ==  'BLOCK_TERMINATOR') {
+    if($instruction->type === 'BLOCK_TERMINATOR') {
       $last_name_instruction->subinstructions[] = $instruction;
       $last_name_instruction = null;
       continue;
     }
 
-    if($instruction->type == 'CONTINUATION') {
-      if($last_continuable_instruction == null) {
+    if($instruction->type === 'CONTINUATION') {
+      if($last_continuable_instruction === null) {
         throw Analysis::missingElementForContinuation($context, $instruction);
       }
 
       $last_continuable_instruction->subinstructions = array_merge($last_continuable_instruction->subinstructions, $unresolved_idle_instructions);
       $unresolved_idle_instructions = [];
 
-      if($last_name_instruction->type == 'NAME') {
+      if($last_name_instruction->type === 'NAME') {
         $last_name_instruction->type = 'FIELD';
         $last_name_instruction->value = null;
       }
@@ -207,7 +207,7 @@ function analyze(stdClass $context) : void {
       continue;
     }
 
-    if($instruction->type == 'SECTION') {
+    if($instruction->type === 'SECTION') {
       $last_section_instruction->subinstructions = array_merge($last_section_instruction->subinstructions, $unresolved_idle_instructions);
       $unresolved_idle_instructions = [];
 

@@ -18,10 +18,10 @@ class Loaders {
   public static function boolean($name, $value, $context) {
     $lower = strtolower(trim($value));
 
-    if($lower == 'true') return true;
-    if($lower == 'false') return false;
-    if($lower == 'yes') return true;
-    if($lower == 'no') return false;
+    if($lower === 'true') return true;
+    if($lower === 'false') return false;
+    if($lower === 'yes') return true;
+    if($lower === 'no') return false;
 
     throw new Exception($context->messages['loaders']['invalid_boolean']($name));
   }

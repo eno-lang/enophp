@@ -248,7 +248,7 @@ function tokenize(stdClass $context) : void {
         $copy_operator_column = $match[Grammar::SECTION_COPY_OPERATOR_INDEX][1] - $index;
         $template_column = $match[Grammar::SECTION_TEMPLATE_INDEX][1] - $index;
 
-        if($copy_operator == '<') {
+        if($copy_operator === '<') {
           $instruction->deep_copy = false;
           $instruction->ranges['copy_operator'] = [$copy_operator_column, $copy_operator_column + strlen($copy_operator)];
         } else { // copy_operator === '<<'
@@ -286,7 +286,7 @@ function tokenize(stdClass $context) : void {
       while(true) {
         $matched = preg_match($terminator_regex, $context->input, $terminator_match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL, $index);
 
-        if($matched == 1) {
+        if($matched === 1) {
           if($line > $instruction->line + 1) {
             $instruction->content_range = [$start_of_block_column, $index - 2];
           }
@@ -399,7 +399,7 @@ function tokenize(stdClass $context) : void {
     }
 
     if($index >= strlen($context->input)) {
-      if(strlen($context->input) > 0 && $context->input[strlen($context->input) - 1] == "\n") {
+      if(strlen($context->input) > 0 && $context->input[strlen($context->input) - 1] === "\n") {
         $context->instructions[] = (object) [
           'index' => strlen($context->input),
           'length' => 0,

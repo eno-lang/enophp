@@ -28,7 +28,7 @@ class Tokenization {
     $line = substr($context->input, $instruction->index, $instruction->length);
 
     $matched = preg_match(self::UNTERMINATED_ESCAPED_NAME, $line, $match, PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL);;
-    if($matched == 1) {
+    if($matched === 1) {
       return self::unterminatedEscapedName($context, $instruction, $match[2][1]);
     }
 

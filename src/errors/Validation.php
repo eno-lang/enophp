@@ -712,7 +712,7 @@ class Validation {
     $message = null;
     $selection = null;
 
-    if($instruction->type == 'FIELD' || $instruction->type == 'NAME' || $instruction->type == 'BLOCK') {
+    if($instruction->type === 'FIELD' || $instruction->type === 'NAME' || $instruction->type === 'BLOCK') {
       $message = $context->messages['validation']['missing_field_value']($instruction->name);
 
       if(array_key_exists('template', $instruction->ranges)) {
@@ -725,13 +725,13 @@ class Validation {
       } else {
         $selection = [[$instruction->line, $instruction->length]];
       }
-    } else if($instruction->type == 'FIELDSET_ENTRY') {
+    } else if($instruction->type === 'FIELDSET_ENTRY') {
       $message = $context->messages['validation']['missing_fieldset_entry_value']($instruction->name);
       $selection = [[
         $instruction->line,
         min($instruction->ranges['entry_operator'][1] + 1, $instruction->length)
       ]];
-    } else if($instruction->type == 'LIST_ITEM') {
+    } else if($instruction->type === 'LIST_ITEM') {
       $message = $context->messages['validation']['missing_list_item_value']($instruction->name);
       $selection = [[
         $instruction->line,
@@ -760,9 +760,9 @@ class Validation {
     $snippet = null;
     $selection = null;
 
-    if($instruction->type == 'BLOCK') {
+    if($instruction->type === 'BLOCK') {
       $content_instructions = array_filter(
-        function($instruction) { return $instruction->type == 'BLOCK_CONTENT'; },
+        function($instruction) { return $instruction->type === 'BLOCK_CONTENT'; },
         $instruction->subinstructions
       );
       $terminator_instruction = $instruction->subinstructions[count($instruction->subinstructions) - 1];
@@ -800,7 +800,7 @@ class Validation {
           $instruction->line,
           min($instruction->ranges['entry_operator'][1] + 1, $instruction->length)
         ]];
-      } else if($instruction->type == 'LIST_ITEM') {
+      } else if($instruction->type === 'LIST_ITEM') {
         $selection = [[
           $instruction->line,
           min($instruction->ranges['item_operator'][1] + 1, $instruction->length)
