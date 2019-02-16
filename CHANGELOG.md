@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 / `2019-02-16`
+
+#### Fixed
+
+- Critical substr indexing fix for block value construction `685acea`
+
 ## 0.1.2 / `2019-01-02`
 
 #### Fixed
