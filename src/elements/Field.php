@@ -27,7 +27,10 @@ class Field {
     $instruction->element = $this;
 
     if($instruction->type === 'BLOCK' && array_key_exists('content_range', $instruction)) {
-      $this->value = substr($context->input, $instruction->content_range[0], $instruction->content_range[1] + 1);
+      $this->value = substr(
+        $context->input,
+        $instruction->content_range[0],
+        $instruction->content_range[1] - $instruction->content_range[0] + 1);
 
       foreach($instruction->subinstructions as $subinstruction) {
         $subinstruction->element = $this;
@@ -62,8 +65,8 @@ class Field {
           // that is why write to value straight without any checks->
           $this->value = substr(
             $context->input,
-            $subinstruction['content_range'][0],
-            $subinstruction['content_range'][1] + 1
+            $subinstruction->content_range[0],
+            $subinstruction->content_range[1] - $subinstruction->content_range[0] + 1
           );
         }
       }
