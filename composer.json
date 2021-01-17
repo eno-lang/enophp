@@ -22,14 +22,14 @@
     "parser",
     "validation"
   ],
-  "homepage": "https://eno-lang.org/php/",
+  "homepage": "https://archived.eno-lang.org/php/",
   "license": "MIT",
   "name": "eno-lang/enophp",
   "require-dev": {
     "kahlan/kahlan": "^4.3.1"
   },
   "support": {
-    "docs": "https://eno-lang.org/php/",
+    "docs": "https://archived.eno-lang.org/php/",
     "issues": "https://github.com/eno-lang/enophp/issues",
     "source": "https://github.com/eno-lang/enophp/"
   }
