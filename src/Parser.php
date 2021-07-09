@@ -40,7 +40,7 @@ class Parser {
 
     tokenize($context);
     analyze($context);
-    resolve($context);
+    resolveFromContext($context);
 
     $context->document = new Section($context, $context->document_instruction);
 

@@ -262,7 +262,7 @@ function recursiveResolve(stdClass $context, stdClass $instruction, array $previ
   }
 }
 
-function resolve(stdClass $context) : void {
+function resolveFromContext(stdClass $context) : void {
   while(count($context->unresolved_instructions) > 0) {
     recursiveResolve($context, $context->unresolved_instructions[0]);
   }
