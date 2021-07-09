@@ -26,7 +26,7 @@ class Field {
 
     $instruction->element = $this;
 
-    if($instruction->type === 'BLOCK' && array_key_exists('content_range', $instruction)) {
+    if($instruction->type === 'BLOCK' && property_exists($instruction, 'content_range')) {
       $this->value = substr(
         $context->input,
         $instruction->content_range[0],
