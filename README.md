@@ -29,3 +29,17 @@ echo( $document->field('Greeting') );  // prints 'Hello World!'
 ## Complete documentation and API reference
 
 See [archived.eno-lang.org/php/](https://archived.eno-lang.org/php/)
+
+## Running the tests
+
+Install [kahlan](https://github.com/kahlan/kahlan) as development dependency:
+
+```bash
+composer install
+```
+
+Run the tests:
+
+```bash
+./vendor/bin/kahlan
+```

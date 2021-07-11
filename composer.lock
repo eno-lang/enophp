@@ -4,28 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6132fdb73728dfa92a33d4e62b89b738",
+    "content-hash": "57abb26cc5d40fd058dedc6a92c64371",
     "packages": [],
     "packages-dev": [
         {
             "name": "kahlan/kahlan",
-            "version": "4.3.1",
+            "version": "4.7.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kahlan/kahlan.git",
-                "reference": "92dbe4691f2f3049523cc525365a1a0be0c86db9"
+                "reference": "36ec916f7c7b067239431d3da0dc1da172bc98bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/92dbe4691f2f3049523cc525365a1a0be0c86db9",
-                "reference": "92dbe4691f2f3049523cc525365a1a0be0c86db9",
+                "url": "https://api.github.com/repos/kahlan/kahlan/zipball/36ec916f7c7b067239431d3da0dc1da172bc98bb",
+                "reference": "36ec916f7c7b067239431d3da0dc1da172bc98bb",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5"
             },
             "require-dev": {
-                "squizlabs/php_codesniffer": "^2.7"
+                "squizlabs/php_codesniffer": "^3.4"
             },
             "bin": [
                 "bin/kahlan"
@@ -59,7 +59,11 @@
                 "testing",
                 "unit test"
             ],
-            "time": "2018-09-28T15:39:00+00:00"
+            "support": {
+                "issues": "https://github.com/kahlan/kahlan/issues",
+                "source": "https://github.com/kahlan/kahlan/tree/4.7.7"
+            },
+            "time": "2020-10-17T08:37:23+00:00"
         }
     ],
     "aliases": [],
@@ -68,5 +72,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
