@@ -43,3 +43,8 @@ Run the tests:
 ```bash
 ./vendor/bin/kahlan
 ```
+
+Note that the test suite has a high peak memory load at some point, which might,
+depending on your system configuration, exceed your PHP maximum memory
+threshold. If you run into this you can for instance increase the limit in your
+`php.ini` and specify e.g. `memory_limit = 512M`.
