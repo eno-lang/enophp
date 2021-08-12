@@ -10,7 +10,6 @@ use Eno\Elements\Field;
 use Eno\Elements\Fieldset;
 use Eno\Elements\ListElement;
 use \stdClass;
-use const Eno\element;
 
 // TODO: Here and elsewhere - declare private properties private
 //       (And use reflection API in specs to still test private properties where needed)

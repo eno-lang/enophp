@@ -1,11 +1,10 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Errors;
-use Eno\Errors\ParseError;
 use \stdClass;
 
-class Analysis {
-
+class Analysis
+{
   public static function fieldsetEntryInField(stdClass $context, stdClass $entry_instruction, stdClass $field_instruction) : ParseError {
     $message = $context->messages['analysis']['fieldset_entry_in_field'](
       $entry_instruction->line + $context->indexing

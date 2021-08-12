@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Errors;
-use Eno\Errors\ParseError;
+
 use \stdClass;
 
-class Tokenization {
+class Tokenization
+{
   private const UNTERMINATED_ESCAPED_NAME = "/^\s*(`+)(?!`)((?:(?!\1).)+)$/";
 
   // ```name: value

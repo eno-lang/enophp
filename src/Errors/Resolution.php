@@ -4,7 +4,8 @@ namespace Eno\Errors;
 use Eno\Errors\ParseError;
 use \stdClass;
 
-class Resolution {
+class Resolution
+{
   public static function copyingBlockIntoFieldset(stdClass $context, stdClass $instruction) : ParseError {
     $message = $context->messages['resolution']['copying_block_into_fieldset'](
       $instruction->line + $context->indexing

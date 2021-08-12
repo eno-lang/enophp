@@ -1,9 +1,11 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Errors;
+
 use Exception;
 
-class Error extends Exception {
+class Error extends Exception
+{
   public $cursor;
   public $message;
   public $selection;
