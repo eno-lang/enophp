@@ -75,7 +75,7 @@ function analyze(stdClass $context) : void {
       $last_continuable_instruction = $instruction;
       $last_name_instruction = $instruction;
 
-      if(array_key_exists('template', $instruction)) {
+      if(property_exists($instruction, 'template')) {
         $context->unresolved_instructions[] = $instruction;
       }
 

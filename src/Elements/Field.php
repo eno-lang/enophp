@@ -157,7 +157,7 @@ class Field {
     if($this->value !== null) {
       if($loader) {
         try {
-          $info = new ReflectionFunction($loader);
+          $info = new \ReflectionFunction($loader);
 
           switch ($info->getNumberOfParameters()) {
             case 3:

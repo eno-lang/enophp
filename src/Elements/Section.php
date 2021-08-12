@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Elements;
+
 use Eno\Elements\EmptyElement;
 use Eno\Errors\Validation;
 use \BadMethodCallException;
