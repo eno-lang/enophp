@@ -79,7 +79,7 @@ function analyze(stdClass $context) : void {
         $context->unresolved_instructions[] = $instruction;
       }
 
-      if(!array_key_exists('template', $instruction) || $instruction->name !== $instruction->template) {
+      if(!property_exists($instruction, 'template') || $instruction->name !== $instruction->template) {
         if(array_key_exists($instruction->name, $context->template_index)) {
           $context->template_index[$instruction->name][] = $instruction;
         } else {
