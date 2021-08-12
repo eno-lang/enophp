@@ -2,6 +2,4 @@
 
 namespace Eno\Errors;
 
-use Eno\Errors\Error;
-
 class ValidationError extends Error { }
