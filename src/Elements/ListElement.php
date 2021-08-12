@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Eno;
-use Eno\ValidationError;
+namespace Eno\Elements;
+use Eno\Elements\Field;
+use Eno\Elements\Section;
+use Eno\Errors\ValidationError;
 use \BadMethodCallException;
 use \Closure;
 use \stdClass;
@@ -38,7 +40,7 @@ class ListElement {
     if(method_exists('Eno\Loaders', $function_name)) {
       return $this->items(Closure::fromCallable(['Eno\\Loaders', $function_name]), ...$arguments);
     } else {
-      throw new BadMethodCallException("Call to undefined method Eno\\Section::{$function_name}()");
+      throw new BadMethodCallException("Call to undefined method Eno\\Elements\\Section::{$function_name}()");
     }
   }
 

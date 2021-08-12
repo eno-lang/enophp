@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Errors;
-use Eno\ValidationError;
+use Eno\Errors\ValidationError;
 use \stdClass;
 
 function deepExpandInstruction(stdClass $instruction) : array {
   $result = [$instruction];
 
-  if(array_key_exists('subinstructions', $instruction)) {
+  if(property_exists($instruction, 'subinstructions')) {
     foreach($instruction->subinstructions as $subinstruction) {
       $result = array_merge($result, deepExpandInstruction($subinstruction));
     }

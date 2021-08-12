@@ -2,7 +2,7 @@
 
 namespace Eno;
 use \OutOfRangeException;
-use Eno\Section;
+use Eno\Elements\Section;
 use Eno\Reporters\Reporter;
 
 require_once(__DIR__ . '/analyzer.php'); // TODO: Class (?)
@@ -12,10 +12,10 @@ require_once(__DIR__ . '/resolver.php'); // TODO: Class (?)
 class Parser {
   public static function parse(string $input, array $options = []) : Section {
     $default_options = [
-      'locale' => 'en',
-      'reporter' => new Reporters\Text,
-      'source_label' => null,
-      'zero_indexing' => false
+        'locale' => 'en',
+        'reporter' => new Reporters\Text,
+        'source_label' => null,
+        'zero_indexing' => false
     ];
 
     $options = array_merge($default_options, $options);

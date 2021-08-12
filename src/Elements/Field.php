@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Eno;
+namespace Eno\Elements;
 
 use \BadMethodCallException;
 use \Closure;
@@ -8,7 +8,7 @@ use \Exception;
 use \ReflectionFunction;
 use \stdClass;
 use Eno\Errors\Validation;
-use Eno\ValidationError;
+use Eno\Errors\ValidationError;
 
 class Field {
   public $touched;
@@ -77,7 +77,7 @@ class Field {
     if(method_exists('Eno\Loaders', $function_name)) {
       return $this->value(Closure::fromCallable(['Eno\\Loaders', $function_name]), ...$arguments);
     } else {
-      throw new BadMethodCallException("Call to undefined method Eno\\Field::{$function_name}()");
+      throw new BadMethodCallException("Call to undefined method Eno\\Elements\\Field::{$function_name}()");
     }
   }
 

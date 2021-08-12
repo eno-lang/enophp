@@ -37,7 +37,7 @@ DOC;
       it('passes them on', function() {
         $this->result = $this->ratings->number('excellent', [ 'with_element' => true ]);
 
-        expect($this->result['element'])->toBeAnInstanceOf('Eno\\Field');
+        expect($this->result['element'])->toBeAnInstanceOf('Eno\\Elements\\Field');
         expect($this->result['value'])->toBe(1);
       });
     });
@@ -57,7 +57,7 @@ DOC;
         $items = $this->color_list->colorItems([ 'with_elements' => true ]);
 
         foreach($items as $item) {
-          expect($item['element'])->toBeAnInstanceOf('Eno\\Field');
+          expect($item['element'])->toBeAnInstanceOf('Eno\\Elements\\Field');
           expect($item['value'])->toBeA('string');
         }
       });
@@ -74,7 +74,7 @@ DOC;
         it('passes them on', function() {
           $this->result = $this->document->email('email', [ 'with_element' => true ]);
 
-          expect($this->result['element'])->toBeAnInstanceOf('Eno\\Field');
+          expect($this->result['element'])->toBeAnInstanceOf('Eno\\Elements\\Field');
           expect($this->result['value'])->toEqual('jane.doe@eno-lang.org');
         });
       });
@@ -90,7 +90,7 @@ DOC;
           $items = $this->document->colorList('colors', [ 'with_elements' => true ]);
 
           foreach($items as $item) {
-            expect($item['element'])->toBeAnInstanceOf('Eno\\Field');
+            expect($item['element'])->toBeAnInstanceOf('Eno\\Elements\\Field');
             expect($item['value'])->toBeA('string');
           }
         });

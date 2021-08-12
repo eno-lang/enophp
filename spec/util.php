@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{ParseError, ValidationError};
+use Eno\{Errors\ParseError, Errors\ValidationError};
 
 function interceptParseError(callable $callback) : ParseError {
   $error = null;

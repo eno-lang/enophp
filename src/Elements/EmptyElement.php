@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Eno;
+namespace Eno\Elements;
+use Eno\Elements\Section;
 use Eno\Errors\Validation;
-use Eno\ValidationError;
+use Eno\Errors\ValidationError;
 use \stdClass;
 
 class EmptyElement {

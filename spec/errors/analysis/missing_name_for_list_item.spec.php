@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{Error, Parser};
+use Eno\{Errors\Error, Parser};
 
 describe('Analysis::missingNameForListItem', function() {
   beforeAll(function() {

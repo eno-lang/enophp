@@ -1,10 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Eno;
+namespace Eno\Elements;
+use Eno\Elements\EmptyElement;
 use Eno\Errors\Validation;
 use \BadMethodCallException;
 use \Closure;
+use Eno\Elements\Field;
+use Eno\Elements\Fieldset;
+use Eno\Elements\ListElement;
 use \stdClass;
+use const Eno\element;
 
 // TODO: Here and elsewhere - declare private properties private
 //       (And use reflection API in specs to still test private properties where needed)
@@ -73,7 +78,7 @@ class Section {
         return $this->list($name, $loader, ...$optional);
       }
     } else {
-      throw new BadMethodCallException("Call to undefined method Eno\\Section::{$function_name}()");
+      throw new BadMethodCallException("Call to undefined method Eno\\Elements\\Section::{$function_name}()");
     }
   }
 

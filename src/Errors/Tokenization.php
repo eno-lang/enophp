@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Errors;
-use Eno\ParseError;
+use Eno\Errors\ParseError;
 use \stdClass;
 
 class Tokenization {
