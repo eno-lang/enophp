@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Eno\Matchers;
-use Eno\Error;
+use Eno\Errors\Error;
 
 class ToMatchErrorSnapshot extends ToMatchSnapshot
 {

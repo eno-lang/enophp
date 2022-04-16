@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{Field, Fieldset, ListElement, Parser};
+use Eno\{Elements\Field, Elements\Fieldset, Elements\ListElement, Parser};
 
 describe('Fetching an empty element through fieldset()', function() {
   beforeEach(function() {
@@ -9,7 +9,7 @@ describe('Fetching an empty element through fieldset()', function() {
   });
 
   it('returns a fieldset', function() {
-    expect($this->fieldset)->toBeAnInstanceOf('Eno\\Fieldset');
+    expect($this->fieldset)->toBeAnInstanceOf('Eno\\Elements\\Fieldset');
   });
 
   it('returns a fieldset with enforceAllElements disabled', function() {
@@ -37,7 +37,7 @@ describe('Fetching an empty element through fieldsets()', function() {
   });
 
   it('returns a fieldset as first element', function() {
-    expect($this->fieldsets[0])->toBeAnInstanceOf('Eno\\Fieldset');
+    expect($this->fieldsets[0])->toBeAnInstanceOf('Eno\\Elements\\Fieldset');
   });
 
   it('returns a fieldset with enforceAllElements disabled', function() {
@@ -63,7 +63,7 @@ describe('Fetching an empty element through fields()', function() {
   });
 
   it('returns a field as first element', function() {
-    expect($this->fields[0])->toBeAnInstanceOf('Eno\\Field');
+    expect($this->fields[0])->toBeAnInstanceOf('Eno\\Elements\\Field');
   });
 });
 
@@ -76,6 +76,6 @@ describe('Fetching an empty element through lists()', function() {
   });
 
   it('returns a list as first element', function() {
-    expect($this->lists[0])->toBeAnInstanceOf('Eno\\ListElement');
+    expect($this->lists[0])->toBeAnInstanceOf('Eno\\Elements\\ListElement');
   });
 });

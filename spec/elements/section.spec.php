@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{Field, Section};
+use Eno\{Elements\Field, Elements\Section};
 
 describe('Section', function() {
   beforeAll(function() {
@@ -77,7 +77,7 @@ describe('Section', function() {
 
     it('returns the elements of the section', function() {
       foreach($this->result as $element) {
-        expect($element)->toBeAnInstanceOf('Eno\\Field');
+        expect($element)->toBeAnInstanceOf('Eno\\Elements\\Field');
       }
     });
   });

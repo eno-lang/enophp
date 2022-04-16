@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{Field, Parser, Section};
+use Eno\{Elements\Field, Parser, Elements\Section};
 
 describe('Field', function() {
   beforeAll(function() {

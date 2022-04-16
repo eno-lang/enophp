@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{EmptyElement, Section};
+use Eno\{Elements\EmptyElement, Elements\Section};
 
 describe('EmptyElement', function() {
   beforeAll(function() {

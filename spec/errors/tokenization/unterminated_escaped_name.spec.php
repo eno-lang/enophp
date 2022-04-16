@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{ParseError, Parser};
+use Eno\{Errors\ParseError, Parser};
 
 describe('Tokenization::unterminatedEscapedName', function() {
   beforeAll(function() {

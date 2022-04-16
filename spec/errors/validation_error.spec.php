@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{Error, ValidationError};
+use Eno\{Errors\Error, Errors\ValidationError};
 
 describe('ValidationError', function() {
   given('text', function() { return 'My error'; });
@@ -32,7 +32,7 @@ describe('ValidationError', function() {
     expect($this->error->cursor)->toEqual($this->cursor);
   });
 
-  it('is generically catchable as an Eno\\Error when thrown', function() {
+  it('is generically catchable as an Eno\\Errors\\Error when thrown', function() {
     $caught = false;
 
     try {

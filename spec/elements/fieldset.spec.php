@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\{Field, Fieldset, Parser, Section};
+use Eno\{Elements\Field, Elements\Fieldset, Parser, Elements\Section};
 
 describe('Fieldset', function() {
   beforeAll(function() {
@@ -59,7 +59,7 @@ describe('Fieldset', function() {
       });
 
       it('returns an element', function() {
-        expect($this->result)->toBeAnInstanceOf('Eno\\Field');
+        expect($this->result)->toBeAnInstanceOf('Eno\\Elements\\Field');
       });
 
       it('returns the right element', function() {
@@ -168,7 +168,7 @@ describe('Fieldset', function() {
     describe("with [ 'element' => true ]", function() {
       it('returns the element', function() {
         $this->result = $this->fieldset->entry('eno', [ 'element' => true ]);
-        expect($this->result)->toBeAnInstanceOf('Eno\\Field');
+        expect($this->result)->toBeAnInstanceOf('Eno\\Elements\\Field');
       });
     });
 
@@ -179,7 +179,7 @@ describe('Fieldset', function() {
         });
 
         it('returns the element', function() {
-          expect($this->result['element'])->toBeAnInstanceOf('Eno\\Field');
+          expect($this->result['element'])->toBeAnInstanceOf('Eno\\Elements\\Field');
         });
 
         it('returns the value', function() {

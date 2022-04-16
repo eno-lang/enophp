@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Eno;
+namespace Eno\Elements;
+use Eno\Elements\Field;
+use Eno\Elements\Section;
 use Eno\Errors\Validation;
 use \BadMethodCallException;
 use \Closure;
@@ -46,7 +48,7 @@ class Fieldset {
 
       return $this->entry($name, Closure::fromCallable(['Eno\\Loaders', $function_name]), ...$optional);
     } else {
-      throw new BadMethodCallException("Call to undefined method Eno\\Fieldset::{$function_name}()");
+      throw new BadMethodCallException("Call to undefined method Eno\\Elements\\Fieldset::{$function_name}()");
     }
   }
 

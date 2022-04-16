@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use Eno\Error;
+use Eno\Errors\Error;
 
 describe('Error', function() {
   given('text', function() { return 'My error'; });
